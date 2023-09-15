@@ -105,6 +105,7 @@ def fp_spider_check():
     print(all_link)
 
 
+
 if __name__ == "__main__":
     uber_spider_check()
 
