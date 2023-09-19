@@ -21,7 +21,7 @@ driver.maximize_window()
 
 Search_box = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "searchboxinput")))
 Search_box.clear()
-key ='十方盒餐'
+key ='十方蘭'
 Search_box.send_keys(key)
 Search_box.send_keys(Keys.ENTER)
 print('2')
