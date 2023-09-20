@@ -1,6 +1,7 @@
 
 # WannaDRINK
 
+<<<<<<< HEAD
 
 **One stop bubble tea reviews comparison website **
 
@@ -60,3 +61,6 @@
 ## Contact Me
 
 Tracy Huang   tracy4528@gmail.com
+=======
+![image](https://github.com/tracy4528/WannaDRINK/blob/main/wannadrink_framework.png)
+>>>>>>> 3e2de25 (Update README.md)
