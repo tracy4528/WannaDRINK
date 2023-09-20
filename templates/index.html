@@ -105,7 +105,7 @@
 				<h2>Hot! </h2>
 			</div>
 			<div class="tm-about-text">
-				<p class="tm-mb-40">＃可不可🥤, ＃麻古🥤</p>
+				<p class="tm-mb-41">＃可不可🥤, ＃麻古🥤</p>
 			</div>
 		</section>
 
@@ -144,11 +144,38 @@
 		</footer>
 	</div>
 
+	<script>
+
+
+		document.addEventListener('DOMContentLoaded', function () {
+			const xhr = new XMLHttpRequest();
+			xhr.open('GET', 'http://127.0.0.1:8000/api/v1/hotword', true);
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState === 4) {
+				if (xhr.status === 200) {
+					const response = JSON.parse(xhr.responseText);
+					const jsonData = response.data; 
+					const jsonDataElement = document.querySelector('.tm-mb-41');
+					// const jsonDataText = JSON.stringify(jsonData, null, 2);
+					// jsonDataElement.innerHTML = jsonDataText; 
+					const jsonDataItems = jsonData.map(item => `<p>${item.keyword}</p>`);
+					jsonDataElement.innerHTML = jsonDataItems.join('');
+				} else {
+					console.error('error', xhr.status);
+				}
+				}
+			};
+			xhr.send();
+		});
+
+
+	</script>
+
 	<!-- <script src="js/jquery.min.js"></script>
 	<script src="js/imagesloaded.pkgd.min.js"></script>
 	<script src="js/isotope.pkgd.min.js"></script>
 	<script src="js/jquery.magnific-popup.min.js"></script> -->
-	<script>
+	<!-- <script>
 		$(function(){
 		  	// Init the image gallery
 		  	var $gallery = $(".tm-gallery").isotope({
@@ -176,6 +203,6 @@
 				  gallery: { enabled: true }
 			});
 		});
-	</script>
+	</script> -->
 </body>
 </html>
