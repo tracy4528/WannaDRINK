@@ -106,6 +106,7 @@ class FoodPandaSpider():
         except Exception as e:
             print(f'資料格式有誤：{e}')
             return []
+        
         return restaurants
 
 
@@ -114,16 +115,7 @@ class FoodPandaSpider():
     def get_nearby_restaurants(
             self, way='外送', sort='', cuisine='181', food_characteristic='',
             budgets='', has_discount=False, limit=100, offset=0):
-        """取得附近所有餐廳
 
-        :param way: 取餐方式(外送、外帶自取、生鮮雜貨)
-        :param sort: 餐廳排序(rating_desc、delivery_time_asc、distance_asc)
-        :param cuisine: 料理種類
-        :param food_characteristic: 特色
-        :param budgets: 預算
-        :param has_discount: 是否有折扣
-        :return restaurants: 附近所有餐廳結果
-        """
         url = 'https://disco.deliveryhero.io/listing/api/v1/pandora/vendors'
         query = {
             'longitude': self.longitude,
@@ -146,13 +138,7 @@ class FoodPandaSpider():
         headers = {
             'x-disco-client-id': 'web',
         }
-        if way == '外送':
-            query['vertical'] = 'restaurants'
-        elif way == '外帶自取':
-            query['vertical'] = 'restaurants'
-            query['opening_type'] = 'pickup'
-        else:
-            query['vertical'] = 'shop'
+
         if has_discount:
             query['has_discount'] = 1
 
@@ -166,6 +152,7 @@ class FoodPandaSpider():
         except Exception as e:
             print(f'資料格式有誤：{e}')
             return []
+        
         return restaurants
 
 
@@ -198,66 +185,45 @@ class FoodPandaSpider():
             Body=json_data,
             ContentType='application/json'
         )
-        print(f"成功将信息保存到S3：s3://{bucket_name}/{s3_object_key}")
-
+        
 
         return info_menu
 
 
 if __name__ == '__main__':
-    station = (121.51613, 25.04745)  # 台北車站的經緯度
-
+    station=[(121.56716, 25.04106),(121.53442,25.01482),(120.2129832,22.9970861),(120.68481,24.13693),(120.21146, 22.98962) ]
+  
     foodpanda_spider = FoodPandaSpider(station[0], station[1])
-
 
     # restaurants = foodpanda_spider.get_nearby_restaurants(
     #     sort='rating_desc', 
     #     cuisine='181'  
     # )
-
-    with open('/Users/tracy4528/Desktop/appwork/01personal/poc/store_list.json', 'r') as file:
-        data = json.load(file)
-
-    for item in data['store'][:50]:
-        restaurants = foodpanda_spider.search_restaurants(item)
-        for restaurant in restaurants:
-            code=restaurant['code']
-            name=restaurant['name']
-            cursor = conn.cursor()
-            insert_product_sql = ("INSERT INTO `foodpanda_store_code` (store_code,store_name,original_name)VALUES (%s,%s,%s)")
-            cursor.execute(insert_product_sql,(code, name,item))
-            print(f'==={item}===')
-    conn.commit()
-
-    # for restaurant in restaurants[:10]:
+    # for restaurant in restaurants:
     #     code=restaurant['code']
     #     name=restaurant['name']
+    #     rating=restaurant['rating']
+    #     review_number=restaurant['review_number']
     #     cursor = conn.cursor()
-    #     insert_product_sql = ("INSERT INTO `foodpanda_store_code` (store_code,store_name,original_name)VALUES (%s,%s,%s)")
-    #     cursor.execute(insert_product_sql,(code, name))
-    #     foodpanda_spider.get_info_menu(restaurant['code'])
-    #     print(name)
+    #     insert_product_sql = ("INSERT INTO `foodpanda_store_code` (store_code,store_name,rating,review_number)VALUES (%s,%s,%s,%s)")
+    #     cursor.execute(insert_product_sql,(code, name,rating,review_number))
+    #     print(f'==={name}===')
     # conn.commit()
 
+    sql='SELECT MIN(store_code) AS store_code, original_name\
+        FROM product.foodpanda_store_code\
+        GROUP BY original_name;'
+    cursor = conn.cursor()
+    cursor.execute(sql)
+    store = cursor.fetchall()
+    
+    for item in store[200:]:
+        foodpanda_spider.get_info_menu(item[0])
+        print(f'==={item[1]}===')
+    
 
 
 
-    """
-
-    搜尋餐廳
-    restaurants = foodpanda_spider.search_restaurants('星巴克')
-    ## print(json.dumps(restaurants[0]))
-    for restaurant in restaurants[:5]:
-        print(restaurant['name'])
-
-
-
-    取得分類推薦的餐廳
-    recommendations = foodpanda_spider.get_recommendation_restaurants()
-    for recommendation in recommendations[:5]:
-        print(recommendation['headline'])
-
-   """
 
 
 
