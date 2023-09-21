@@ -61,6 +61,54 @@ class FoodPandaSpider():
             print(e)
             return None
         return data
+    
+    def search_restaurants(self, keyword, limit=1, offset=0):
+        """搜尋餐廳
+
+        :param keyword: 餐廳關鍵字
+        :return restaurants: 搜尋結果餐廳列表
+        """
+        url = 'https://disco.deliveryhero.io/search/api/v1/feed'
+        payload = {
+            'q': keyword,
+            'location': {
+                'point': {
+                    'longitude': self.longitude,  # 經度
+                    'latitude': self.latitude  # 緯度
+                }
+            },
+            'config': 'Variant17',
+            'vertical_types': ['restaurants'],
+            'include_component_types': ['vendors'],
+            'include_fields': ['feed'],
+            'language_id': '6',
+            'opening_type': 'delivery',
+            'platform': 'web',
+            'language_code': 'zh',
+            'customer_type': 'regular',
+            'limit': limit,  # 一次最多顯示幾筆(預設 48 筆)
+            'offset': offset,  # 偏移值，想要獲取更多資料時使用
+            'dynamic_pricing': 0,
+            'brand': 'foodpanda',
+            'country_code': 'tw',
+            'use_free_delivery_label': False
+        }
+        headers = {
+            'content-type': "application/json",
+        }
+        data = self.request_post(url=url, data=json.dumps(payload), headers=headers)
+        if not data:
+            print('搜尋餐廳失敗')
+            return []
+
+        try:
+            restaurants = data['feed']['items'][0]['items']
+        except Exception as e:
+            print(f'資料格式有誤：{e}')
+            return []
+        return restaurants
+
+
 
 
     def get_nearby_restaurants(
@@ -162,19 +210,34 @@ if __name__ == '__main__':
     foodpanda_spider = FoodPandaSpider(station[0], station[1])
 
 
-    restaurants = foodpanda_spider.get_nearby_restaurants(
-        sort='rating_desc', 
-        cuisine='181'  
-    )
-    for restaurant in restaurants[:10]:
-        code=restaurant['code']
-        name=restaurant['name']
-        cursor = conn.cursor()
-        insert_product_sql = ("INSERT INTO `foodpanda_store_code` (store_code,store_name)VALUES (%s,%s)")
-        cursor.execute(insert_product_sql,(code, name))
-        foodpanda_spider.get_info_menu(restaurant['code'])
-        print(name)
+    # restaurants = foodpanda_spider.get_nearby_restaurants(
+    #     sort='rating_desc', 
+    #     cuisine='181'  
+    # )
+
+    with open('/Users/tracy4528/Desktop/appwork/01personal/poc/store_list.json', 'r') as file:
+        data = json.load(file)
+
+    for item in data['store'][:50]:
+        restaurants = foodpanda_spider.search_restaurants(item)
+        for restaurant in restaurants:
+            code=restaurant['code']
+            name=restaurant['name']
+            cursor = conn.cursor()
+            insert_product_sql = ("INSERT INTO `foodpanda_store_code` (store_code,store_name,original_name)VALUES (%s,%s,%s)")
+            cursor.execute(insert_product_sql,(code, name,item))
+            print(f'==={item}===')
     conn.commit()
+
+    # for restaurant in restaurants[:10]:
+    #     code=restaurant['code']
+    #     name=restaurant['name']
+    #     cursor = conn.cursor()
+    #     insert_product_sql = ("INSERT INTO `foodpanda_store_code` (store_code,store_name,original_name)VALUES (%s,%s,%s)")
+    #     cursor.execute(insert_product_sql,(code, name))
+    #     foodpanda_spider.get_info_menu(restaurant['code'])
+    #     print(name)
+    # conn.commit()
 
 
 
@@ -194,7 +257,7 @@ if __name__ == '__main__':
     for recommendation in recommendations[:5]:
         print(recommendation['headline'])
 
-    """
+   """
 
 
 
