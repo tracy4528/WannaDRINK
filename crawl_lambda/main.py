@@ -80,16 +80,15 @@ def get_post_comment(url):
         'comments': comments,
     }
 
-    # Convert data to JSON
     json_data = json.dumps(data, ensure_ascii=False, indent=4)
 
     return json_data
 
-if __name__ == '__main__':
+def handler(event=None, context=None):
     url = 'https://www.ptt.cc/bbs/Drink/index.html'
     today_date = datetime.now().strftime("%Y%m%d")
 
-    for now_page_number in range(3):
+    for now_page_number in range(1):
         print(f'crawing {url}')
         resp = get_resp(url)
         if resp != 'error':
@@ -97,22 +96,25 @@ if __name__ == '__main__':
         print(f'======={now_page_number+1}/10=======')
     
     for article in article_list:
-        # print(article['title'])
-        json_data=get_post_comment(article['link'])
-        article_code=article['article_code']
-        name=article['title']
-        bucket_name = 'wannadrink'
-        s3_object_key=f'ptt/{today_date}/{article_code}.json'
-        folder_path = os.path.join('ptt/', today_date)
-        if not os.path.exists(folder_path):
-            os.makedirs(folder_path)
-        else:
-            s3.put_object(
-                Bucket=bucket_name,
-                Key=s3_object_key,
-                Body=json_data,
-                ContentType='application/json'
-           )
-        print(f'======={name}=======')
-    
+        try:
+            print(article['title'])
+            json_data=get_post_comment(article['link'])
+            article_code=article['article_code']
+            name=article['title']
+            bucket_name = 'wannadrink'
+            s3_object_key=f'ptt/{today_date}/{article_code}.json'
+            folder_path = os.path.join('ptt/', today_date)
+            if not os.path.exists(folder_path):
+                os.makedirs(folder_path)
+            else:
+                s3.put_object(
+                    Bucket=bucket_name,
+                    Key=s3_object_key,
+                    Body=json_data,
+                    ContentType='application/json'
+            )
+            print(f'======={name}=======')
+        except Exception as e:
+            print(f'Error encountered: {e}')
+            continue
 
