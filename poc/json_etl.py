@@ -35,6 +35,7 @@ for obj in objects.get('Contents'):
         store_rating=data['rating']
         review_number=data['review_number']
         print(f'=={store_name}==')
+        print(f'=={count_processed}==')
 
         for result in data['menus']:
             for _ in result["menu_categories"]:
@@ -43,7 +44,6 @@ for obj in objects.get('Contents'):
                     name=p['name']
                     description=p['description']
                     price=p['product_variations'][0]['price']
-                    # size=p['product_variations'][0]['name']
                     if 'name' in p['product_variations'][0]:
                         size = p['product_variations'][0]['name']
                     else:
@@ -53,14 +53,14 @@ for obj in objects.get('Contents'):
                     product_code=p['code']
     
 
-                    insert_product_sql = ("INSERT INTO `foodpanda` (store, store_rating, name, size, price, description, image_url,  category_name, product_code, product_id) "
-                                        "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)")
-                    cursor.execute(insert_product_sql,(store_name, store_rating, name, size, price, description, image_url,category_name, product_code,product_id))
+                    insert_product_sql = ("INSERT INTO `foodpanda` (store, store_rating,store_review_number, name, size, price, description, image_url,  category_name, product_code, product_id) "
+                                        "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)")
+                    cursor.execute(insert_product_sql,(store_name, store_rating,review_number, name, size, price, description, image_url,category_name, product_code,product_id))
                     print(name)
-            
-        conn.commit()
+        
         count_processed += 1  # 增加处理的文件数量
-        if count_processed >= 10:
-            break
+        if count_processed % 50 == 0:
+            conn.commit() 
+            print('done')
 cursor.close()
 conn.close()
