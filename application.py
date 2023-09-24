@@ -34,16 +34,28 @@ def get_keyword():
         }
         for v in products
     ]
-
-
-    # drink = [product['name'] for product in products]
     response = {
         'data': drink
     }
-
     return response
-    # for product in products:
-    #     print(product)
+
+@app.route("/api/v1/hot_article")
+def hot_article():
+    sql = "SELECT * FROM product.dcard_articles order by push desc limit 5 "
+    cursor.execute(sql)
+    article = cursor.fetchall()
+    dcard= [
+        {
+            "title": v["title"],
+            'path':v["url"]
+        }
+        for v in article
+    ]
+    response = {
+        'data': dcard
+    }
+    return response
+
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0', port=8000)
