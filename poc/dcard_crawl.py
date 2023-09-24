@@ -3,10 +3,9 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium import webdriver
-
+import json 
 import time
 import undetected_chromedriver as uc
-# from bs4 import BeautifulSoup
 import boto3
 from dotenv import load_dotenv
 import os
@@ -19,40 +18,63 @@ s3 = boto3.client('s3',
                     aws_access_key_id=os.getenv('iam_drink_key'),
                     aws_secret_access_key=os.getenv('iam_drink_secretkey'))
 
+
 conn = pymysql.connect(host=os.getenv('mysql_host'), 
                        user=os.getenv('mysql_user'),
                        password=os.getenv('mysql_password'), 
                        database='product')
 cursor = conn.cursor()
 
-driver = uc.Chrome(headless=True)
-chrome_options = webdriver.ChromeOptions()
-chrome_options.add_argument('--no-sandbox')
-chrome_options.add_argument('--headless')
+driver = uc.Chrome()
+
 
 
 driver.get("https://www.dcard.tw/f/boba")
+today_date = datetime.now().strftime("%Y%m%d")
 
-unique_urls = set()
+unique_urls=set()
 
 def get_dcard_articles():
     try:
-        for _ in range(2):
-            wait = WebDriverWait(driver, 20)           
+        articles_data = []  # 用來儲存要插入的數據
+        for _ in range(10):
+            wait = WebDriverWait(driver, 20)
             articles = wait.until(EC.presence_of_all_elements_located((By.TAG_NAME, "article")))
             for article in articles:
-                print(article)
                 url = article.find_element(By.TAG_NAME, "a").get_attribute("href")
+                title_element = article.find_element(By.TAG_NAME, "h2")
+                title = title_element.get_attribute("innerText")  # 使用 get_attribute 取得標題文本
+                like_num = article.find_element(By.CSS_SELECTOR, "div[class='atm_lk_i2wt44 c1jkhqx5']")
+                push = like_num.text
+
                 unique_urls.add(url)
+                articles_data.append((title, url, push, today_date))  # 將數據添加到列表中
+
             driver.execute_script("window.scrollBy(0,600);")
             time.sleep(5)
-        unique_urls_list = list(unique_urls)
 
+        # unique_titles =set( [article_data for article_data in articles_data])
+        print(set(articles_data))
+
+
+        # unique_articles_data = [article_data for article_data in articles_data if article_data[0] not in unique_titles]
+        unique_articles_data=set(articles_data)
+        
+        insert_product_sql = ("INSERT INTO `dcard_articles` (title, url, push, crawl_date) VALUES (%s, %s, %s, %s)")
+        cursor = conn.cursor()
+        cursor.executemany(insert_product_sql, unique_articles_data)
+        conn.commit()
+            
+        unique_urls_list = list(unique_urls)
+        print("=========")
+        print(unique_urls_list)
+        
     except Exception as e:
         print("error:", e)
-    driver.quit()
-    print(unique_urls_list)
+
+        
     return unique_urls_list
+
 
 
 
@@ -71,7 +93,6 @@ def dcard_post_comment(dcard_topic_page):
         # driver.find_element(By.TAG_NAME, 'body').send_keys(Keys.END)
         driver.execute_script("window.scrollBy(0,200);")
         commant=driver.find_elements(By.CSS_SELECTOR,"div[class='atm_7l_1u09hbr atm_c8_exct8b atm_g3_1f4h9lt c201erw']")
-        time.sleep(1)
     for com in commant:
         comments.append({
             'content': com.text,
@@ -83,34 +104,36 @@ def dcard_post_comment(dcard_topic_page):
         'comments': comments,
     }
     
-    print(data)
     return data
 
 
 
 if __name__ == "__main__":
-    # article_list=get_dcard_articles()
-    article_list=['https://www.dcard.tw/f/boba/p/253356515', 'https://www.dcard.tw/f/boba/p/253353184']
+    article_list=get_dcard_articles()
+    # article_list=[ 'https://www.dcard.tw/f/boba/p/253353184','https://www.dcard.tw/f/boba/p/253356515']
     
 
     today_date = datetime.now().strftime("%Y%m%d")
-    dcard_post_comment(article_list[0])
+    
+    for article in article_list:
+        print("=======start=======")
+        json_data=dcard_post_comment(article)
+        json_bytes = json.dumps(json_data, ensure_ascii=False, indent=4)
+        article_code=article.split('/')[-1]
+        bucket_name = 'wannadrink'
+        s3_object_key=f'dcard/{today_date}/{article_code}.json'
+        folder_path = os.path.join('dcard/', today_date)
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
+        else:
+            s3.put_object(
+                Bucket=bucket_name,
+                Key=s3_object_key,
+                Body=json_bytes,
+                ContentType='application/json'
+            )
+        print(f'======={article_code}=======')
+        time.sleep(5)
 
-    # for article in article_list:
-    #     json_data=dcard_post_comment(article)
-    #     article_code=article.split('/')[-1]
-    #     bucket_name = 'wannadrink'
-    #     s3_object_key=f'dcard/{today_date}/{article_code}.json'
-    #     folder_path = os.path.join('dcard/', today_date)
-    #     if not os.path.exists(folder_path):
-    #         os.makedirs(folder_path)
-    #     else:
-    #         s3.put_object(
-    #             Bucket=bucket_name,
-    #             Key=s3_object_key,
-    #             Body=json_data,
-    #             ContentType='application/json'
-    #         )
-    #     print(f'======={article_code}=======')
     
 

@@ -5,14 +5,20 @@ import requests
 from bs4 import BeautifulSoup
 import json
 from datetime import datetime
+import pymysql
+
 load_dotenv()
 
 s3 = boto3.client('s3',
                     region_name='ap-northeast-1',
                     aws_access_key_id=os.getenv('iam_drink_key'),
                     aws_secret_access_key=os.getenv('iam_drink_secretkey'))
+
+conn = pymysql.connect(host=os.getenv('mysql_host'), 
+                user=os.getenv('mysql_user'),
+                password=os.getenv('mysql_password'), 
+                database='product')
 article_list = []
-article_list1=[]
 
 def get_resp(url):
     cookies = {
@@ -25,6 +31,7 @@ def get_resp(url):
         return resp
 
 def get_articles(resp):
+    today_date = datetime.now().strftime("%Y%m%d")
     soup = BeautifulSoup(resp.text, 'html5lib')
     arts = soup.find_all('div', class_='r-ent')
     for art in arts:
@@ -34,17 +41,24 @@ def get_articles(resp):
                 art.find('div', class_='title').a['href'].strip()
         author = art.find('div', class_='author').getText().strip()
         article_code=art.find('div', class_='title').a['href'].strip().split('/')[-1].split('.')[1]
+        push=art.find('div', class_="nrec").getText().strip()
+        date=art.find('div', class_="date").getText().strip()
         article = {
             'title': title,
             'link': link,
             'author': author,
-            'article_code':article_code
+            'article_code':article_code,
+            'date':date,
+            'push':push
         }
+
         article_list.append(article)
-        
+        insert_product_sql = ("INSERT INTO `ptt_articles` (title,url,push,pulish_date,crawl_date)VALUES (%s,%s,%s,%s,%s)")
+        cursor = conn.cursor()
+        cursor.execute(insert_product_sql,(title, link,push,date,today_date))
     next_url = 'https://www.ptt.cc' + \
         soup.select_one('#action-bar-container > div > div.btn-group.btn-group-paging > a:nth-child(2)')['href']
-    
+    conn.commit()
     return next_url
 
 def get_post_comment(url):
@@ -96,7 +110,7 @@ if __name__ == '__main__':
             url = get_articles(resp)
         print(f'======={now_page_number+1}/10=======')
     
-    for article in article_list:
+    for article in article_list[:1]:
         # print(article['title'])
         json_data=get_post_comment(article['link'])
         article_code=article['article_code']
@@ -113,6 +127,6 @@ if __name__ == '__main__':
                 Body=json_data,
                 ContentType='application/json'
            )
-        print(f'======={name}=======')
+        print(json_data)
     
 
