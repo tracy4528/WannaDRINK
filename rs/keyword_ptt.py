@@ -41,22 +41,23 @@ def extract_comments_from_s3():
                 comments.extend([comment['content'] for comment in data['comments']])
             if 'content' in data:
                 comments.extend([data['content']])
+    print(comments)
 
 
 extract_comments_from_s3()
-jieba.set_dictionary('dict.txt.big') 
-jieba.load_userdict('./dict.txt_drink.txt')
-with open('stops.txt', 'r', encoding='utf8') as f:
-    stops = f.read().split('\n') 
+# jieba.set_dictionary('dict.txt.big') 
+# jieba.load_userdict('./dict.txt_drink.txt')
+# with open('stops.txt', 'r', encoding='utf8') as f:
+#     stops = f.read().split('\n') 
 
 
-comment_text = ' '.join(comments).encode('utf-8').decode('utf-8')
-words = ' '.join(jieba.cut(comment_text))
+# comment_text = ' '.join(comments).encode('utf-8').decode('utf-8')
+# words = ' '.join(jieba.cut(comment_text))
 
-stops.append('\n')  ## 我發現我的文章中有許多分行符號，這邊加入停用字中，可以把它拿掉
-stops.append('\n\n')
-terms = [t for t in jieba.cut(words, cut_all=True) if t not in stops]
-print(sorted(Counter(terms).items(), key=lambda x:x[1], reverse=True))
+# stops.append('\n')  
+# stops.append('\n\n')
+# terms = [t for t in jieba.cut(words, cut_all=True) if t not in stops]
+# print(sorted(Counter(terms).items(), key=lambda x:x[1], reverse=True))
 '''
 myWordClode = WordCloud(font_path='SourceHanSansTW-Regular.otf', width=800, height=400).generate(words)
 
