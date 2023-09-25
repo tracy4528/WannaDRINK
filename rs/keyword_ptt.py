@@ -18,8 +18,8 @@ s3 = boto3.client('s3',
                   aws_secret_access_key=os.getenv('iam_drink_secretkey'))
 comments = []
 s3_bucket_name='wannadrink'
-s3_folder_path = 'ptt/20230918/'
-s3_object_key='ptt/20230918/1694500485.json'
+s3_folder_path = 'ptt/20230925/'
+s3_object_key='ptt/20230925/1246536510.json'
 
 
 conn = pymysql.connect(host=os.getenv('mysql_host'), 
@@ -29,9 +29,7 @@ conn = pymysql.connect(host=os.getenv('mysql_host'),
 cursor = conn.cursor()
 
 
-# s3_object = s3.get_object(Bucket=s3_bucket_name, Key=s3_object_key)
-# json_data = s3_object['Body'].read().decode('utf-8')
-# data = json.loads(json_data)
+
 
 comments = []
 
@@ -70,7 +68,9 @@ extract_comments_from_s3()
 jieba.load_userdict('./dict_big.txt')
 jieba.analyse.set_stop_words('./stops.txt')
 comment_text = ' '.join(comments).encode('utf-8').decode('utf-8')
-tags=jieba.analyse.extract_tags (comment_text,topK=30, withWeight=False, allowPOS=())
+segmented_text = " ".join(jieba.cut(comment_text))
+
+tags=jieba.analyse.extract_tags (segmented_text,topK=30, withWeight=False, allowPOS=())
 print(tags)
 
 '''
