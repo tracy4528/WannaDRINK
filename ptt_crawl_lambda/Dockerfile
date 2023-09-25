@@ -12,6 +12,7 @@ RUN pip install python-dotenv==1.0.0
 RUN pip install beautifulsoup4==4.12.2
 RUN pip install requests==2.31.0
 RUN pip install html5lib==1.1
+RUN pip install pymysql==1.1.0
 
 
 

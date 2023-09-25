@@ -5,14 +5,20 @@ import requests
 from bs4 import BeautifulSoup
 import json
 from datetime import datetime
+import pymysql
+
 load_dotenv()
 
 s3 = boto3.client('s3',
                     region_name='ap-northeast-1',
                     aws_access_key_id=os.getenv('iam_drink_key'),
                     aws_secret_access_key=os.getenv('iam_drink_secretkey'))
+
+conn = pymysql.connect(host=os.getenv('mysql_host'), 
+                user=os.getenv('mysql_user'),
+                password=os.getenv('mysql_password'), 
+                database='product')
 article_list = []
-article_list1=[]
 
 def get_resp(url):
     cookies = {
@@ -25,41 +31,61 @@ def get_resp(url):
         return resp
 
 def get_articles(resp):
+    today_date = datetime.now().strftime("%Y%m%d")
     soup = BeautifulSoup(resp.text, 'html5lib')
     arts = soup.find_all('div', class_='r-ent')
+    next_url = 'https://www.ptt.cc' + \
+        soup.select_one('#action-bar-container > div > div.btn-group.btn-group-paging > a:nth-child(2)')['href']
+
+    article_data = []
     for art in arts:
         title = art.find('div', class_='title').getText().strip()
-        if not title.startswith('(本文已被刪除)') or title.startswith('[公告]'):
+        if not (title.startswith('(本文已被刪除)') or title.startswith('[公告]')):
             link = 'https://www.ptt.cc' + \
                 art.find('div', class_='title').a['href'].strip()
         author = art.find('div', class_='author').getText().strip()
         article_code=art.find('div', class_='title').a['href'].strip().split('/')[-1].split('.')[1]
+        push=art.find('div', class_="nrec").getText().strip()
+        date=art.find('div', class_="date").getText().strip()
         article = {
             'title': title,
             'link': link,
             'author': author,
             'article_code':article_code
         }
+
+
         article_list.append(article)
+        article_data.append((title, link, push, date, today_date))
+    
         
-    next_url = 'https://www.ptt.cc' + \
-        soup.select_one('#action-bar-container > div > div.btn-group.btn-group-paging > a:nth-child(2)')['href']
+        insert_product_sql = ("INSERT INTO `ptt_articles` (title, url, push, pulish_date, crawl_date) VALUES (%s, %s, %s, %s, %s)")
+        try:
+            cursor = conn.cursor()
+            cursor.executemany(insert_product_sql, article_data)  
+            conn.commit()
+            print(f'Successfully inserted {len(article_data)} articles into MySQL')
+        except Exception as e:
+            print(f'Error: {str(e)}')
+        continue
     
     return next_url
 
 def get_post_comment(url):
-    
 
     res = requests.get(url)
     soup = BeautifulSoup(res.text, 'html.parser')
+    article_time=soup.find_all('div', {'class': 'article-metaline'})[2].find('span', {'class': 'article-meta-value'}).text
 
     meta_data = {
         'author': soup.find('div', {'class': 'article-metaline'}).find('span', {'class': 'article-meta-value'}).text,
         'title': soup.find_all('div', {'class': 'article-metaline'})[1].find('span', {'class': 'article-meta-value'}).text,
-        'date': soup.find_all('div', {'class': 'article-metaline'})[2].find('span', {'class': 'article-meta-value'}).text,
+        'date': article_time,
     }
 
-    content = soup.find('div', {'id': 'main-content'}).text
+    content = soup.find("div", id="main-content").get_text().split("--\n※ 發信站: 批踢踢實業坊(ptt.cc), 來自: ")
+    main_content = content[0].split(article_time)[1]
+
 
     comments = []
     for comment in soup.find_all('div', {'class': 'push'}):
@@ -76,10 +102,9 @@ def get_post_comment(url):
 
     data = {
         'meta_data': meta_data,
-        'content': content,
+        'content': main_content,
         'comments': comments,
     }
-
     json_data = json.dumps(data, ensure_ascii=False, indent=4)
 
     return json_data
@@ -88,16 +113,15 @@ def handler(event=None, context=None):
     url = 'https://www.ptt.cc/bbs/Drink/index.html'
     today_date = datetime.now().strftime("%Y%m%d")
 
-    for now_page_number in range(1):
+    for now_page_number in range(3):
         print(f'crawing {url}')
         resp = get_resp(url)
         if resp != 'error':
             url = get_articles(resp)
-        print(f'======={now_page_number+1}/10=======')
+        print(f'======={now_page_number+1}=======')
     
     for article in article_list:
         try:
-            print(article['title'])
             json_data=get_post_comment(article['link'])
             article_code=article['article_code']
             name=article['title']

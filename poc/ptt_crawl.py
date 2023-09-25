@@ -34,9 +34,13 @@ def get_articles(resp):
     today_date = datetime.now().strftime("%Y%m%d")
     soup = BeautifulSoup(resp.text, 'html5lib')
     arts = soup.find_all('div', class_='r-ent')
+    next_url = 'https://www.ptt.cc' + \
+        soup.select_one('#action-bar-container > div > div.btn-group.btn-group-paging > a:nth-child(2)')['href']
+
+    article_data = []
     for art in arts:
         title = art.find('div', class_='title').getText().strip()
-        if not title.startswith('(本文已被刪除)') or title.startswith('[公告]'):
+        if not (title.startswith('(本文已被刪除)') or title.startswith('[公告]')):
             link = 'https://www.ptt.cc' + \
                 art.find('div', class_='title').a['href'].strip()
         author = art.find('div', class_='author').getText().strip()
@@ -47,33 +51,41 @@ def get_articles(resp):
             'title': title,
             'link': link,
             'author': author,
-            'article_code':article_code,
-            'date':date,
-            'push':push
+            'article_code':article_code
         }
 
+
         article_list.append(article)
-        insert_product_sql = ("INSERT INTO `ptt_articles` (title,url,push,pulish_date,crawl_date)VALUES (%s,%s,%s,%s,%s)")
-        cursor = conn.cursor()
-        cursor.execute(insert_product_sql,(title, link,push,date,today_date))
-    next_url = 'https://www.ptt.cc' + \
-        soup.select_one('#action-bar-container > div > div.btn-group.btn-group-paging > a:nth-child(2)')['href']
-    conn.commit()
+        article_data.append((title, link, push, date, today_date))
+    
+        
+        insert_product_sql = ("INSERT INTO `ptt_articles` (title, url, push, pulish_date, crawl_date) VALUES (%s, %s, %s, %s, %s)")
+        try:
+            cursor = conn.cursor()
+            cursor.executemany(insert_product_sql, article_data)  
+            conn.commit()
+            print(f'Successfully inserted {len(article_data)} articles into MySQL')
+        except Exception as e:
+            print(f'Error: {str(e)}')
+        continue
+    
     return next_url
 
 def get_post_comment(url):
-    
 
     res = requests.get(url)
     soup = BeautifulSoup(res.text, 'html.parser')
+    article_time=soup.find_all('div', {'class': 'article-metaline'})[2].find('span', {'class': 'article-meta-value'}).text
 
     meta_data = {
         'author': soup.find('div', {'class': 'article-metaline'}).find('span', {'class': 'article-meta-value'}).text,
         'title': soup.find_all('div', {'class': 'article-metaline'})[1].find('span', {'class': 'article-meta-value'}).text,
-        'date': soup.find_all('div', {'class': 'article-metaline'})[2].find('span', {'class': 'article-meta-value'}).text,
+        'date': article_time,
     }
 
-    content = soup.find('div', {'id': 'main-content'}).text
+    content = soup.find("div", id="main-content").get_text().split("--\n※ 發信站: 批踢踢實業坊(ptt.cc), 來自: ")
+    main_content = content[0].split(article_time)[1]
+
 
     comments = []
     for comment in soup.find_all('div', {'class': 'push'}):
@@ -90,11 +102,9 @@ def get_post_comment(url):
 
     data = {
         'meta_data': meta_data,
-        'content': content,
+        'content': main_content,
         'comments': comments,
     }
-
-    # Convert data to JSON
     json_data = json.dumps(data, ensure_ascii=False, indent=4)
 
     return json_data
@@ -108,25 +118,28 @@ if __name__ == '__main__':
         resp = get_resp(url)
         if resp != 'error':
             url = get_articles(resp)
-        print(f'======={now_page_number+1}/10=======')
+        print(f'======={now_page_number+1}=======')
     
-    for article in article_list[:1]:
-        # print(article['title'])
-        json_data=get_post_comment(article['link'])
-        article_code=article['article_code']
-        name=article['title']
-        bucket_name = 'wannadrink'
-        s3_object_key=f'ptt/{today_date}/{article_code}.json'
-        folder_path = os.path.join('ptt/', today_date)
-        if not os.path.exists(folder_path):
-            os.makedirs(folder_path)
-        else:
-            s3.put_object(
-                Bucket=bucket_name,
-                Key=s3_object_key,
-                Body=json_data,
-                ContentType='application/json'
-           )
-        print(json_data)
+    for article in article_list:
+        try:
+            json_data=get_post_comment(article['link'])
+            article_code=article['article_code']
+            name=article['title']
+            bucket_name = 'wannadrink'
+            s3_object_key=f'ptt/{today_date}/{article_code}.json'
+            folder_path = os.path.join('ptt/', today_date)
+            if not os.path.exists(folder_path):
+                os.makedirs(folder_path)
+            else:
+                s3.put_object(
+                    Bucket=bucket_name,
+                    Key=s3_object_key,
+                    Body=json_data,
+                    ContentType='application/json'
+            )
+            print(f'======={name}=======')
+        except Exception as e:
+            print(f'Error encountered: {e}')
+            continue
     
 
