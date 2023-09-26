@@ -1,9 +1,13 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import json
 import pymysql
 from dotenv import load_dotenv
 import os
 import flask.json.provider
+from datetime import datetime
+import re
+
+
 
 
 load_dotenv()
@@ -25,25 +29,58 @@ def hello():
 
 @app.route('/api/v1/hotword', methods=['GET'])
 def get_keyword():
-    sql = "SELECT name FROM foodpanda limit 5 "
+    sql = "SELECT keyword FROM hot_keyword order by id desc limit 1 "
     cursor.execute(sql)
     products = cursor.fetchall()
-    drink= [
-        {
-            "keyword": v["name"]
-        }
-        for v in products
-    ]
+    text = products[0]['keyword'].split('\n')[0].split('：')[1].split('、')
 
-
-    # drink = [product['name'] for product in products]
     response = {
-        'data': drink
-    }
-
+        'data': text
+                }
     return response
-    # for product in products:
-    #     print(product)
+
+@app.route("/api/v1/hot_article")
+def hot_article():
+    today_date = datetime.today().strftime('%Y%m%d')
+    sql = f"SELECT * FROM ptt_articles WHERE crawl_date = '{today_date}' ORDER BY push DESC LIMIT 5"
+
+    cursor.execute(sql)
+    article = cursor.fetchall()
+    dcard= [
+        {
+            "title": v["title"],
+            'path':v["url"]
+        }
+        for v in article
+    ]
+    response = {
+        'data': dcard,
+        'date':today_date
+    }
+    return response
+
+
+@app.route("/submit", methods=["POST"])
+def submit():
+
+    drink1 = request.form.get("drink1")
+    drink="%"+drink1+"%"
+    sql = f"SELECT store,name,image_url FROM foodpanda where name like '{drink}' order by store_review_number desc limit 10;"
+    cursor.execute(sql)
+    drink = cursor.fetchall()
+    data= [
+        {
+            "store": v["store"],
+            'name':v["name"],
+            'imageUrl':v["image_url"]
+        }
+        for v in drink
+    ]
+    response={
+        'data':data
+    }
+        
+    return response
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0', port=8000)
