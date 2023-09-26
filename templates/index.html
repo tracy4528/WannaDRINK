@@ -109,38 +109,72 @@
 			</div>
 		</section>
 
-		
-
-		<section class="tm-contact tm-mb-50 tm-bgcolor-3 tm-border-rounded">
-			<!-- <div class="tm-contact-header tm-flex-center">
-				<i class="fas fa-map-pin fa-3x"></i>
-				<h2>Contact</h2>
-			</div>
-			<div class="tm-contact-info">
-				<address class="tm-mb-30">
-					120 Curabitur sed tortor ultrices,
-					congue odio eget, posuere urna.
-					Praesent at rhoncus 10680
-				</address>
-				<div class="tm-text-white tm-mb-40">Tel: <a href="tel:0100200340" class="tm-link-white">010-020-0340</a></div>
-			</div> -->
-			<div class="tm-contact-form-container">
-				<h2>🥤輸入你喜歡的飲料🥤</h2>
+		<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
+			<div class="tm-about-header tm-flex-center">
+				<h2>🥤輸入你喜歡的飲料種類🥤</h2>
 				<form id="contact-form" action="/submit" method="POST" class="tm-contact-form">
-					<label for="drink1">飲料1:</label>
+					<label  for="drink1">飲料:</label>
 					<input type="text" id="drink1" name="drink1" required><br><br>		          	
-		          	<button type="submit" class="tm-right tm-btn-submit">send</button>          	
-		        </form>    
+		          	<button onclick="searchDrink()" class="tm-right tm-btn-submit">send</button>          	
+		        </form>  
 			</div>
+
+			<!-- <div class="tm-contact-form-container" id="drinkResult">
+				
+			</div> -->
 		</section>
 
+
+
 		<footer class="tm-footer">
-			Copyright 2020 Nano Folio - Design: <a rel="sponsored" href="https://www.tooplate.com" class="tm-link-gray">Tooplate</a>
+			 2023 WannaDRINK - Design: Tracy Huang
 		</footer>
 	</div>
 
-	<script src="../static/js/hotword.js" type="text/javascript"></script>
+	<script >
+		function searchDrink() {
+            var drinkName = document.getElementById("drinkInput").value;
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://127.0.0.1:8000/submit", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+					var jsonData = response.data; 
+                    var drinkResult = document.getElementById("drinkResult");
+                    if (jsonData.imageUrl) {
+                        drinkResult.innerHTML = "<img src='" + jsonData.imageUrl + "'>";
+                    } else {
+                        drinkResult.innerHTML = "未找到该飲料！";
+                    }
+                }
+            };
+            xhr.send("drinkName=" + encodeURIComponent(drinkName));
+        }
 
-	
+
+		document.addEventListener('DOMContentLoaded', function () {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'http://127.0.0.1:8000/api/v1/hotword', true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+            const jsonData = response.data; 
+            const jsonDataElement = document.querySelector('.tm-mb-41');
+            // const jsonDataText = JSON.stringify(jsonData, null, 2);
+            // jsonDataElement.innerHTML = jsonDataText; 
+            const jsonDataItems = jsonData.map(item => `<p>${item}</p>`);
+            jsonDataElement.innerHTML = jsonDataItems.join('');
+        } else {
+            console.error('error', xhr.status);
+        }
+        }
+    };
+    xhr.send();
+});
+
+
+	</script>
 </body>
 </html>

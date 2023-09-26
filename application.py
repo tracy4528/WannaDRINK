@@ -5,6 +5,8 @@ from dotenv import load_dotenv
 import os
 import flask.json.provider
 from datetime import datetime
+import re
+
 
 
 
@@ -27,18 +29,14 @@ def hello():
 
 @app.route('/api/v1/hotword', methods=['GET'])
 def get_keyword():
-    sql = "SELECT name FROM foodpanda limit 5 "
+    sql = "SELECT keyword FROM hot_keyword order by id desc limit 1 "
     cursor.execute(sql)
     products = cursor.fetchall()
-    drink= [
-        {
-            "keyword": v["name"]
-        }
-        for v in products
-    ]
+    text = products[0]['keyword'].split('\n')[0].split('：')[1].split('、')
+
     response = {
-        'data': drink
-    }
+        'data': text
+                }
     return response
 
 @app.route("/api/v1/hot_article")
@@ -66,15 +64,23 @@ def hot_article():
 def submit():
 
     drink1 = request.form.get("drink1")
-    sql = f"SELECT * FROM foodpanda where name like'{drink1}' order by store_review_number desc limit 3;"
+    drink="%"+drink1+"%"
+    sql = f"SELECT store,name,image_url FROM foodpanda where name like '{drink}' order by store_review_number desc limit 10;"
     cursor.execute(sql)
     drink = cursor.fetchall()
-
-
-
-    print(drink1)
+    data= [
+        {
+            "store": v["store"],
+            'name':v["name"],
+            'imageUrl':v["image_url"]
+        }
+        for v in drink
+    ]
+    response={
+        'data':data
+    }
         
-    return f"你喜歡的飲料是：{drink1} "
+    return response
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0', port=8000)

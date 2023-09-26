@@ -27,7 +27,7 @@ a:hover { color: #30ADAD; }
 
 .tm-about-text a { color: #9F6; }
 
-h1, h2, p, i, address, .tm-text-white { color: white; }
+h1, h2, p, i, label, .tm-text-white { color: white; }
 
 .tm-link-gray { color: #999999; }
 .tm-link-white { color: white; }
@@ -211,7 +211,7 @@ address { font-style: normal; }
 .tm-mb-40 { margin-bottom: 40px; }
 .tm-mb-50 { margin-bottom: 50px; }
 .tm-mb-80 { margin-bottom: 80px; }
-.tm-bgcolor-1 { background-color: #C49E85; }
-.tm-bgcolor-2 { background-color: #8E6352; }
+.tm-bgcolor-2 { background-color: #C49E85; }
+.tm-bgcolor-1 { background-color: #8E6352; }
 .tm-bgcolor-3 { background-color: #4E362D; }
 .tm-border-rounded { border-radius: 15px; }
