@@ -19,6 +19,7 @@ conn = pymysql.connect(host=os.getenv('mysql_host'),
                 password=os.getenv('mysql_password'), 
                 database='product')
 article_list = []
+article_data = []
 
 def get_resp(url):
     cookies = {
@@ -37,7 +38,7 @@ def get_articles(resp):
     next_url = 'https://www.ptt.cc' + \
         soup.select_one('#action-bar-container > div > div.btn-group.btn-group-paging > a:nth-child(2)')['href']
 
-    article_data = []
+    
     for art in arts:
         title = art.find('div', class_='title').getText().strip()
         if not (title.startswith('(本文已被刪除)') or title.startswith('[公告]')):
@@ -54,22 +55,22 @@ def get_articles(resp):
             'article_code':article_code
         }
 
-
         article_list.append(article)
         article_data.append((title, link, push, date, today_date))
     
-        
-        insert_product_sql = ("INSERT INTO `ptt_articles` (title, url, push, pulish_date, crawl_date) VALUES (%s, %s, %s, %s, %s)")
-        try:
-            cursor = conn.cursor()
-            cursor.executemany(insert_product_sql, article_data)  
-            conn.commit()
-            print(f'Successfully inserted {len(article_data)} articles into MySQL')
-        except Exception as e:
-            print(f'Error: {str(e)}')
-        continue
-    
     return next_url
+
+def insert_ptt_article(article_data):
+    try:
+        insert_product_sql = ("INSERT INTO `ptt_articles` (title, url, push, pulish_date, crawl_date) VALUES (%s, %s, %s, %s, %s)")
+        cursor = conn.cursor()
+        cursor.executemany(insert_product_sql, article_data)  
+        conn.commit()
+        print(f'Successfully inserted {len(article_data)} articles into MySQL')
+    except Exception as e:
+        print(f'Error: {str(e)}')
+
+
 
 def get_post_comment(url):
 
@@ -113,13 +114,16 @@ def handler(event=None, context=None):
     url = 'https://www.ptt.cc/bbs/Drink/index.html'
     today_date = datetime.now().strftime("%Y%m%d")
 
-    for now_page_number in range(3):
+    for now_page_number in range(1):
         print(f'crawing {url}')
         resp = get_resp(url)
         if resp != 'error':
             url = get_articles(resp)
+            
         print(f'======={now_page_number+1}=======')
-    
+
+    insert_ptt_article(article_data)
+
     for article in article_list:
         try:
             json_data=get_post_comment(article['link'])
@@ -127,7 +131,7 @@ def handler(event=None, context=None):
             name=article['title']
             bucket_name = 'wannadrink'
             s3_object_key=f'ptt/{today_date}/{article_code}.json'
-            folder_path = os.path.join('ptt/', today_date)
+            folder_path = f'ptt/{today_date}'
             if not os.path.exists(folder_path):
                 os.makedirs(folder_path)
             else:
