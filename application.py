@@ -1,9 +1,11 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import json
 import pymysql
 from dotenv import load_dotenv
 import os
 import flask.json.provider
+from datetime import datetime
+
 
 
 load_dotenv()
@@ -41,7 +43,9 @@ def get_keyword():
 
 @app.route("/api/v1/hot_article")
 def hot_article():
-    sql = "SELECT * FROM product.dcard_articles order by push desc limit 5 "
+    today_date = datetime.today().strftime('%Y%m%d')
+    sql = f"SELECT * FROM ptt_articles WHERE crawl_date = '{today_date}' ORDER BY push DESC LIMIT 5"
+
     cursor.execute(sql)
     article = cursor.fetchall()
     dcard= [
@@ -52,10 +56,25 @@ def hot_article():
         for v in article
     ]
     response = {
-        'data': dcard
+        'data': dcard,
+        'date':today_date
     }
     return response
 
+
+@app.route("/submit", methods=["POST"])
+def submit():
+
+    drink1 = request.form.get("drink1")
+    sql = f"SELECT * FROM foodpanda where name like'{drink1}' order by store_review_number desc limit 3;"
+    cursor.execute(sql)
+    drink = cursor.fetchall()
+
+
+
+    print(drink1)
+        
+    return f"你喜歡的飲料是：{drink1} "
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0', port=8000)
