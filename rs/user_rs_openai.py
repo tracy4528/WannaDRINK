@@ -13,3 +13,4 @@ completion = openai.ChatCompletion.create(
 )
 
 print(text)
+#抓當天熱門文章喂給onenapi 抓關鍵字回來
