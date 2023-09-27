@@ -114,7 +114,7 @@ def handler(event=None, context=None):
     url = 'https://www.ptt.cc/bbs/Drink/index.html'
     today_date = datetime.now().strftime("%Y%m%d")
 
-    for now_page_number in range(1):
+    for now_page_number in range(3):
         print(f'crawing {url}')
         resp = get_resp(url)
         if resp != 'error':
