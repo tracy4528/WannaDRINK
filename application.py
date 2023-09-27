@@ -60,19 +60,19 @@ def hot_article():
     return response
 
 
-@app.route("/submit", methods=["POST"])
+@app.route("/api/v1/user_drink", methods=["POST"])
 def submit():
 
     drink1 = request.form.get("drink1")
     drink="%"+drink1+"%"
-    sql = f"SELECT store,name,image_url FROM foodpanda where name like '{drink}' order by store_review_number desc limit 10;"
+    sql = f"SELECT store,name,image_url,product_id FROM foodpanda where name like '{drink}' order by store_review_number desc limit 10;"
     cursor.execute(sql)
     drink = cursor.fetchall()
     data= [
         {
             "store": v["store"],
             'name':v["name"],
-            'imageUrl':v["image_url"]
+            'imageUrl':v["image_url"]+"oducts/"+v["product_id"]+".jpg"
         }
         for v in drink
     ]
@@ -80,7 +80,7 @@ def submit():
         'data':data
     }
         
-    return response
+    return render_template('recom.html',response=response)
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0', port=8000)

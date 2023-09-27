@@ -112,10 +112,10 @@
 		<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
 			<div class="tm-about-header tm-flex-center">
 				<h2>🥤輸入你喜歡的飲料種類🥤</h2>
-				<form id="contact-form" action="/submit" method="POST" class="tm-contact-form">
+				<form id="contact-form" action="/api/v1/user_drink" method="POST" class="tm-contact-form">
 					<label  for="drink1">飲料:</label>
 					<input type="text" id="drink1" name="drink1" required><br><br>		          	
-		          	<button onclick="searchDrink()" class="tm-right tm-btn-submit">send</button>          	
+		          	<button type="submit" class="tm-right tm-btn-submit">send</button>          	
 		        </form>  
 			</div>
 
