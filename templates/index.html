@@ -109,42 +109,58 @@
 			</div>
 		</section>
 
-		
+		<!-- <section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
+			<div class="tm-about-header tm-flex-center">
+				<i class="fas fa-users fa-2x"></i>
+				<h2>熱門文章! </h2>
+			</div>
+			<div class="tm-about-text">
+				<p class="tm-mb-42">＃可不可🥤, ＃麻古🥤</p>
+			</div>
+		</section> -->
 
-		<section class="tm-contact tm-mb-50 tm-bgcolor-3 tm-border-rounded">
-			<div class="tm-contact-header tm-flex-center">
-				<i class="fas fa-map-pin fa-3x"></i>
-				<h2>Contact</h2>
-			</div>
-			<div class="tm-contact-info">
-				<address class="tm-mb-30">
-					120 Curabitur sed tortor ultrices,
-					congue odio eget, posuere urna.
-					Praesent at rhoncus 10680
-				</address>
-				<div class="tm-text-white tm-mb-40">Tel: <a href="tel:0100200340" class="tm-link-white">010-020-0340</a></div>
-				<div class="tm-flex">
-					<a href="https://facebook.com" class="tm-social-link"><i class="fab fa-facebook"></i></a>
-					<a href="https://twitter.com" class="tm-social-link"><i class="fab fa-twitter"></i></a>
-					<a href="https://instagram.com" class="tm-social-link"><i class="fab fa-instagram"></i></a>
-				</div>
-			</div>
-			<div class="tm-contact-form-container">
-				<form id="contact-form" action="" method="POST" class="tm-contact-form">
-		          	<input type="text" name="name" placeholder="name" required="" />
-		          	<input type="email" name="email" placeholder="email" required="" />
-		          	<textarea rows="5" name="message" class="tm-mb-30" placeholder="message" required=""></textarea>		          	
+		<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
+			<div class="tm-about-header tm-flex-center">
+				<h2>🥤輸入你喜歡的飲料種類🥤</h2>
+				<form id="contact-form" action="/api/v1/user_drink" method="POST" class="tm-contact-form">
+					<label  for="drink1">飲料:</label>
+					<input type="text" id="drink1" name="drink1" required><br><br>		          	
 		          	<button type="submit" class="tm-right tm-btn-submit">send</button>          	
-		        </form>    
+		        </form>  
 			</div>
+
+			<!-- <div class="tm-contact-form-container" id="drinkResult">
+				
+			</div> -->
 		</section>
 
+
+
 		<footer class="tm-footer">
-			Copyright 2020 Nano Folio - Design: <a rel="sponsored" href="https://www.tooplate.com" class="tm-link-gray">Tooplate</a>
+			 2023 WannaDRINK - Design: Tracy Huang
 		</footer>
 	</div>
 
-	<script>
+	<script >
+		function searchDrink() {
+            var drinkName = document.getElementById("drinkInput").value;
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://127.0.0.1:8000/submit", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+					var jsonData = response.data; 
+                    var drinkResult = document.getElementById("drinkResult");
+                    if (jsonData.imageUrl) {
+                        drinkResult.innerHTML = "<img src='" + jsonData.imageUrl + "'>";
+                    } else {
+                        drinkResult.innerHTML = "未找到该飲料！";
+                    }
+                }
+            };
+            xhr.send("drinkName=" + encodeURIComponent(drinkName));
+        }
 
 
 		document.addEventListener('DOMContentLoaded', function () {
@@ -158,7 +174,7 @@
 					const jsonDataElement = document.querySelector('.tm-mb-41');
 					// const jsonDataText = JSON.stringify(jsonData, null, 2);
 					// jsonDataElement.innerHTML = jsonDataText; 
-					const jsonDataItems = jsonData.map(item => `<p>${item.keyword}</p>`);
+					const jsonDataItems = jsonData.map(item => `<p>${item}</p>`);
 					jsonDataElement.innerHTML = jsonDataItems.join('');
 				} else {
 					console.error('error', xhr.status);
@@ -168,41 +184,37 @@
 			xhr.send();
 		});
 
+		// document.addEventListener('DOMContentLoaded', function () {
+		// 	const xhr = new XMLHttpRequest();
+		// 	xhr.open('GET', 'http://127.0.0.1:8000/api/v1/hot_article', true);
+		// 	xhr.onreadystatechange = function () {
+		// 		if (xhr.readyState === 4) {
+		// 		if (xhr.status === 200) {
+		// 			const response = JSON.parse(xhr.responseText);
+		// 			const articles = response.data; 
+		// 			const container = document.querySelector('.tm-mb-42');
+		// 			articles.forEach(article => {
+		// 						const link = document.createElement("a");
+		// 						link.href = article.path;
+		// 						link.textContent = article.title;
+		// 						link.target = "_blank"; // 在新标签页中打开链接
+
+		// 						// 将链接元素添加到容器中
+		// 						container.appendChild(link);
+
+		// 						// 添加换行符
+		// 						container.appendChild(document.createElement("br"));
+		// 					});
+
+		// 		} else {
+		// 			console.error('error', xhr.status);
+		// 		}
+		// 		}
+		// 	};
+		// 	xhr.send();
+		// });
+
 
 	</script>
-
-	<!-- <script src="js/jquery.min.js"></script>
-	<script src="js/imagesloaded.pkgd.min.js"></script>
-	<script src="js/isotope.pkgd.min.js"></script>
-	<script src="js/jquery.magnific-popup.min.js"></script> -->
-	<!-- <script>
-		$(function(){
-		  	// Init the image gallery
-		  	var $gallery = $(".tm-gallery").isotope({
-		    	itemSelector: ".tm-gallery-item",
-		    	layoutMode: "fitRows"
-		  	});
-		  
-		  	// Layout Isotope after each image loads
-		  	$gallery.imagesLoaded().progress(function() {
-		    	$gallery.isotope("layout");
-		  	});
-
-		  	$(".filters-button-group").on("click", "a", function(e) {
-		  		e.preventDefault();
-			    var filterValue = $(this).attr("data-filter");
-			    $gallery.isotope({ filter: filterValue });
-			    $('.filters-button-group a').removeClass('active');
-			    $(this).addClass('active');
-			});
-
-		  	// Magnific Pop up
-		  	$('.tm-gallery').magnificPopup({
-		  		delegate: 'a',
-			  	type: 'image',
-				  gallery: { enabled: true }
-			});
-		});
-	</script> -->
 </body>
 </html>
