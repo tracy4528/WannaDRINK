@@ -109,13 +109,23 @@
 			</div>
 		</section>
 
+		<!-- <section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
+			<div class="tm-about-header tm-flex-center">
+				<i class="fas fa-users fa-2x"></i>
+				<h2>熱門文章! </h2>
+			</div>
+			<div class="tm-about-text">
+				<p class="tm-mb-42">＃可不可🥤, ＃麻古🥤</p>
+			</div>
+		</section> -->
+
 		<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
 			<div class="tm-about-header tm-flex-center">
 				<h2>🥤輸入你喜歡的飲料種類🥤</h2>
-				<form id="contact-form" action="/submit" method="POST" class="tm-contact-form">
+				<form id="contact-form" action="/api/v1/user_drink" method="POST" class="tm-contact-form">
 					<label  for="drink1">飲料:</label>
 					<input type="text" id="drink1" name="drink1" required><br><br>		          	
-		          	<button onclick="searchDrink()" class="tm-right tm-btn-submit">send</button>          	
+		          	<button type="submit" class="tm-right tm-btn-submit">send</button>          	
 		        </form>  
 			</div>
 
@@ -154,25 +164,55 @@
 
 
 		document.addEventListener('DOMContentLoaded', function () {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://127.0.0.1:8000/api/v1/hotword', true);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
-            const response = JSON.parse(xhr.responseText);
-            const jsonData = response.data; 
-            const jsonDataElement = document.querySelector('.tm-mb-41');
-            // const jsonDataText = JSON.stringify(jsonData, null, 2);
-            // jsonDataElement.innerHTML = jsonDataText; 
-            const jsonDataItems = jsonData.map(item => `<p>${item}</p>`);
-            jsonDataElement.innerHTML = jsonDataItems.join('');
-        } else {
-            console.error('error', xhr.status);
-        }
-        }
-    };
-    xhr.send();
-});
+			const xhr = new XMLHttpRequest();
+			xhr.open('GET', 'http://127.0.0.1:8000/api/v1/hotword', true);
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState === 4) {
+				if (xhr.status === 200) {
+					const response = JSON.parse(xhr.responseText);
+					const jsonData = response.data; 
+					const jsonDataElement = document.querySelector('.tm-mb-41');
+					// const jsonDataText = JSON.stringify(jsonData, null, 2);
+					// jsonDataElement.innerHTML = jsonDataText; 
+					const jsonDataItems = jsonData.map(item => `<p>${item}</p>`);
+					jsonDataElement.innerHTML = jsonDataItems.join('');
+				} else {
+					console.error('error', xhr.status);
+				}
+				}
+			};
+			xhr.send();
+		});
+
+		// document.addEventListener('DOMContentLoaded', function () {
+		// 	const xhr = new XMLHttpRequest();
+		// 	xhr.open('GET', 'http://127.0.0.1:8000/api/v1/hot_article', true);
+		// 	xhr.onreadystatechange = function () {
+		// 		if (xhr.readyState === 4) {
+		// 		if (xhr.status === 200) {
+		// 			const response = JSON.parse(xhr.responseText);
+		// 			const articles = response.data; 
+		// 			const container = document.querySelector('.tm-mb-42');
+		// 			articles.forEach(article => {
+		// 						const link = document.createElement("a");
+		// 						link.href = article.path;
+		// 						link.textContent = article.title;
+		// 						link.target = "_blank"; // 在新标签页中打开链接
+
+		// 						// 将链接元素添加到容器中
+		// 						container.appendChild(link);
+
+		// 						// 添加换行符
+		// 						container.appendChild(document.createElement("br"));
+		// 					});
+
+		// 		} else {
+		// 			console.error('error', xhr.status);
+		// 		}
+		// 		}
+		// 	};
+		// 	xhr.send();
+		// });
 
 
 	</script>

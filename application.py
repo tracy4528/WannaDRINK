@@ -29,50 +29,57 @@ def hello():
 
 @app.route('/api/v1/hotword', methods=['GET'])
 def get_keyword():
-    sql = "SELECT keyword FROM hot_keyword order by id desc limit 1 "
+    sql = "SELECT keyword FROM hot_keyword order by id desc limit 3 "
     cursor.execute(sql)
     products = cursor.fetchall()
+    text1=products[1]['keyword'].split('格式：')[-1]
     text = products[0]['keyword'].split('\n')[0].split('：')[1].split('、')
+    drink=['無糖茶','烏弄','Tea Top','白巷子','奶蓋烏龍','檸檬烏龍','一沐日','草仔粿奶茶']
 
     response = {
-        'data': text
+        'data': drink,
                 }
     return response
 
 @app.route("/api/v1/hot_article")
 def hot_article():
-    today_date = datetime.today().strftime('%Y%m%d')
-    sql = f"SELECT * FROM ptt_articles WHERE crawl_date = '{today_date}' ORDER BY push DESC LIMIT 5"
+    try:
+        today_date = datetime.today().strftime('%Y%m%d')
+        sql = f"SELECT * FROM ptt_articles WHERE crawl_date = '{today_date}' ORDER BY push DESC LIMIT 5"
 
-    cursor.execute(sql)
-    article = cursor.fetchall()
-    dcard= [
-        {
-            "title": v["title"],
-            'path':v["url"]
+        cursor.execute(sql)
+        article = cursor.fetchall()
+        dcard= [
+            {
+                "title": v["title"],
+                'path':v["url"]
+            }
+            for v in article
+        ]
+        response = {
+            'data': dcard,
+            'date':today_date
         }
-        for v in article
-    ]
-    response = {
-        'data': dcard,
-        'date':today_date
-    }
+    except Exception as e:
+        response = {
+            'error': str(e)
+        }
     return response
 
 
-@app.route("/submit", methods=["POST"])
+@app.route("/api/v1/user_drink", methods=["POST"])
 def submit():
 
     drink1 = request.form.get("drink1")
     drink="%"+drink1+"%"
-    sql = f"SELECT store,name,image_url FROM foodpanda where name like '{drink}' order by store_review_number desc limit 10;"
+    sql = f"SELECT store,name,image_url,product_id FROM foodpanda where name like '{drink}' order by store_review_number desc limit 5;"
     cursor.execute(sql)
     drink = cursor.fetchall()
     data= [
         {
             "store": v["store"],
             'name':v["name"],
-            'imageUrl':v["image_url"]
+            'imageUrl':v["image_url"]+"oducts/"+v["product_id"]+".jpg"
         }
         for v in drink
     ]
@@ -80,7 +87,7 @@ def submit():
         'data':data
     }
         
-    return response
+    return render_template('recom.html',response=response)
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0', port=8000)
