@@ -25,46 +25,44 @@ s3 = boto3.client('s3',
 comments = []
 today_date = datetime.today().strftime('%Y%m%d')
 
-def hot_article_text_ptt():
-    sql=f"SELECT url FROM ptt_articles  where crawl_date='{today_date}' ORDER BY push DESC limit 1"
-    cursor.execute(sql)
+def hot_article_text(date=today_date, source='ptt'): 
+
+    sql_ptt = f"SELECT url FROM ptt_articles where crawl_date='{date}' ORDER BY push DESC limit 2"
+    sql_dcard = f"SELECT url FROM dcard_articles where crawl_date='{date}' ORDER BY push DESC limit 1"
+
+    if source == 'ptt':  
+        sql_query = sql_ptt
+    elif source == 'dcard':  
+        sql_query = sql_dcard
+
+    cursor.execute(sql_query)  
     urls = cursor.fetchall()
     for url in urls:
-        data=url['url'].split('/')[-1].split('.')[1]
-        file_key= 'ptt/'+today_date+'/'+data+'.json'
+        if source == 'ptt':  
+            data = url['url'].split('/')[-1].split('.')[1]
+        elif source == 'dcard':  
+            data = url['url'].split('/')[-1]
+
+        file_key = source + '/' + date + '/' + data + '.json'
         response = s3.get_object(Bucket='wannadrink', Key=file_key)
         json_data = response['Body'].read().decode('utf-8')
         data = json.loads(json_data)
 
         if 'comments' in data:
-                comments.extend([comment['content'] for comment in data['comments']])
+            comments.extend([comment['content'] for comment in data['comments']])
         if 'content' in data:
-                comments.extend([data['content']])
+            comments.extend([data['content']])
+
     return comments
 
-def hot_article_text_dcard(date=today_date):
-    sql=f"SELECT url FROM dcard_articles where crawl_date='{date}'  ORDER BY push DESC limit 1"
-    cursor.execute(sql)
-    urls = cursor.fetchall()
-    for url in urls:
-        data=url['url'].split('/')[-1]
-        file_key= 'dcard/'+date+'/'+data+'.json'
-        response = s3.get_object(Bucket='wannadrink', Key=file_key)
-        json_data = response['Body'].read().decode('utf-8')
-        data = json.loads(json_data)
-
-        if 'comments' in data:
-                comments.extend([comment['content'] for comment in data['comments']])
-        if 'content' in data:
-                comments.extend([data['content']])
-    
-    return comments
-
-print(hot_article_text_ptt())
+    print(comments)
 
 
-def get_hot_word():
-    text=hot_article_text_ptt()
+
+
+
+def get_hot_word(date):
+    text=hot_article_text(date=date,source='ptt')
 
     openai.api_key = os.getenv('openai_key')
     completion = openai.ChatCompletion.create(
@@ -78,8 +76,8 @@ def get_hot_word():
 
     insert_sql = ("INSERT INTO `hot_keyword` (keyword, date, from_) VALUES (%s, %s, %s)")
     cursor = conn.cursor()
-    cursor.execute(insert_sql, (keyword,today_date,'dcard'))  
+    cursor.execute(insert_sql, (keyword,date,'dcard'))  
     conn.commit()
 
 
-get_hot_word()
+hot_article_text(date=today_date, source='ptt')
