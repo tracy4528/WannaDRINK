@@ -80,5 +80,5 @@ def get_hot_word(date=today_date,source='ptt'):
     cursor.execute(insert_sql, (keyword,date,source))  
     conn.commit()
 
-
-get_hot_word()
+def handler(event=None, context=None):
+    get_hot_word()
