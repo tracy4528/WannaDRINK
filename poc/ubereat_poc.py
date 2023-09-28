@@ -12,8 +12,7 @@ import io
 import bs4
 load_dotenv()
 
-url='https://www.ubereats.com/store/%E9%BA%BB%E5%8F%A4%E8%8C%B6%E5%9D%8Amacu-tea-%E6%9D%BE%E5%B1%B1%E8%BB%8A%E7%AB%99%E5%BA%97/xy8Uu0PwQQ273A8wJwEXeQ?diningMode=DELIVERY'
-
+url='https://www.ubereats.com/tw/store/%E5%A4%A7%E8%8C%97%E6%9C%AC%E4%BD%8D%E8%A3%BD%E8%8C%B6%E5%A0%82-%E5%8F%B0%E5%8C%97%E9%80%9A%E5%8C%96%E5%BA%97/7VmMUYPnW32lAWppBIvqxg?diningMode=DELIVERY&sc=SEARCH_SUGGESTION'
 s3 = boto3.client('s3',
                     region_name='ap-northeast-1',
                     aws_access_key_id=os.getenv('iam_drink_key'),
@@ -57,7 +56,7 @@ def uber_spider_check():
         # s3_object_key = 'ubereat/' + html_file_name
 
         # s3.upload_fileobj(io.BytesIO(html_content), bucket_name, s3_object_key)
-        html_file_name='/Users/tracy4528/Downloads/uber1.html'
+        html_file_name='/Users/tracy4528/Downloads/uber1.json'
         with open(html_file_name, 'w') as html_file:
             html_file.write(soup.prettify())
 
@@ -68,45 +67,11 @@ def uber_spider_check():
 
 
 
-'''
-====================
-foodpanda
-====================
-'''
-
-
-def get_fp_cookie():
-    browser = webdriver.Chrome()
-    browser.get('https://www.foodpanda.com.tw')  
-
-    input('按下 Enter 以繼續')  
-    with open('cookies.txt', 'w') as cookief:
-        cookief.write(json.dumps(browser.get_cookies()))
-    headers_cookie = browser.execute_script('return document.cookie')
-    with open('headers_cookies.txt', 'w') as f:
-        f.write(headers_cookie)
-    print('Cookies save')
-
-def fp_spider_check():
-    ua = UserAgent()
-    with open('headers_cookies.txt', 'r')as f:
-        cookie = f.read()
-    headers = {
-        'cookie': cookie,
-        'User-Agent': ua.random
-    }
-    CityURL= 'https://www.foodpanda.com.tw'
-    result = requests.get(CityURL,headers=headers)
-
-
-    sp = bs4.BeautifulSoup(result.content , "html.parser")								
-    all_a = sp.find_all("a",class_="city-tile")											
-    all_link = [CityURL+a.get("href") for a in all_a ]	
-    print(all_link)
 
 
 
 if __name__ == "__main__":
+    get_uber_cookie()
     uber_spider_check()
 
 
