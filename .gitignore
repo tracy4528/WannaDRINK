@@ -2,3 +2,4 @@
 chrome-mac-x64/*
 *.pem
 .env
+__pycache__
