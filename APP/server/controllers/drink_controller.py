@@ -1,26 +1,13 @@
-from flask import Flask, render_template, request
-import json
-import pymysql
-from dotenv import load_dotenv
+from server import app
+from flask import request, render_template
 import os
-import flask.json.provider
-from datetime import datetime
-import re
+import datetime
+import pymysql
+from config import MysqlConfig,S3Config
 
-
-
-
-load_dotenv()
-
-app = Flask(__name__)
-app.json.ensure_ascii = False
-flask.json.provider.DefaultJSONProvider.sort_keys = False
-
-conn = pymysql.connect(host=os.getenv('mysql_host'), 
-                       user=os.getenv('mysql_user'),
-                       password=os.getenv('mysql_password'), 
-                       database='product',
-                       cursorclass=pymysql.cursors.DictCursor)
+my_db_conf = MysqlConfig()
+my_aws_conf = S3Config()
+conn = pymysql.connect(**my_db_conf.db_config)
 cursor = conn.cursor()
 
 @app.route("/")
@@ -72,14 +59,14 @@ def submit():
 
     drink1 = request.form.get("drink1")
     drink="%"+drink1+"%"
-    sql = f"SELECT store,name,image_url,product_id FROM foodpanda where name like '{drink}' order by store_review_number desc limit 5;"
+    sql = f"SELECT store,name,image_url,product_id FROM drink_list where name like '{drink}' order by store_review_number desc limit 5;"
     cursor.execute(sql)
     drink = cursor.fetchall()
     data= [
         {
             "store": v["store"],
             'name':v["name"],
-            'imageUrl':v["image_url"]+"oducts/"+v["product_id"]+".jpg"
+            'imageUrl':v["image_url"]
         }
         for v in drink
     ]
@@ -88,6 +75,3 @@ def submit():
     }
         
     return render_template('recom.html',response=response)
-
-if __name__ == '__main__':
-    app.run(debug=True,host='0.0.0.0', port=8000)

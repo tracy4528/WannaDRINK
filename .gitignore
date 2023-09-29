@@ -4,3 +4,4 @@ chrome-mac-x64/*
 .env
 dict_big.txt
 *.otf
+__pycache__
