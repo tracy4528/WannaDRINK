@@ -69,7 +69,7 @@ def get_hot_word(date=today_date,source='ptt'):
     completion = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "user", "content": f"請幫我從以下論壇文章取出兩個熱門討論的飲料店及飲料品項,並提供json格式,文章：'{text}'"}
+            {"role": "user", "content": f"請幫我從以下論壇文章取出兩個熱門討論的飲料店及飲料品項,並提供list格式,文章：'{text}'"}
         ]
     )
     keyword=completion["choices"][0]["message"]["content"]
