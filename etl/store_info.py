@@ -42,17 +42,18 @@ for obj in objects.get('Contents'):
         store_code=data['code']
         store_url=data['web_path']
         address=data['address'].split(')')[-1]
+        hero_image=data['hero_image']
         print(store_name,store_url,address,store_rating)
         
 
-        insert_product_sql = ("INSERT INTO `store_info` (store_name, store_latitude, store_longitude, store_rating,store_review_number, store_url, address, store_code,created_time) "
-                                        "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)")
-        cursor.execute(insert_product_sql,(store_name, latitude, longitude, store_rating,review_number, store_url, address, store_code,currentDateAndTime))
+        insert_product_sql = ("INSERT INTO `store_info` (store_name, store_latitude, store_longitude, store_rating,store_image,store_review_number, store_url_fp, address, store_code,created_time) "
+                                        "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)")
+        cursor.execute(insert_product_sql,(store_name, latitude, longitude, store_rating,hero_image,review_number, store_url, address, store_code,currentDateAndTime))
         count_processed += 1  
 
     if count_processed % 50 == 0:
         conn.commit() 
-
+conn.commit() 
 cursor.close()
 conn.close()
         
