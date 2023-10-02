@@ -12,7 +12,7 @@ conn = pymysql.connect(host=os.getenv('mysql_host'),
                        database='product')
 cursor = conn.cursor()
 
-sql = f"SELECT store_name,store_latitude, store_longitude,store_rating,store_review_number, store_url  FROM store_info"
+sql = f"SELECT store_name,store_latitude, store_longitude,store_rating,store_review_number, store_url_fp  FROM store_info"
 
 cursor.execute(sql)
 store = cursor.fetchall()
@@ -20,21 +20,24 @@ store = cursor.fetchall()
 for row in store:
     store_name, store_latitude, store_longitude, store_rating, store_review_number,store_url = row
     
-    if store_rating >= 4.5:
+    if store_rating >= 4.9:
         icon_color = 'green'
-    elif 4.0 <= store_rating < 4.5:
+    elif 4.8 <= store_rating < 4.9:
         icon_color = 'orange'
     else:
         icon_color = 'red'
-
+    
+    popup_content = f"<h4>{store_name}</h4><br> ⭐️Rating: {store_rating}<br><br>Reviews: {store_review_number}<br><br><a href='{store_url}' target='_blank'>foodpanda link</a>"
+    
+    
     folium.Marker([store_latitude, store_longitude], 
-                tooltip=store_name,
-                icon=folium.Icon(color=icon_color),
-                popup=f"Rating: {store_rating}<br>Reviews: {store_review_number}<br>foodpanda: {store_url}"
-                ).add_to(fmap)
+                  tooltip=store_name,
+                  icon=folium.Icon(color=icon_color),
+                  popup=folium.Popup(popup_content, max_width=300) 
+                 ).add_to(fmap)
     
 
 
 
 
-fmap.save('map.html')
+fmap.save('APP/server/templates/map.html')
