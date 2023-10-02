@@ -3,24 +3,41 @@ from flask import request, render_template
 import os
 import datetime
 import pymysql
-from config import MysqlConfig,S3Config
+from config import MysqlConfig,S3Config,LoggingConfig
+import logging
+
 
 my_db_conf = MysqlConfig()
 my_aws_conf = S3Config()
+my_logging_conf = LoggingConfig()
+
 conn = pymysql.connect(**my_db_conf.db_config)
 cursor = conn.cursor()
+
+# create logger
+logging.basicConfig(**my_logging_conf.logging_config)
+wannadrink_logger = logging.getLogger("wannadrink")
+wannadrink_logger.setLevel(wannadrink_logger.level)
+
+
 
 @app.route("/")
 def hello():
     return render_template("index.html")
 
+@app.route('/map.html')
+def map():
+    return render_template('map.html')
+
+
+
 @app.route('/api/v1/hotword', methods=['GET'])
 def get_keyword():
-    sql = "SELECT keyword FROM hot_keyword order by id desc limit 3 "
-    cursor.execute(sql)
-    products = cursor.fetchall()
-    text1=products[1]['keyword'].split('格式：')[-1]
-    text = products[0]['keyword'].split('\n')[0].split('：')[1].split('、')
+    # sql = "SELECT keyword FROM hot_keyword order by id desc limit 3 "
+    # cursor.execute(sql)
+    # products = cursor.fetchall()
+    # text1=products[1]['keyword'].split('格式：')[-1]
+    # text = products[0]['keyword'].split('\n')[0].split('：')[1].split('、')
     drink=['無糖茶','烏弄','Tea Top','白巷子','奶蓋烏龍','檸檬烏龍','一沐日','草仔粿奶茶']
 
     response = {
@@ -31,12 +48,12 @@ def get_keyword():
 @app.route("/api/v1/hot_article")
 def hot_article():
     try:
-        today_date = datetime.today().strftime('%Y%m%d')
-        sql = f"SELECT * FROM ptt_articles WHERE crawl_date = '{today_date}' ORDER BY push DESC LIMIT 5"
+        today_date = datetime.date.today().strftime('%Y%m%d')
+        sql = f"SELECT * FROM ptt_articles WHERE crawl_date = {today_date} ORDER BY push DESC LIMIT 5"
 
         cursor.execute(sql)
         article = cursor.fetchall()
-        dcard= [
+        ptt= [
             {
                 "title": v["title"],
                 'path':v["url"]
@@ -44,13 +61,14 @@ def hot_article():
             for v in article
         ]
         response = {
-            'data': dcard,
+            'data': ptt,
             'date':today_date
         }
     except Exception as e:
         response = {
             'error': str(e)
         }
+        wannadrink_logger.warning(f"[Error] Query hot article : {e}")
     return response
 
 

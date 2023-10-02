@@ -6,8 +6,6 @@ from werkzeug.exceptions import HTTPException
 
 app = Flask(__name__)
 # app.config.from_object(Config)
-# db = SQLAlchemy(app, model_class = BaseModel)
-# migrate = Migrate(app, db)
 
 # jwt = JWTManager()
 # jwt.init_app(app)

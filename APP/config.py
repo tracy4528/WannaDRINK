@@ -1,6 +1,8 @@
 import os
 from dotenv import load_dotenv
 import pymysql
+import logging
+
 
 load_dotenv()
 
@@ -27,3 +29,14 @@ class S3Config:
     def __init__(self):
         self.AWS_ACCESS_KEY = os.getenv("iam_drink_key")
         self.AWS_SECRET_KEY = os.getenv("iam_drink_secretkey")
+
+class LoggingConfig:
+    def __init__(self):
+        self.level = logging.INFO
+        self.datefmt = "%Y-%m-%d %H:%M"
+        self.format = "%(asctime)s %(levelname)s %(message)s"
+        self.handlers = [logging.FileHandler("log/wannadrink.log", "w", "utf-8")]
+        self.logging_config = {"level": self.level,
+                               "datefmt": self.datefmt,
+                               "format": self.format,
+                               "handlers": self.handlers}
