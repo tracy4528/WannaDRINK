@@ -11,8 +11,8 @@ from dotenv import load_dotenv
 import io
 import bs4
 load_dotenv()
-
-url='https://www.ubereats.com/tw/store/%E5%A4%A7%E8%8C%97%E6%9C%AC%E4%BD%8D%E8%A3%BD%E8%8C%B6%E5%A0%82-%E5%8F%B0%E5%8C%97%E9%80%9A%E5%8C%96%E5%BA%97/7VmMUYPnW32lAWppBIvqxg?diningMode=DELIVERY&sc=SEARCH_SUGGESTION'
+url='https://www.ubereats.com/search?diningMode=DELIVERY&pl=JTdCJTIyYWRkcmVzcyUyMiUzQSUyMiVFNSU4RiVCMCVFNSU4QyU5NyVFNSU4NSVBQyVFOSVBNCVBOCVFNSVBNCU5QyVFNSVCOCU4MiUyMiUyQyUyMnJlZmVyZW5jZSUyMiUzQSUyMkNoSUpWVlZWVlJXc1FqUVJ3UUg2V1RmVGZQQSUyMiUyQyUyMnJlZmVyZW5jZVR5cGUlMjIlM0ElMjJnb29nbGVfcGxhY2VzJTIyJTJDJTIybGF0aXR1ZGUlMjIlM0EyNS4wMTM3ODczJTJDJTIybG9uZ2l0dWRlJTIyJTNBMTIxLjUzNDc4NjUlN0Q%3D&q=Bubble%20Tea&sc=SHORTCUTS'
+# url='https://www.ubereats.com/tw/store/%E4%BA%94%E6%A1%90%E8%99%9Fwootea-%E5%85%AC%E9%A4%A8%E5%BA%97/kDCmfj9BTEWDGOXyeF99vA'
 s3 = boto3.client('s3',
                     region_name='ap-northeast-1',
                     aws_access_key_id=os.getenv('iam_drink_key'),
@@ -45,6 +45,14 @@ def uber_spider_check():
     
     if r.status_code == 200:
         soup = BeautifulSoup(r.content, 'lxml')
+        tests=soup.find_all("div", class_="hm o8 o9")
+        print(tests)
+        for test in tests:
+            rate = soup.find("a", class_="spacer _4")
+            link=soup.find('a', {'data-testid': 'store-card'})['href']
+            print(link)
+
+
         # test=soup.find_all("h1", class_="bl bn bm bk", limit=2)
         # name = soup.find_all("span", class_="p9 i7 pa be by bg db b1", limit=2)
         # rate = soup.find_all("div", class_="spacer _4", limit=2)
@@ -56,7 +64,7 @@ def uber_spider_check():
         # s3_object_key = 'ubereat/' + html_file_name
 
         # s3.upload_fileobj(io.BytesIO(html_content), bucket_name, s3_object_key)
-        html_file_name='/Users/tracy4528/Downloads/uber1.json'
+        html_file_name='/Users/tracy4528/Downloads/uber_list.json'
         with open(html_file_name, 'w') as html_file:
             html_file.write(soup.prettify())
 
