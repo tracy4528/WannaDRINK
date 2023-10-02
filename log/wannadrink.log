@@ -1,0 +1,36 @@
+2023-10-02 10:51 WARNING  * Debugger is active!
+2023-10-02 10:51 INFO  * Debugger PIN: 775-258-130
+2023-10-02 10:51 INFO 127.0.0.1 - - [02/Oct/2023 10:51:52] "GET / HTTP/1.1" 200 -
+2023-10-02 10:51 INFO 127.0.0.1 - - [02/Oct/2023 10:51:52] "[33mGET /static/css/all.min.css HTTP/1.1[0m" 404 -
+2023-10-02 10:51 INFO 127.0.0.1 - - [02/Oct/2023 10:51:52] "[33mGET /static/css/magnific-popup.min.css HTTP/1.1[0m" 404 -
+2023-10-02 10:51 INFO 127.0.0.1 - - [02/Oct/2023 10:51:52] "[36mGET /static/css/tooplate-style.css HTTP/1.1[0m" 304 -
+2023-10-02 10:51 INFO 127.0.0.1 - - [02/Oct/2023 10:51:53] "GET /api/v1/hotword HTTP/1.1" 200 -
+2023-10-02 10:51 INFO 127.0.0.1 - - [02/Oct/2023 10:51:53] "GET /api/v1/hot_article HTTP/1.1" 200 -
+2023-10-02 10:51 INFO 127.0.0.1 - - [02/Oct/2023 10:51:53] "GET /map.html HTTP/1.1" 200 -
+2023-10-02 10:52 INFO 127.0.0.1 - - [02/Oct/2023 10:52:00] "GET / HTTP/1.1" 200 -
+2023-10-02 10:52 INFO 127.0.0.1 - - [02/Oct/2023 10:52:00] "[33mGET /static/css/all.min.css HTTP/1.1[0m" 404 -
+2023-10-02 10:52 INFO 127.0.0.1 - - [02/Oct/2023 10:52:00] "[33mGET /static/css/magnific-popup.min.css HTTP/1.1[0m" 404 -
+2023-10-02 10:52 INFO 127.0.0.1 - - [02/Oct/2023 10:52:00] "GET /map.html HTTP/1.1" 200 -
+2023-10-02 10:52 INFO 127.0.0.1 - - [02/Oct/2023 10:52:00] "[36mGET /static/css/tooplate-style.css HTTP/1.1[0m" 304 -
+2023-10-02 10:52 INFO 127.0.0.1 - - [02/Oct/2023 10:52:00] "GET /api/v1/hotword HTTP/1.1" 200 -
+2023-10-02 10:52 INFO 127.0.0.1 - - [02/Oct/2023 10:52:00] "GET /api/v1/hot_article HTTP/1.1" 200 -
+2023-10-02 10:52 INFO 127.0.0.1 - - [02/Oct/2023 10:52:03] "GET / HTTP/1.1" 200 -
+2023-10-02 10:52 INFO 127.0.0.1 - - [02/Oct/2023 10:52:03] "[33mGET /static/css/all.min.css HTTP/1.1[0m" 404 -
+2023-10-02 10:52 INFO 127.0.0.1 - - [02/Oct/2023 10:52:03] "[33mGET /static/css/magnific-popup.min.css HTTP/1.1[0m" 404 -
+2023-10-02 10:52 INFO 127.0.0.1 - - [02/Oct/2023 10:52:03] "GET /map.html HTTP/1.1" 200 -
+2023-10-02 10:52 INFO 127.0.0.1 - - [02/Oct/2023 10:52:03] "[36mGET /static/css/tooplate-style.css HTTP/1.1[0m" 304 -
+2023-10-02 10:52 INFO 127.0.0.1 - - [02/Oct/2023 10:52:04] "GET /api/v1/hotword HTTP/1.1" 200 -
+2023-10-02 10:52 INFO 127.0.0.1 - - [02/Oct/2023 10:52:04] "GET /api/v1/hot_article HTTP/1.1" 200 -
+2023-10-02 10:52 INFO 127.0.0.1 - - [02/Oct/2023 10:52:15] "POST /api/v1/user_drink HTTP/1.1" 200 -
+2023-10-02 10:52 INFO 127.0.0.1 - - [02/Oct/2023 10:52:17] "[33mGET /static/css/all.min.css HTTP/1.1[0m" 404 -
+2023-10-02 10:58 INFO 127.0.0.1 - - [02/Oct/2023 10:58:24] "POST /api/v1/user_drink HTTP/1.1" 200 -
+2023-10-02 10:58 INFO 127.0.0.1 - - [02/Oct/2023 10:58:26] "[33mGET /static/css/all.min.css HTTP/1.1[0m" 404 -
+2023-10-02 10:58 INFO 127.0.0.1 - - [02/Oct/2023 10:58:30] "POST /api/v1/user_drink HTTP/1.1" 200 -
+2023-10-02 10:58 INFO 127.0.0.1 - - [02/Oct/2023 10:58:32] "[33mGET /static/css/all.min.css HTTP/1.1[0m" 404 -
+2023-10-02 10:58 INFO 127.0.0.1 - - [02/Oct/2023 10:58:34] "GET / HTTP/1.1" 200 -
+2023-10-02 10:58 INFO 127.0.0.1 - - [02/Oct/2023 10:58:34] "[33mGET /static/css/all.min.css HTTP/1.1[0m" 404 -
+2023-10-02 10:58 INFO 127.0.0.1 - - [02/Oct/2023 10:58:34] "[33mGET /static/css/magnific-popup.min.css HTTP/1.1[0m" 404 -
+2023-10-02 10:58 INFO 127.0.0.1 - - [02/Oct/2023 10:58:34] "[36mGET /static/css/tooplate-style.css HTTP/1.1[0m" 304 -
+2023-10-02 10:58 INFO 127.0.0.1 - - [02/Oct/2023 10:58:34] "GET /map.html HTTP/1.1" 200 -
+2023-10-02 10:58 INFO 127.0.0.1 - - [02/Oct/2023 10:58:34] "GET /api/v1/hotword HTTP/1.1" 200 -
+2023-10-02 10:58 INFO 127.0.0.1 - - [02/Oct/2023 10:58:34] "GET /api/v1/hot_article HTTP/1.1" 200 -
