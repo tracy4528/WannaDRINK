@@ -130,7 +130,6 @@ def batch_insert(item_pair_similarities, batch_size):
 def main():
     start_time = time()
 
-    # 讀取CSV檔案
     filename ='/Users/tracy4528/Desktop/appwork/01personal/ratings_subset.csv'
     all_rating_data = get_rating_data_from_file(filename)
 
@@ -141,10 +140,8 @@ def main():
         rating = float(rating_data['rating'])
         user_items[user].append((item, rating))
 
-    # 正規化item
     normalized_user_items = normalize(user_items)
 
-    # 計算相似性和批量插入
     item_pair_ratings = group_by_item_pair(normalized_user_items)
     item_pair_similarities = calculate_similarity(item_pair_ratings)
     print(item_pair_similarities)
