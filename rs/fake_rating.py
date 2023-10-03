@@ -43,7 +43,7 @@ def save_data_to_csv(data, filename):
 
 
 df = pd.read_csv('/Users/tracy4528/Downloads/Clothing_Shoes_and_Jewelry_small.csv')
-df_sub=df.head(5000)
+df_sub=df.head(10000)
 
 df_sub.to_csv('/Users/tracy4528/Desktop/appwork/01personal/ratings_subset.csv', index=False)
 
