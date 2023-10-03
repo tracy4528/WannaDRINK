@@ -121,7 +121,19 @@
 
 		<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
 			<div class="tm-about-header tm-flex-center">
-				<h2>🥤輸入你喜歡的飲料種類🥤</h2>
+				<h2>🥤搜尋飲料店或飲料🥤</h2>
+				<form id="contact-form" action="/search" method="POST" class="tm-contact-form">
+					<label  for="search">飲料:</label>
+					<input type="text" id="search" name="search" required><br><br>		          	
+		          	<button type="submit" class="tm-right tm-btn-submit">send</button>          	
+		        </form>  
+			</div>
+
+		</section>
+
+		<!-- <section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
+			<div class="tm-about-header tm-flex-center">
+				<h2>🥤推薦🥤</h2>
 				<form id="contact-form" action="/api/v1/user_drink" method="POST" class="tm-contact-form">
 					<label  for="drink1">飲料:</label>
 					<input type="text" id="drink1" name="drink1" required><br><br>		          	
@@ -129,10 +141,7 @@
 		        </form>  
 			</div>
 
-			<!-- <div class="tm-contact-form-container" id="drinkResult">
-				
-			</div> -->
-		</section>
+		</section> -->
 
 		<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
 			<div class="tm-about-header tm-flex-center">

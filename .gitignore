@@ -5,3 +5,6 @@ chrome-mac-x64/*
 dict_big.txt
 *.otf
 __pycache__
+log
+*.log
+log

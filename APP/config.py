@@ -6,6 +6,8 @@ import logging
 
 load_dotenv()
 
+
+
 class MysqlConfig:
     def __init__(self):
         self.DB_HOST = os.environ.get('mysql_host')

@@ -1,5 +1,5 @@
 from server import app
-from flask import request, render_template
+from flask import request, render_template, jsonify
 import os
 import datetime
 import pymysql
@@ -93,3 +93,52 @@ def submit():
     }
         
     return render_template('recom.html',response=response)
+
+
+@app.route("/search", methods=["POST"])
+def search_bar():
+
+    search = request.form.get("search")
+    search="%"+search+"%"
+    sql = f"SELECT * FROM drink_list where name like '{search}'or store like'{search}' group by store  limit 15;"
+    cursor.execute(sql)
+    keyword = cursor.fetchall()
+    data= [
+        {
+            "store": v["store"],
+            "img":v["image_url"]
+                            }
+        for v in keyword
+    ]
+    response={
+        'data':data
+    }
+    return render_template('search_result.html',response=response)
+
+@app.route("/api/v1/menu", methods=['GET'])
+def store_list_menu():
+    keyword = request.args.get('keyword', '').strip()
+    sql1 = "SELECT * FROM drink_list where store LIKE %s;"
+    cursor.execute(sql1, f"%{keyword}%")
+    drink_data = cursor.fetchall()
+    data = [
+        {
+            "name": v["name"],
+            "description": v['description'],
+            "img": v['image_url']
+        }
+        for v in drink_data
+    ]
+    response = {
+        'data': data  
+    }
+    return render_template('menu.html',response=response) 
+
+
+@app.route("/submit_rating", methods=["POST"])
+def submit_rating():
+    rating = request.form.get("rating")
+    item_id = request.form.get("item_id")
+    
+
+    return redirect("/")  
