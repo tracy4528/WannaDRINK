@@ -2,6 +2,8 @@ import random
 import time
 import csv
 import pandas as pd
+from itertools import islice
+
 
 
 def generate_random_data(num_reviewers, min_items_per_reviewer, max_items_per_reviewer):
@@ -42,8 +44,39 @@ def save_data_to_csv(data, filename):
 # save_data_to_csv(random_data, 'ratings.csv')
 
 
-df = pd.read_csv('/Users/tracy4528/Downloads/Clothing_Shoes_and_Jewelry_small.csv')
-df_sub=df.head(10000)
+# df = pd.read_csv('/Users/tracy4528/Downloads/Clothing_Shoes_and_Jewelry_small.csv')
+# df_sub=df.head(10000)
+# df_sub.to_csv('/Users/tracy4528/Desktop/appwork/01personal/ratings_subset.csv', index=False)
 
-df_sub.to_csv('/Users/tracy4528/Desktop/appwork/01personal/ratings_subset.csv', index=False)
+
+
+csv_url = '/Users/tracy4528/Downloads/Clothing_Shoes_and_Jewelry_small.csv'
+output_file = 'output.csv'  
+num_rows_to_extract = 10000  
+
+drink_id_mapping = {}
+
+
+with open(csv_url, 'r', newline='') as infile, open(output_file, 'w', newline='') as outfile:
+    reader = csv.reader(islice(infile, num_rows_to_extract))  
+    header = next(reader)  
+
+
+    writer = csv.writer(outfile)
+    writer.writerow(header + ['drinkID'])  
+
+    for row in reader:
+        reviewer_id, item_id, rating, time = row
+
+
+        if item_id not in drink_id_mapping:
+            drink_id_mapping[item_id] = len(drink_id_mapping) + 1
+
+        drink_id = drink_id_mapping[item_id]
+
+        writer.writerow([reviewer_id, item_id, rating, time, drink_id])
+
+
+
+
 
