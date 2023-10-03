@@ -1,8 +1,7 @@
 from flask import Flask
-from config import Config
 from flask_jwt_extended import JWTManager
 import pymysql
-from config import MysqlConfig,S3Config
+from config import MysqlConfig, S3Config
 
 my_db_conf = MysqlConfig()
 my_aws_conf = S3Config()
@@ -22,12 +21,10 @@ class User:
 
 def get_user(email):
     try:
-        # 执行查询操作
-        cursor.execute(f"SELECT * FROM user WHERE email = '{email}'")
+        cursor.execute("SELECT * FROM user WHERE email = %s", (email,))
         user_data = cursor.fetchone()
-        
+
         if user_data:
-            # 将查询结果转换为字典
             user = User(*user_data)
             return user.__dict__
         else:
@@ -38,14 +35,15 @@ def get_user(email):
 
 def create_user(user):
     try:
-        # 插入新用户数据
-        insert_query = f"""
+        insert_query = """
             INSERT INTO User (provider, email, password, name, picture, access_token, access_expired)
-            VALUES ('{user.provider}', '{user.email}', '{user.password}', '{user.name}', '{user.picture}', '{user.access_token}', {user.access_expired})
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
         """
-        cursor.execute(insert_query)
+        cursor.execute(insert_query, (user.provider, user.email, user.password, user.name, user.picture, user.access_token, user.access_expired))
         conn.commit()
-        return cursor.lastrowid  
+        return cursor.lastrowid
     except Exception as e:
         print(e)
         return None
+    finally:
+        conn.close()

@@ -5,7 +5,7 @@ from server import app
 from server.models.user_model import get_user, create_user
 from server.utils.util import dir_last_updated
 
-TOKEN_EXPIRE = app.config['TOKEN_EXPIRE']
+TOKEN_EXPIRE = 2592000
 
 def get_hashed_password(plain_text_password):
     return bcrypt.hashpw(plain_text_password.encode('utf8'), bcrypt.gensalt())
@@ -19,15 +19,13 @@ def check_password(plain_text_password, hashed_password):
 
 @app.route('/signup', methods=['GET'])
 def signup_page():
-    return render_template('signup.html', last_updated=dir_last_updated('server/static'))
+    return render_template('signup.html')
 
-# @app.route('/profile', methods=['GET'])
-# def profile_page():
-#     return render_template('profile.html', last_updated=dir_last_updated('server/static'))
+@app.route('/profile', methods=['GET'])
+def profile_page():
+    return render_template('member.html')
 
-# @app.route('/dashboard')
-# def dashboard():
-#     return render_template('dashboard.html', last_updated=dir_last_updated('server/static'))
+
 
 @app.route('/api/1.0/signin', methods=['POST'])
 def api_signin():
