@@ -11,6 +11,7 @@ from math import acos, pi
 import os
 import numpy as np
 from time import time;
+currentDateAndTime = datetime.now()
 
 BATCH_SIZE = 100
 RATING_TABLE = "rating"
@@ -44,7 +45,7 @@ def insert_similarity(similarities):
     conn.commit()
 
 def get_rating_data_from_file_1():
-    csvfile = open('/Users/tracy4528/Desktop/appwork/01personal/ratings_subset.csv')
+    csvfile = open('/Users/tracy4528/Desktop/appwork/01personal/output.csv')
     rows = csv.DictReader(csvfile)
     return rows
 
@@ -130,13 +131,13 @@ def batch_insert(item_pair_similarities, batch_size):
 def main():
     start_time = time()
 
-    filename ='/Users/tracy4528/Desktop/appwork/01personal/ratings_subset.csv'
+    filename ='output.csv'
     all_rating_data = get_rating_data_from_file(filename)
 
     user_items = defaultdict(list)
     for rating_data in all_rating_data:
         user = rating_data['reviewerID']
-        item = rating_data['itemID']
+        item = rating_data['drinkID']
         rating = float(rating_data['rating'])
         user_items[user].append((item, rating))
 
@@ -144,7 +145,6 @@ def main():
 
     item_pair_ratings = group_by_item_pair(normalized_user_items)
     item_pair_similarities = calculate_similarity(item_pair_ratings)
-    print(item_pair_similarities)
     batch_insert(item_pair_similarities, BATCH_SIZE)
 
     print("Spend Time:", time() - start_time)
