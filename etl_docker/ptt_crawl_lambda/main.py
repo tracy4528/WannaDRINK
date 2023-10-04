@@ -21,6 +21,8 @@ conn = pymysql.connect(host=os.getenv('mysql_host'),
 article_list = []
 article_data = []
 
+currentDateAndTime = datetime.now()
+
 def get_resp(url):
     cookies = {
         'over18': '1'
@@ -56,13 +58,13 @@ def get_articles(resp):
         }
 
         article_list.append(article)
-        article_data.append((title, link, push, date, today_date))
+        article_data.append((title, link, push, date, today_date,currentDateAndTime))
     
     return next_url
 
 def insert_ptt_article(article_data):
     try:
-        insert_product_sql = ("INSERT INTO `ptt_articles` (title, url, push, pulish_date, crawl_date) VALUES (%s, %s, %s, %s, %s)")
+        insert_product_sql = ("INSERT INTO `ptt_articles` (title, url, push, pulish_date, crawl_date,created_time) VALUES (%s, %s, %s, %s, %s, %s)")
         cursor = conn.cursor()
         cursor.executemany(insert_product_sql, article_data)  
         conn.commit()
@@ -110,6 +112,12 @@ def get_post_comment(url):
 
     return json_data
 
+def line_notify(message):
+    token = os.getenv('line_token')
+    headers = {"Authorization": "Bearer " + token}
+    data = {'message': message}
+    requests.post("https://notify-api.line.me/api/notify", headers=headers, data=data)
+
 def handler(event=None, context=None):
     url = 'https://www.ptt.cc/bbs/Drink/index.html'
     today_date = datetime.now().strftime("%Y%m%d")
@@ -123,6 +131,7 @@ def handler(event=None, context=None):
         print(f'======={now_page_number+1}=======')
 
     insert_ptt_article(article_data)
+
 
     for article in article_list:
         try:
@@ -145,4 +154,7 @@ def handler(event=None, context=None):
         except Exception as e:
             print(f'Error encountered: {e}')
             continue
+    
+    message = f'{today_date} finished ptt crawl! Successfully inserted {len(article_data)} articles into MySQL'
+    line_notify(message)
 
