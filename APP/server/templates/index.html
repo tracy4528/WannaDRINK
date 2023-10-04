@@ -2,12 +2,8 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
 	<title>WannaDRINK</title>
-	<link rel="stylesheet" href="static/css/all.min.css"> 
-	<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet"> 
-	<link href="static/css/magnific-popup.min.css" rel="stylesheet">
-    <link href="static/css/tooplate-style.css" rel="stylesheet">
+    <link href="static/css/main.css" rel="stylesheet">
 
 </head>
 
@@ -19,68 +15,6 @@
 			<li><a href="/api/v1/profile" >member profile</a></li>
 			<li><a href="#" class="active" data-filter="*">Show All</a></li>
 		</ul>
-		<!-- <div class="tm-gallery">				
-			<div class="tm-gallery-item city portraits">
-				<a href="img/img-01.jpg">
-					<img src="img/tn-img-01.jpg" alt="City Scape" class="img-fluid" />
-				</a>
-			</div>
-			<div class="tm-gallery-item portraits">
-				<a href="img/img-02.jpg">
-					<img src="img/tn-img-02.jpg" alt="Beautiful Lady" class="img-fluid" />
-				</a>
-			</div>
-			<div class="tm-gallery-item city">
-				<a href="img/img-03.jpg">
-					<img src="img/tn-img-03.jpg" alt="City over cloud" class="img-fluid" />
-				</a>
-			</div>
-			<div class="tm-gallery-item nature">
-				<a href="img/img-04.jpg">
-					<img src="img/tn-img-04.jpg" alt="Autumn Forest" class="img-fluid" />
-				</a>
-			</div>
-			<div class="tm-gallery-item city">
-				<a href="img/img-05.jpg">
-					<img src="img/tn-img-05.jpg" alt="Skyscrapers Reflected" class="img-fluid" />
-				</a>
-			</div>
-			<div class="tm-gallery-item city">
-				<a href="img/img-06.jpg">
-					<img src="img/tn-img-06.jpg" alt="City Night" class="img-fluid" />
-				</a>
-			</div>
-			<div class="tm-gallery-item nature portraits">
-				<a href="img/img-07.jpg">
-					<img src="img/tn-img-07.jpg" alt="Gallery item" class="img-fluid" />
-				</a>
-			</div>
-			<div class="tm-gallery-item nature">
-				<a href="img/img-08.jpg">
-					<img src="img/tn-img-08.jpg" alt="Gallery item" class="img-fluid" />
-				</a>
-			</div>
-			<div class="tm-gallery-item nature">
-				<a href="img/img-09.jpg">
-					<img src="img/tn-img-09.jpg" alt="Gallery item" class="img-fluid" />
-				</a>
-			</div>
-			<div class="tm-gallery-item nature portraits">
-				<a href="img/img-10.jpg">
-					<img src="img/tn-img-10.jpg" alt="Gallery item" class="img-fluid" />
-				</a>
-			</div>
-			<div class="tm-gallery-item nature">
-				<a href="img/img-11.jpg">
-					<img src="img/tn-img-11.jpg" alt="Gallery item" class="img-fluid" />
-				</a>
-			</div>
-			<div class="tm-gallery-item portraits">
-				<a href="img/img-12.jpg">
-					<img src="img/tn-img-12.jpg" alt="Gallery item" class="img-fluid" />
-				</a>
-			</div>
-		</div>			 -->
 	</div>
 
 	<div class="tm-container-fluid">
@@ -97,6 +31,18 @@
 			<div class="tm-about-text">
 				<p class="tm-mb-40">WannaDrink is your go-to destination for all things drinks! We're your friendly neighborhood hub for handcrafted drink recommendations and the latest buzz in the beverage world. Sip, savor, and stay in the know with WannaDrink! Cheers! 🥤🍹📢</p>
 			</div>
+		</section>
+
+		<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
+			<div class="tm-about-header tm-flex-center">
+				<h2>🥤搜尋飲料店或飲料🥤</h2>
+				<form id="contact-form" action="/search" method="POST" class="tm-contact-form">
+					<label  for="search">飲料:</label>
+					<input type="text" id="search" name="search" required><br><br>		          	
+		          	<button type="submit" class="tm-right tm-btn-submit">send</button>          	
+		        </form>  
+			</div>
+
 		</section>
 
 		<section id="today-hot-section" class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
@@ -119,29 +65,9 @@
 			</div>
 		</section>
 
-		<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
-			<div class="tm-about-header tm-flex-center">
-				<h2>🥤搜尋飲料店或飲料🥤</h2>
-				<form id="contact-form" action="/search" method="POST" class="tm-contact-form">
-					<label  for="search">飲料:</label>
-					<input type="text" id="search" name="search" required><br><br>		          	
-		          	<button type="submit" class="tm-right tm-btn-submit">send</button>          	
-		        </form>  
-			</div>
 
-		</section>
 
-		<!-- <section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
-			<div class="tm-about-header tm-flex-center">
-				<h2>🥤推薦🥤</h2>
-				<form id="contact-form" action="/api/v1/user_drink" method="POST" class="tm-contact-form">
-					<label  for="drink1">飲料:</label>
-					<input type="text" id="drink1" name="drink1" required><br><br>		          	
-		          	<button type="submit" class="tm-right tm-btn-submit">send</button>          	
-		        </form>  
-			</div>
 
-		</section> -->
 
 		<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
 			<div class="tm-about-header tm-flex-center">
