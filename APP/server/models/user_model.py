@@ -36,7 +36,7 @@ def get_user(email):
 def create_user(user):
     try:
         insert_query = """
-            INSERT INTO User (provider, email, password, name, picture, access_token, access_expired)
+            INSERT INTO user (provider, email, password, name, picture, access_token, access_expired)
             VALUES (%s, %s, %s, %s, %s, %s, %s)
         """
         cursor.execute(insert_query, (user.provider, user.email, user.password, user.name, user.picture, user.access_token, user.access_expired))
