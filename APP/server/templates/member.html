@@ -1,0 +1,33 @@
+
+<div class="profile profile__wrapper">
+  <h1 style="color:#D68B00;border:2px #ccc solid;padding:10px;" class="user">Hi Tracy </h1>
+
+  <h3>你最近評價過的飲料</h3>
+  <section class="similarity">
+    <ul>
+      {% for drink in response["recently_rated"] %}
+      <li>
+        <h3>{{ drink["store"] }}</h3>
+        <h3>{{ drink["name"] }}</h3>
+        <img src="{{ drink['imageUrl'] }}" alt="drink image" width="50%">
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <h3>你可能會喜歡！</h3>
+  <section class="drink__block">
+    <ul>
+      {% for drink in response["recommended"] %}
+      <li>
+        <h3>{{ drink["store"] }}</h3>
+        <h3>{{ drink["name"] }}</h3>
+        <img src="{{ drink['imageUrl'] }}" alt="drink image" width="50%">
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+</div>
+
+
+<!-- {% block js%}<script src="../static/js/member_page.js" type="text/javascript"></script>{% endblock %} -->

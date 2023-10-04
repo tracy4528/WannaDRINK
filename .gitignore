@@ -4,3 +4,10 @@ chrome-mac-x64/*
 .env
 dict_big.txt
 *.otf
+__pycache__
+cookies.txt
+headers_cookies.txt
+
+log
+*.log
+log

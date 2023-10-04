@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WannaDRINK</title>
+   
+    <style>
+      body {
+    margin: 0;
+    padding: 10px;
+  }
+  
+  header {
+      padding: 10px 0;
+      background-color: rgb(238,238,238); 
+      border-top: 2px solid black;
+  }
+    
+  .header{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+  }
+  .content {
+      text-align: center;
+  }
+    </style>
+  </head>
+
+  <body>
+
+    <div class="content">
+        <h1>WannaDRINK</h1>
+    </div>
+    <br>
+
+    <h2>推薦給你</h2>
+
+    <br><br><br>
+    <ul>
+        {% for recom in response["data"] %}
+            <li>
+                <h3>{{ recom["store"] }}</h3>
+                <h3>{{ recom["name"] }}</h3>
+                <img src="{{ recom['imageUrl'] }}" alt="drink image" width="50%">
+            </li>
+        {% endfor %}
+    </ul>
+
+   
+  </body>
+</html>

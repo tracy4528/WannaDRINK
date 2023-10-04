@@ -13,12 +13,12 @@
 
 <body>
 	<div class="tm-gallery-section tm-mb-80">
-		<!-- <ul class="filters-button-group tm-mb-40">
-			<li><a href="#" data-filter=".city">today Hot</a></li>
-			<li><a href="#" data-filter=".nature">Nature</a></li>
-			<li><a href="#" data-filter=".portraits">Portraits</a></li>
+		<ul class="filters-button-group tm-mb-40">
+			<li><a href="#today-hot-section" data-filter=".city">today Hot</a></li>
+			<li><a href="/map.html" >drink map</a></li>
+			<li><a href="/api/v1/profile" >member profile</a></li>
 			<li><a href="#" class="active" data-filter="*">Show All</a></li>
-		</ul> -->
+		</ul>
 		<!-- <div class="tm-gallery">				
 			<div class="tm-gallery-item city portraits">
 				<a href="img/img-01.jpg">
@@ -99,7 +99,7 @@
 			</div>
 		</section>
 
-		<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
+		<section id="today-hot-section" class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
 			<div class="tm-about-header tm-flex-center">
 				<i class="fas fa-users fa-2x"></i>
 				<h2>Hot! </h2>
@@ -109,19 +109,31 @@
 			</div>
 		</section>
 
-		<!-- <section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
+		<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
 			<div class="tm-about-header tm-flex-center">
 				<i class="fas fa-users fa-2x"></i>
 				<h2>熱門文章! </h2>
 			</div>
 			<div class="tm-about-text">
-				<p class="tm-mb-42">＃可不可🥤, ＃麻古🥤</p>
+				<p class="tm-mb-42"></p>
 			</div>
-		</section> -->
+		</section>
 
 		<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
 			<div class="tm-about-header tm-flex-center">
-				<h2>🥤輸入你喜歡的飲料種類🥤</h2>
+				<h2>🥤搜尋飲料店或飲料🥤</h2>
+				<form id="contact-form" action="/search" method="POST" class="tm-contact-form">
+					<label  for="search">飲料:</label>
+					<input type="text" id="search" name="search" required><br><br>		          	
+		          	<button type="submit" class="tm-right tm-btn-submit">send</button>          	
+		        </form>  
+			</div>
+
+		</section>
+
+		<!-- <section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
+			<div class="tm-about-header tm-flex-center">
+				<h2>🥤推薦🥤</h2>
 				<form id="contact-form" action="/api/v1/user_drink" method="POST" class="tm-contact-form">
 					<label  for="drink1">飲料:</label>
 					<input type="text" id="drink1" name="drink1" required><br><br>		          	
@@ -129,9 +141,18 @@
 		        </form>  
 			</div>
 
-			<!-- <div class="tm-contact-form-container" id="drinkResult">
-				
-			</div> -->
+		</section> -->
+
+		<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
+			<div class="tm-about-header tm-flex-center">
+				<h2>🌏飲料地圖🌏</h2>
+				<iframe class="map", src="/map.html" width="600" height="600"></iframe>
+				<a href="map.html"><b style="background-color: lightcoral; color: lightcyan;">
+					click here!
+				</b></a>
+
+
+			</div>
 		</section>
 
 
@@ -172,8 +193,6 @@
 					const response = JSON.parse(xhr.responseText);
 					const jsonData = response.data; 
 					const jsonDataElement = document.querySelector('.tm-mb-41');
-					// const jsonDataText = JSON.stringify(jsonData, null, 2);
-					// jsonDataElement.innerHTML = jsonDataText; 
 					const jsonDataItems = jsonData.map(item => `<p>${item}</p>`);
 					jsonDataElement.innerHTML = jsonDataItems.join('');
 				} else {
@@ -184,35 +203,35 @@
 			xhr.send();
 		});
 
-		// document.addEventListener('DOMContentLoaded', function () {
-		// 	const xhr = new XMLHttpRequest();
-		// 	xhr.open('GET', 'http://127.0.0.1:8000/api/v1/hot_article', true);
-		// 	xhr.onreadystatechange = function () {
-		// 		if (xhr.readyState === 4) {
-		// 		if (xhr.status === 200) {
-		// 			const response = JSON.parse(xhr.responseText);
-		// 			const articles = response.data; 
-		// 			const container = document.querySelector('.tm-mb-42');
-		// 			articles.forEach(article => {
-		// 						const link = document.createElement("a");
-		// 						link.href = article.path;
-		// 						link.textContent = article.title;
-		// 						link.target = "_blank"; // 在新标签页中打开链接
+		document.addEventListener('DOMContentLoaded', function () {
+			const xhr = new XMLHttpRequest();
+			xhr.open('GET', 'http://127.0.0.1:8000/api/v1/hot_article', true);
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState === 4) {
+				if (xhr.status === 200) {
+					const response = JSON.parse(xhr.responseText);
+					const articles = response.data; 
+					const container = document.querySelector('.tm-mb-42');
+					articles.forEach(article => {
+								const link = document.createElement("a");
+								link.href = article.path;
+								link.textContent = article.title;
+								link.target = "_blank"; // 在新标签页中打开链接
 
-		// 						// 将链接元素添加到容器中
-		// 						container.appendChild(link);
+								// 将链接元素添加到容器中
+								container.appendChild(link);
 
-		// 						// 添加换行符
-		// 						container.appendChild(document.createElement("br"));
-		// 					});
+								// 添加换行符
+								container.appendChild(document.createElement("br"));
+							});
 
-		// 		} else {
-		// 			console.error('error', xhr.status);
-		// 		}
-		// 		}
-		// 	};
-		// 	xhr.send();
-		// });
+				} else {
+					console.error('error', xhr.status);
+				}
+				}
+			};
+			xhr.send();
+		});
 
 
 	</script>
