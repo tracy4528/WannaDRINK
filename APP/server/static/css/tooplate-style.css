@@ -25,7 +25,7 @@ a {
 
 a:hover { color: #30ADAD; }
 
-.tm-about-text a { color: #9F6; }
+.tm-about-text a { color: white;}
 
 h1, h2, p, i, label, .tm-text-white { color: white; }
 
