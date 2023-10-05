@@ -1,74 +1,8 @@
-2023-10-05 01:11 WARNING  * Debugger is active!
-2023-10-05 01:11 INFO  * Debugger PIN: 775-258-130
-2023-10-05 01:11 INFO 127.0.0.1 - - [05/Oct/2023 01:11:12] "GET / HTTP/1.1" 200 -
-2023-10-05 01:11 INFO 127.0.0.1 - - [05/Oct/2023 01:11:13] "GET /static/css/main.css HTTP/1.1" 200 -
-2023-10-05 01:11 INFO 127.0.0.1 - - [05/Oct/2023 01:11:13] "GET /api/v1/hotword HTTP/1.1" 200 -
-2023-10-05 01:11 INFO 127.0.0.1 - - [05/Oct/2023 01:11:13] "GET /map.html HTTP/1.1" 200 -
-2023-10-05 01:11 INFO 127.0.0.1 - - [05/Oct/2023 01:11:13] "GET /api/v1/hot_article HTTP/1.1" 200 -
-2023-10-05 01:11 INFO 127.0.0.1 - - [05/Oct/2023 01:11:16] "GET /drink_quiz HTTP/1.1" 200 -
-2023-10-05 01:12 INFO 127.0.0.1 - - [05/Oct/2023 01:12:25] "GET / HTTP/1.1" 200 -
-2023-10-05 01:12 INFO 127.0.0.1 - - [05/Oct/2023 01:12:25] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
-2023-10-05 01:12 INFO 127.0.0.1 - - [05/Oct/2023 01:12:25] "GET /api/v1/hotword HTTP/1.1" 200 -
-2023-10-05 01:12 INFO 127.0.0.1 - - [05/Oct/2023 01:12:25] "GET /api/v1/hot_article HTTP/1.1" 200 -
-2023-10-05 01:12 INFO 127.0.0.1 - - [05/Oct/2023 01:12:54] "GET / HTTP/1.1" 200 -
-2023-10-05 01:12 INFO 127.0.0.1 - - [05/Oct/2023 01:12:54] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
-2023-10-05 01:12 INFO 127.0.0.1 - - [05/Oct/2023 01:12:54] "GET /api/v1/hotword HTTP/1.1" 200 -
-2023-10-05 01:12 INFO 127.0.0.1 - - [05/Oct/2023 01:12:54] "GET /api/v1/hot_article HTTP/1.1" 200 -
-2023-10-05 01:18 INFO 127.0.0.1 - - [05/Oct/2023 01:18:09] "GET / HTTP/1.1" 200 -
-2023-10-05 01:18 INFO 127.0.0.1 - - [05/Oct/2023 01:18:09] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
-2023-10-05 01:18 INFO 127.0.0.1 - - [05/Oct/2023 01:18:09] "GET /api/v1/hotword HTTP/1.1" 200 -
-2023-10-05 01:18 INFO 127.0.0.1 - - [05/Oct/2023 01:18:09] "GET /api/v1/hot_article HTTP/1.1" 200 -
-2023-10-05 01:18 INFO 127.0.0.1 - - [05/Oct/2023 01:18:34] "GET / HTTP/1.1" 200 -
-2023-10-05 01:18 INFO 127.0.0.1 - - [05/Oct/2023 01:18:34] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
-2023-10-05 01:18 INFO 127.0.0.1 - - [05/Oct/2023 01:18:34] "GET /api/v1/hotword HTTP/1.1" 200 -
-2023-10-05 01:18 INFO 127.0.0.1 - - [05/Oct/2023 01:18:34] "GET /api/v1/hot_article HTTP/1.1" 200 -
-2023-10-05 01:21 INFO 127.0.0.1 - - [05/Oct/2023 01:21:16] "GET / HTTP/1.1" 200 -
-2023-10-05 01:21 INFO 127.0.0.1 - - [05/Oct/2023 01:21:16] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
-2023-10-05 01:21 INFO 127.0.0.1 - - [05/Oct/2023 01:21:16] "GET /api/v1/hotword HTTP/1.1" 200 -
-2023-10-05 01:21 INFO 127.0.0.1 - - [05/Oct/2023 01:21:16] "GET /api/v1/hot_article HTTP/1.1" 200 -
-2023-10-05 01:21 INFO 127.0.0.1 - - [05/Oct/2023 01:21:25] "GET /api/v1/hot_article HTTP/1.1" 200 -
-2023-10-05 01:21 INFO 127.0.0.1 - - [05/Oct/2023 01:21:31] "GET /api/v1/hotword HTTP/1.1" 200 -
-2023-10-05 01:22 INFO 127.0.0.1 - - [05/Oct/2023 01:22:14] "GET / HTTP/1.1" 200 -
-2023-10-05 01:22 INFO 127.0.0.1 - - [05/Oct/2023 01:22:14] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
-2023-10-05 01:22 INFO 127.0.0.1 - - [05/Oct/2023 01:22:14] "GET /api/v1/hotword HTTP/1.1" 200 -
-2023-10-05 01:22 INFO 127.0.0.1 - - [05/Oct/2023 01:22:14] "GET /api/v1/hot_article HTTP/1.1" 200 -
-2023-10-05 01:22 INFO 127.0.0.1 - - [05/Oct/2023 01:22:24] "GET / HTTP/1.1" 200 -
-2023-10-05 01:22 INFO 127.0.0.1 - - [05/Oct/2023 01:22:24] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
-2023-10-05 01:22 INFO 127.0.0.1 - - [05/Oct/2023 01:22:24] "GET /api/v1/hotword HTTP/1.1" 200 -
-2023-10-05 01:22 INFO 127.0.0.1 - - [05/Oct/2023 01:22:24] "GET /api/v1/hot_article HTTP/1.1" 200 -
-2023-10-05 01:23 INFO 127.0.0.1 - - [05/Oct/2023 01:23:09] "GET / HTTP/1.1" 200 -
-2023-10-05 01:23 INFO 127.0.0.1 - - [05/Oct/2023 01:23:09] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
-2023-10-05 01:23 INFO 127.0.0.1 - - [05/Oct/2023 01:23:09] "GET /api/v1/hot_article HTTP/1.1" 200 -
-2023-10-05 01:23 INFO 127.0.0.1 - - [05/Oct/2023 01:23:51] "GET / HTTP/1.1" 200 -
-2023-10-05 01:23 INFO 127.0.0.1 - - [05/Oct/2023 01:23:51] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
-2023-10-05 01:23 INFO 127.0.0.1 - - [05/Oct/2023 01:23:51] "GET /api/v1/hot_article HTTP/1.1" 200 -
-2023-10-05 01:24 INFO 127.0.0.1 - - [05/Oct/2023 01:24:08] "GET / HTTP/1.1" 200 -
-2023-10-05 01:24 INFO 127.0.0.1 - - [05/Oct/2023 01:24:08] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
-2023-10-05 01:24 INFO 127.0.0.1 - - [05/Oct/2023 01:24:09] "GET /api/v1/hot_article HTTP/1.1" 200 -
-2023-10-05 01:24 INFO 127.0.0.1 - - [05/Oct/2023 01:24:09] "GET / HTTP/1.1" 200 -
-2023-10-05 01:24 INFO 127.0.0.1 - - [05/Oct/2023 01:24:09] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
-2023-10-05 01:24 INFO 127.0.0.1 - - [05/Oct/2023 01:24:09] "GET /api/v1/hot_article HTTP/1.1" 200 -
-2023-10-05 01:24 INFO 127.0.0.1 - - [05/Oct/2023 01:24:11] "GET / HTTP/1.1" 200 -
-2023-10-05 01:24 INFO 127.0.0.1 - - [05/Oct/2023 01:24:11] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
-2023-10-05 01:24 INFO 127.0.0.1 - - [05/Oct/2023 01:24:11] "GET /api/v1/hot_article HTTP/1.1" 200 -
-2023-10-05 01:24 INFO 127.0.0.1 - - [05/Oct/2023 01:24:21] "GET /api/v1/profile HTTP/1.1" 200 -
-2023-10-05 01:24 INFO 127.0.0.1 - - [05/Oct/2023 01:24:21] "[33mGET /api/v1/static/css/main.css HTTP/1.1[0m" 404 -
-2023-10-05 01:24 INFO 127.0.0.1 - - [05/Oct/2023 01:24:28] "GET / HTTP/1.1" 200 -
-2023-10-05 01:24 INFO 127.0.0.1 - - [05/Oct/2023 01:24:28] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
-2023-10-05 01:24 INFO 127.0.0.1 - - [05/Oct/2023 01:24:28] "GET /api/v1/hot_article HTTP/1.1" 200 -
-2023-10-05 01:24 INFO 127.0.0.1 - - [05/Oct/2023 01:24:41] "POST /search HTTP/1.1" 200 -
-2023-10-05 09:07 INFO 127.0.0.1 - - [05/Oct/2023 09:07:04] "GET / HTTP/1.1" 200 -
-2023-10-05 09:07 INFO 127.0.0.1 - - [05/Oct/2023 09:07:04] "GET /static/css/main.css HTTP/1.1" 200 -
-2023-10-05 09:07 WARNING [Error] Query hot article : (2013, 'Lost connection to MySQL server during query ([Errno 60] Operation timed out)')
-2023-10-05 09:07 INFO 127.0.0.1 - - [05/Oct/2023 09:07:28] "GET /api/v1/hot_article HTTP/1.1" 200 -
-2023-10-05 09:08 INFO 127.0.0.1 - - [05/Oct/2023 09:08:12] "GET / HTTP/1.1" 200 -
-2023-10-05 09:08 INFO 127.0.0.1 - - [05/Oct/2023 09:08:13] "GET /static/css/main.css HTTP/1.1" 200 -
-2023-10-05 09:08 WARNING [Error] Query hot article : (0, '')
-2023-10-05 09:08 INFO 127.0.0.1 - - [05/Oct/2023 09:08:13] "GET /api/v1/hot_article HTTP/1.1" 200 -
-2023-10-05 09:08 INFO 127.0.0.1 - - [05/Oct/2023 09:08:31] "GET / HTTP/1.1" 200 -
-2023-10-05 09:08 INFO 127.0.0.1 - - [05/Oct/2023 09:08:31] "GET /static/css/main.css HTTP/1.1" 200 -
-2023-10-05 09:08 WARNING [Error] Query hot article : (0, '')
-2023-10-05 09:08 INFO 127.0.0.1 - - [05/Oct/2023 09:08:31] "GET /api/v1/hot_article HTTP/1.1" 200 -
-2023-10-05 09:37 WARNING [Error] searching bar: (0, '')
-2023-10-05 09:37 INFO 127.0.0.1 - - [05/Oct/2023 09:37:21] "POST /search HTTP/1.1" 200 -
-2023-10-05 09:48 INFO 127.0.0.1 - - [05/Oct/2023 09:48:47] "GET /drink_quiz HTTP/1.1" 200 -
+2023-10-05 19:59 WARNING  * Debugger is active!
+2023-10-05 19:59 INFO  * Debugger PIN: 775-258-130
+2023-10-05 19:59 INFO 127.0.0.1 - - [05/Oct/2023 19:59:33] "GET /admin/dashboard.html/ HTTP/1.1" 200 -
+2023-10-05 19:59 INFO 127.0.0.1 - - [05/Oct/2023 19:59:33] "GET /admin/dashboard.html/_dash-layout HTTP/1.1" 200 -
+2023-10-05 19:59 INFO 127.0.0.1 - - [05/Oct/2023 19:59:33] "GET /admin/dashboard.html/_dash-dependencies HTTP/1.1" 200 -
+2023-10-05 19:59 INFO 127.0.0.1 - - [05/Oct/2023 19:59:33] "GET /admin/dashboard.html/_favicon.ico?v=2.11.1 HTTP/1.1" 200 -
+2023-10-05 19:59 INFO 127.0.0.1 - - [05/Oct/2023 19:59:33] "[36mGET /admin/dashboard.html/_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1[0m" 304 -
+2023-10-05 19:59 INFO 127.0.0.1 - - [05/Oct/2023 19:59:33] "[36mGET /admin/dashboard.html/_dash-component-suites/dash/dcc/async-plotlyjs.js HTTP/1.1[0m" 304 -

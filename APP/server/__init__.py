@@ -1,5 +1,4 @@
 from flask import Flask
-# from flask_jwt_extended import JWTManager
 from werkzeug.exceptions import HTTPException
 
 
@@ -20,4 +19,4 @@ def handle_exception(e):
         return e
     return "Internal Server Error", 500
 
-from server.controllers import drink_controller, user_controller
+from server.controllers import drink_controller,dashboard_controller
