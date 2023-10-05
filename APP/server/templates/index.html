@@ -10,10 +10,10 @@
 <body>
 	<div class="tm-gallery-section tm-mb-80">
 		<ul class="filters-button-group tm-mb-40">
-			<li><a href="#today-hot-section" data-filter=".city">today Hot</a></li>
+			<li><a href="/api/v1/hotword" >today Hot</a></li>
 			<li><a href="/map.html" >drink map</a></li>
 			<li><a href="/api/v1/profile" >member profile</a></li>
-			<li><a href="#" class="active" data-filter="*">Show All</a></li>
+			<li><a href="/drink_quiz" class="active" data-filter="*">手搖飲大會考</a></li>
 		</ul>
 	</div>
 
@@ -35,9 +35,8 @@
 
 		<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
 			<div class="tm-about-header tm-flex-center">
-				<h2>🥤搜尋飲料店或飲料🥤</h2>
+				<h2>🥤搜尋飲料店🥤</h2>
 				<form id="contact-form" action="/search" method="POST" class="tm-contact-form">
-					<label  for="search">飲料:</label>
 					<input type="text" id="search" name="search" required><br><br>		          	
 		          	<button type="submit" class="tm-right tm-btn-submit">send</button>          	
 		        </form>  
@@ -50,12 +49,12 @@
 				<i class="fas fa-users fa-2x"></i>
 				<h2>Hot! </h2>
 			</div>
-			<div class="tm-about-text">
-				<p class="tm-mb-41">＃可不可🥤, ＃麻古🥤</p>
+			<div class="tm-about-text" id="hotword-container">
+				<p class="tm-mb-41">烏弄         清心-蜜桃凍紅茶         八曜           得正            大茗           一沐日</p>
 			</div>
 		</section>
 
-		<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
+		<!-- <section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
 			<div class="tm-about-header tm-flex-center">
 				<i class="fas fa-users fa-2x"></i>
 				<h2>熱門文章! </h2>
@@ -79,7 +78,7 @@
 
 
 			</div>
-		</section>
+		</section> -->
 
 
 
@@ -109,25 +108,29 @@
             xhr.send("drinkName=" + encodeURIComponent(drinkName));
         }
 
+	// 	document.addEventListener('DOMContentLoaded', function () {
+    //     const xhr = new XMLHttpRequest();
+    //     xhr.open('GET', 'http://127.0.0.1:8000/api/v1/hotword', true);
+    //     xhr.onreadystatechange = function () {
+    //         if (xhr.readyState === 4) {
+    //             if (xhr.status === 200) {
+    //                 const response = JSON.parse(xhr.responseText);
+    //                 const jsonData = response.data; 
+    //                 const jsonDataElement = document.getElementById('hotword-container');
+    //                 jsonData.forEach(function(item, index) {
+    //                     if (index % 4 === 0 && index !== 0) {
+    //                         jsonDataElement.innerHTML += '<br>';
+    //                     }
+    //                     jsonDataElement.innerHTML += `<p>${item}</p>`;
+    //                 });
+    //             } else {
+    //                 console.error('error', xhr.status);
+    //             }
+    //         }
+    //     };
+    //     xhr.send();
+    // });
 
-		document.addEventListener('DOMContentLoaded', function () {
-			const xhr = new XMLHttpRequest();
-			xhr.open('GET', 'http://127.0.0.1:8000/api/v1/hotword', true);
-			xhr.onreadystatechange = function () {
-				if (xhr.readyState === 4) {
-				if (xhr.status === 200) {
-					const response = JSON.parse(xhr.responseText);
-					const jsonData = response.data; 
-					const jsonDataElement = document.querySelector('.tm-mb-41');
-					const jsonDataItems = jsonData.map(item => `<p>${item}</p>`);
-					jsonDataElement.innerHTML = jsonDataItems.join('');
-				} else {
-					console.error('error', xhr.status);
-				}
-				}
-			};
-			xhr.send();
-		});
 
 		document.addEventListener('DOMContentLoaded', function () {
 			const xhr = new XMLHttpRequest();

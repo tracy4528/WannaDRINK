@@ -35,10 +35,13 @@ wannadrink_logger.setLevel(wannadrink_logger.level)
 def hello():
     return render_template("index.html")
 
+@app.route('/drink_quiz')
+def drink_quiz():
+    return render_template('drink_quiz.html')
+
 @app.route('/map.html')
 def map():
     return render_template('map.html')
-
 
 
 @app.route('/api/v1/hotword', methods=['GET'])
