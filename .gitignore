@@ -9,3 +9,7 @@ headers_cookies.txt
 cookies.txt
 test.py
 img/
+log
+*.log
+log
+test.py

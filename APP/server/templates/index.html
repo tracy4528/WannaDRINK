@@ -10,8 +10,8 @@
 <body>
 	<div class="tm-gallery-section tm-mb-80">
 		<ul class="filters-button-group tm-mb-40">
-			<li><a href="/api/v1/hotword" >today Hot</a></li>
-			<li><a href="/map.html" >drink map</a></li>
+			<li><a href="/dashboard" >最近紅什麼</a></li>
+			<li><a href="/map.html" >🌏飲料地圖</a></li>
 			<li><a href="/api/v1/profile" >member profile</a></li>
 			<li><a href="/drink_quiz" class="active" data-filter="*">手搖飲大會考</a></li>
 		</ul>
@@ -44,43 +44,6 @@
 
 		</section>
 
-		<section id="today-hot-section" class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
-			<div class="tm-about-header tm-flex-center">
-				<i class="fas fa-users fa-2x"></i>
-				<h2>Hot! </h2>
-			</div>
-			<div class="tm-about-text" id="hotword-container">
-				<p class="tm-mb-41">烏弄         清心-蜜桃凍紅茶         八曜           得正            大茗           一沐日</p>
-			</div>
-		</section>
-
-		<!-- <section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
-			<div class="tm-about-header tm-flex-center">
-				<i class="fas fa-users fa-2x"></i>
-				<h2>熱門文章! </h2>
-			</div>
-			<div class="tm-about-text">
-				<p class="tm-mb-42"></p>
-			</div>
-		</section>
-
-
-
-
-
-		<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
-			<div class="tm-about-header tm-flex-center">
-				<h2>🌏飲料地圖🌏</h2>
-				<iframe class="map", src="/map.html" width="600" height="600"></iframe>
-				<a href="map.html"><b style="background-color: lightcoral; color: lightcyan;">
-					click here!
-				</b></a>
-
-
-			</div>
-		</section> -->
-
-
 
 		<footer class="tm-footer">
 			 2023 WannaDRINK - Design: Tracy Huang
@@ -108,61 +71,40 @@
             xhr.send("drinkName=" + encodeURIComponent(drinkName));
         }
 
-	// 	document.addEventListener('DOMContentLoaded', function () {
-    //     const xhr = new XMLHttpRequest();
-    //     xhr.open('GET', 'http://127.0.0.1:8000/api/v1/hotword', true);
-    //     xhr.onreadystatechange = function () {
-    //         if (xhr.readyState === 4) {
-    //             if (xhr.status === 200) {
-    //                 const response = JSON.parse(xhr.responseText);
-    //                 const jsonData = response.data; 
-    //                 const jsonDataElement = document.getElementById('hotword-container');
-    //                 jsonData.forEach(function(item, index) {
-    //                     if (index % 4 === 0 && index !== 0) {
-    //                         jsonDataElement.innerHTML += '<br>';
-    //                     }
-    //                     jsonDataElement.innerHTML += `<p>${item}</p>`;
-    //                 });
-    //             } else {
-    //                 console.error('error', xhr.status);
-    //             }
-    //         }
-    //     };
-    //     xhr.send();
-    // });
 
 
-		document.addEventListener('DOMContentLoaded', function () {
-			const xhr = new XMLHttpRequest();
-			xhr.open('GET', 'http://127.0.0.1:8000/api/v1/hot_article', true);
-			xhr.onreadystatechange = function () {
-				if (xhr.readyState === 4) {
-				if (xhr.status === 200) {
-					const response = JSON.parse(xhr.responseText);
-					const articles = response.data; 
-					const container = document.querySelector('.tm-mb-42');
-					articles.forEach(article => {
-								const link = document.createElement("a");
-								link.href = article.path;
-								link.textContent = article.title;
-								link.target = "_blank"; // 在新标签页中打开链接
 
-								// 将链接元素添加到容器中
-								container.appendChild(link);
+		// document.addEventListener('DOMContentLoaded', function () {
+		// 	const xhr = new XMLHttpRequest();
+		// 	xhr.open('GET', 'http://127.0.0.1:8000/api/v1/hot_article', true);
+		// 	xhr.onreadystatechange = function () {
+		// 		if (xhr.readyState === 4) {
+		// 		if (xhr.status === 200) {
+		// 			const response = JSON.parse(xhr.responseText);
+		// 			const articles = response.data; 
+		// 			const container = document.querySelector('.tm-mb-42');
+		// 			articles.forEach(article => {
+		// 						const link = document.createElement("a");
+		// 						link.href = article.path;
+		// 						link.textContent = article.title;
+		// 						link.target = "_blank"; // 在新标签页中打开链接
 
-								// 添加换行符
-								container.appendChild(document.createElement("br"));
-							});
+		// 						// 将链接元素添加到容器中
+		// 						container.appendChild(link);
 
-				} else {
-					console.error('error', xhr.status);
-				}
-				}
-			};
-			xhr.send();
-		});
+		// 						// 添加换行符
+		// 						container.appendChild(document.createElement("br"));
+		// 					});
+
+		// 		} else {
+		// 			console.error('error', xhr.status);
+		// 		}
+		// 		}
+		// 	};
+		// 	xhr.send();
+		// });
 
 
 	</script>
-</body>
+
 </html>
