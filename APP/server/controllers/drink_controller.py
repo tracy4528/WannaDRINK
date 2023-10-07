@@ -35,10 +35,13 @@ wannadrink_logger.setLevel(wannadrink_logger.level)
 def hello():
     return render_template("index.html")
 
+@app.route('/drink_quiz')
+def drink_quiz():
+    return render_template('drink_quiz.html')
+
 @app.route('/map.html')
 def map():
     return render_template('map.html')
-
 
 
 @app.route('/api/v1/hotword', methods=['GET'])
@@ -139,18 +142,35 @@ def search_bar():
         search = request.form.get("search")
         search="%"+search+"%"
         cursor = conn.cursor()
-        sql = f"SELECT * FROM drink_list where name like '{search}'or store like'{search}' group by store  limit 15;"
+        sql = f"SELECT store,image_url FROM drink_list where name like '{search}'or store like'{search}' group by store  limit 15;"
         cursor.execute(sql)
         keyword = cursor.fetchall()
-        data= [
+
+        sql_cursor = conn.cursor()
+        sql_google=f"SELECT store,article_link,article_title FROM google_search_article where store like '{search}' limit 4;"
+        sql_cursor.execute(sql_google)
+        hot= sql_cursor.fetchall()
+
+        data = [
             {
                 "store": v["store"],
-                "img":v["image_url"]
-                                }
+                "img": v["image_url"]
+            }
             for v in keyword
         ]
-        response={
-            'data':data
+
+        article = [
+            {
+                'title':v['article_title'],
+                "url": v["article_link"]
+            }
+            for v in hot
+        ]
+
+        response = {
+            'data': data,
+            'article':article
+
         }
 
     except Exception as e:
@@ -160,7 +180,7 @@ def search_bar():
         wannadrink_logger.warning(f"[Error] searching bar: {e}")
     finally:
         cursor.close()
-
+    
     return render_template('search_result.html',response=response)
 
 @app.route("/api/v1/menu", methods=['GET'])
