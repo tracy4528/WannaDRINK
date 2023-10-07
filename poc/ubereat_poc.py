@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 import io
 import bs4
 load_dotenv()
-url='https://www.ubereats.com/search?diningMode=DELIVERY&pl=JTdCJTIyYWRkcmVzcyUyMiUzQSUyMiVFNSU4RiVCMCVFNSU4QyU5NyVFNSU4NSVBQyVFOSVBNCVBOCVFNSVBNCU5QyVFNSVCOCU4MiUyMiUyQyUyMnJlZmVyZW5jZSUyMiUzQSUyMkNoSUpWVlZWVlJXc1FqUVJ3UUg2V1RmVGZQQSUyMiUyQyUyMnJlZmVyZW5jZVR5cGUlMjIlM0ElMjJnb29nbGVfcGxhY2VzJTIyJTJDJTIybGF0aXR1ZGUlMjIlM0EyNS4wMTM3ODczJTJDJTIybG9uZ2l0dWRlJTIyJTNBMTIxLjUzNDc4NjUlN0Q%3D&q=Bubble%20Tea&sc=SHORTCUTS'
+url='https://www.ubereats.com/tw/store/一沐日台中中華店/jKlf48eWQM-FiWOWwQC2UQ?diningMode=DELIVERY'
 # url='https://www.ubereats.com/tw/store/%E4%BA%94%E6%A1%90%E8%99%9Fwootea-%E5%85%AC%E9%A4%A8%E5%BA%97/kDCmfj9BTEWDGOXyeF99vA'
 s3 = boto3.client('s3',
                     region_name='ap-northeast-1',
@@ -44,13 +44,14 @@ def uber_spider_check():
     r = requests.get(url, headers=headers)
     
     if r.status_code == 200:
+        html_content = r.text
         soup = BeautifulSoup(r.content, 'lxml')
-        tests=soup.find_all("div", class_="hm o8 o9")
+        tests=soup.find_all("span", class_="p3 m3 p4 dc dd dl f0 b1", limit=10)
         print(tests)
         for test in tests:
-            rate = soup.find("a", class_="spacer _4")
-            link=soup.find('a', {'data-testid': 'store-card'})['href']
-            print(link)
+            # rate = soup.find("a", class_="spacer _4")
+            # link=soup.find('a', {'data-testid': 'store-card'})['href']
+            print(test)
 
 
         # test=soup.find_all("h1", class_="bl bn bm bk", limit=2)
@@ -64,9 +65,12 @@ def uber_spider_check():
         # s3_object_key = 'ubereat/' + html_file_name
 
         # s3.upload_fileobj(io.BytesIO(html_content), bucket_name, s3_object_key)
-        html_file_name='/Users/tracy4528/Downloads/uber_list.json'
-        with open(html_file_name, 'w') as html_file:
-            html_file.write(soup.prettify())
+        with open('web_page.json', 'w', encoding='utf-8') as json_file:
+            json.dump({'html_content': html_content}, json_file, ensure_ascii=False, indent=4)
+
+        # html_file_name='/Users/tracy4528/Downloads/uber_store.json'
+        # with open(html_file_name, 'w') as html_file:
+        #     html_file.write(soup.prettify())
 
 
         print('done')

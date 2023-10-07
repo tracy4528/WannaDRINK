@@ -1,4 +1,5 @@
 # 使用 AWS Lambda 的 Python 執行環境作為基本映像
+sha256:e11f4ccfe20b5a48625eecdf74c3c3e2c94fbb49fa16b19310b62743dfa39ed8
 FROM public.ecr.aws/lambda/python@sha256:c80401611e707039b37b5cd24b21f01bbcfa2583030123aee375cbcfa5becd5d
 
 # 安裝所需的系統套件
