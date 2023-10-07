@@ -2,73 +2,118 @@
 <html>
   <head>
     <title>WannaDRINK</title>
-   
-    <style>
-      body {
-    margin: 0;
-    padding: 10px;
-  }
-  
-  header {
-      padding: 10px 0;
-      background-color: rgb(238,238,238); 
-      border-top: 2px solid black;
-  }
-    
-  .header{
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-  }
-  .content {
-      text-align: center;
-  }
-    </style>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+
   </head>
+
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+    }
+
+    .container {
+        padding: 20px;
+    }
+
+    .media {
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-bottom: 10px;
+        background-color: white;
+    }
+
+    .media img {
+        max-width: 100px;
+        height: auto;
+    }
+
+    .media-body {
+        margin-left: 20px;
+    }
+
+    h4 {
+        color: #333;
+    }
+
+    p {
+        color: #777;
+    }
+</style>
+
 
   <body>
 
-    <div class="content">
-        <h1>WannaDRINK</h1>
-    </div>
+    <nav class="navbar navbar-light bg-light">
+      <span class="navbar-brand mb-0 h1">WannaDRINK</span>
+    </nav>
     <br>
 
-    <h2>搜尋結果</h2>
+    <div class="container mt-4">
+      <h2>搜尋結果</h2>
+    </div>
 
     <br><br><br>
-    <ul>
+    <div class="container">
+      <ul class="list-group">
         {% for search in response["data"] %}
-            <li>
-                <a href="/api/v1/menu?keyword={{ search['store'] }}">
-                    <h3>{{ search["store"] }}</h3>
-                    <img src="{{ search['img'] }}" alt="store image" width="50%">
-
-                </a>
-
-            </li>
+        <li class="list-group-item">
+          <a
+            href="/api/v1/menu?keyword={{ search['store'] }}"
+            class="text-decoration-none"
+          >
+            <div class="row align-items-center">
+              <div class="col-6">
+                <h3>{{ search["store"] }}</h3>
+              </div>
+              <div class="col-6 text-right">
+                <img
+                  src="{{ search['img'] }}"
+                  alt="store image"
+                  class="img-fluid"
+                />
+              </div>
+            </div>
+          </a>
+        </li>
         {% endfor %}
-    </ul>
+      </ul>
+    </div>
+
     <br><br><br>
-    <ul>
 
-      <li>
-        <a href="https://www.518.com.tw/article/2220">
-          <p>
-            2023年50嵐飲料菜單推薦喝什麼？Dcard網友推薦經典10款必喝，加碼分享隱藏點法
-          </p>
-          <img src='https://photo.518.com.tw/selfmedia/articles/2220/169139120017784.jpeg' alt="store image" width="20%">
-        </a>
-      </li>
-      <li>
-        <a href="https://news.ebc.net.tw/news/living/301586">
-          <p>
-            50嵐點什麼才內行？內行推2神飲：直接喝爆
-          </p>
-          <img src='https://img.news.ebc.net.tw/EbcNews/news/2022/02/08/1644355801_91073.jpg' alt="store image" width="20%">
-        </a>
-      </li>
+    <div class="container mt-4">
+      <ul class="list-unstyled">
+        {% for search in response["article"] %}
+        <li class="media">
+          <a
+            href="{{ search['url'] }}"
+            class="text-decoration-none"
+          >
+            <!-- <img
+              src="https://photo.518.com.tw/selfmedia/articles/2220/169139120017784.jpeg"
+              alt="store image"
+              class="mr-3"
+              width="20%"
+            /> -->
+            <div class="media-body">
+              <p class="mb-0">
+                "{{ search['title'] }}"
+              </p>
+            </div>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
 
-    </ul>
+    <!-- 引入 Bootstrap JavaScript 库 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
    
   </body>

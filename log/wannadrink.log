@@ -1,8 +1,6 @@
-2023-10-05 19:59 WARNING  * Debugger is active!
-2023-10-05 19:59 INFO  * Debugger PIN: 775-258-130
-2023-10-05 19:59 INFO 127.0.0.1 - - [05/Oct/2023 19:59:33] "GET /admin/dashboard.html/ HTTP/1.1" 200 -
-2023-10-05 19:59 INFO 127.0.0.1 - - [05/Oct/2023 19:59:33] "GET /admin/dashboard.html/_dash-layout HTTP/1.1" 200 -
-2023-10-05 19:59 INFO 127.0.0.1 - - [05/Oct/2023 19:59:33] "GET /admin/dashboard.html/_dash-dependencies HTTP/1.1" 200 -
-2023-10-05 19:59 INFO 127.0.0.1 - - [05/Oct/2023 19:59:33] "GET /admin/dashboard.html/_favicon.ico?v=2.11.1 HTTP/1.1" 200 -
-2023-10-05 19:59 INFO 127.0.0.1 - - [05/Oct/2023 19:59:33] "[36mGET /admin/dashboard.html/_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1[0m" 304 -
-2023-10-05 19:59 INFO 127.0.0.1 - - [05/Oct/2023 19:59:33] "[36mGET /admin/dashboard.html/_dash-component-suites/dash/dcc/async-plotlyjs.js HTTP/1.1[0m" 304 -
+2023-10-07 15:10 WARNING  * Debugger is active!
+2023-10-07 15:10 INFO  * Debugger PIN: 775-258-130
+2023-10-07 15:10 INFO 127.0.0.1 - - [07/Oct/2023 15:10:57] "GET / HTTP/1.1" 200 -
+2023-10-07 15:10 INFO 127.0.0.1 - - [07/Oct/2023 15:10:57] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+2023-10-07 15:28 INFO  * Detected change in '/Users/tracy4528/Desktop/appw2023-10-07 15:28 INFO  * Restarting with stat
+ing
