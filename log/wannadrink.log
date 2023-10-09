@@ -1,6 +1,11 @@
-2023-10-07 15:10 WARNING  * Debugger is active!
-2023-10-07 15:10 INFO  * Debugger PIN: 775-258-130
-2023-10-07 15:10 INFO 127.0.0.1 - - [07/Oct/2023 15:10:57] "GET / HTTP/1.1" 200 -
-2023-10-07 15:10 INFO 127.0.0.1 - - [07/Oct/2023 15:10:57] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
-2023-10-07 15:28 INFO  * Detected change in '/Users/tracy4528/Desktop/appw2023-10-07 15:28 INFO  * Restarting with stat
-ing
+2023-10-09 15:02 WARNING  * Debugger is active!
+2023-10-09 15:02 INFO  * Debugger PIN: 775-258-130
+2023-10-09 15:02 INFO 127.0.0.1 - - [09/Oct/2023 15:02:19] "POST /dashboard/_dash-update-component HTTP/1.1" 200 -
+2023-10-09 15:02 INFO 127.0.0.1 - - [09/Oct/2023 15:02:20] "POST /dashboard/_dash-update-component HTTP/1.1" 200 -
+2023-10-09 15:02 INFO 127.0.0.1 - - [09/Oct/2023 15:02:24] "POST /dashboard/_dash-update-component HTTP/1.1" 200 -
+2023-10-09 15:08 INFO 127.0.0.1 - - [09/Oct/2023 15:08:57] "GET / HTTP/1.1" 200 -
+2023-10-09 15:08 INFO 127.0.0.1 - - [09/Oct/2023 15:08:57] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+2023-10-09 15:09 INFO 127.0.0.1 - - [09/Oct/2023 15:09:11] "POST /search HTTP/1.1" 200 -
+2023-10-09 15:09 INFO 127.0.0.1 - - [09/Oct/2023 15:09:20] "GET /map.html HTTP/1.1" 200 -
+2023-10-09 15:09 INFO 127.0.0.1 - - [09/Oct/2023 15:09:43] "POST /search HTTP/1.1" 200 -
+2023-10-09 15:09 INFO 127.0.0.1 - - [09/Oct/2023 15:09:46] "GET /api/v1/menu?keyword=50嵐 HTTP/1.1" 200 -
