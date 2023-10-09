@@ -18,8 +18,7 @@ s3 = boto3.client('s3',
                   aws_secret_access_key=os.getenv('iam_drink_secretkey'))
 comments = []
 s3_bucket_name='wannadrink'
-s3_folder_path = 'ptt/20230925/'
-s3_object_key='ptt/20230925/1246536510.json'
+s3_folder_path = 'ptt/20231003/'
 
 
 conn = pymysql.connect(host=os.getenv('mysql_host'), 
@@ -31,25 +30,10 @@ cursor = conn.cursor()
 
 
 
-comments = []
 
 
-def dict():
-    sql='SELECT original_name FROM foodpanda_store_code;'
-    cursor.execute(sql)
-    names = cursor.fetchall()
-    sql_p='SELECT name FROM foodpanda;'
-    cursor.execute(sql_p)
-    products = cursor.fetchall()
-    with open('dict.txt', 'w', encoding='utf-8') as f:
-        for name in names:
-            f.write(name[0] + '\n')
-    with open('dict.txt', 'a', encoding='utf-8') as f:
-        for product in products:
-            f.write(product[0] + '\n')
-    cursor.close()
-
-def extract_comments_from_s3():
+def extract_comments_from_s3(s3_folder_path):
+    comments = []
     objects = s3.list_objects_v2(Bucket=s3_bucket_name, Prefix=s3_folder_path)
     for obj in objects.get('Contents'):
         file_name = obj.get('Key')
@@ -62,17 +46,28 @@ def extract_comments_from_s3():
                 comments.extend([comment['content'] for comment in data['comments']])
             if 'content' in data:
                 comments.extend([data['content']])
-            
-extract_comments_from_s3()
+    return comments
 
-jieba.load_userdict('./dict_big.txt')
-jieba.analyse.set_stop_words('./stops.txt')
-comment_text = ' '.join(comments).encode('utf-8').decode('utf-8')
-segmented_text = " ".join(jieba.cut(comment_text))
+def process_comments(comments):
+    jieba.load_userdict('./dict_big.txt')
+    jieba.analyse.set_stop_words('./stops.txt')
+    comment_text = ' '.join(comments).encode('utf-8').decode('utf-8')
+    segmented_text = " ".join(jieba.cut(comment_text))
 
-tags=jieba.analyse.extract_tags (segmented_text,topK=30, withWeight=False, allowPOS=())
+    tags = jieba.analyse.extract_tags(segmented_text, topK=30, withWeight=False, allowPOS=())
+    wordcloud = WordCloud(width=800, height=400, background_color='white').generate(segmented_text)
+    return tags,wordcloud
+
+ptt_content =extract_comments_from_s3(s3_folder_path)
+tags,wordcloud =process_comments(ptt_content)
 print(tags)
 
+
+# 绘制文字云
+plt.figure(figsize=(10, 5))
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis('off') 
+plt.show()
 '''
 jieba.set_dictionary('dict.txt.big') 
 jieba.load_userdict('./dict.txt_drink.txt')
