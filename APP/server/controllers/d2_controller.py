@@ -137,78 +137,33 @@ def drink_quiz():
 
 external_stylesheet = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
 
-dash = Dash(server=app, routes_pathname_prefix="/dashboard/")
+dash = Dash(server=app, routes_pathname_prefix="/dashboard_/")
 # dash_app = Dash( external_stylesheets=[dbc.themes.SKETCHY])
 dash_app = Dash( external_stylesheets=external_stylesheet)
 
 
 
 
-@dash.callback(
-    [Output('total', 'figure'),
-     Output('his-graph', 'figure'),
-     Output('bubble-graph', 'figure'),
-     Output('ptt-table', 'figure'),
-     Output('quiz-table', 'figure'),
-     Output('line-plot', 'figure')],
-    Input('group-selector', 'value')
-    )
+@dash.callback([
+    Output('line-plot', 'figure'),
+    Output('his-plot', 'figure'),
+    Output('ptt-table', 'figure'),
+    Output('quiz-table', 'figure')],
+    Input('group-selector', 'value'))
 
-
-def update_graph(selected_groups):
-    totalrevenue=all_store()
-    google=drink_google_result()
-    keyword=hot_keyword()
-    boba=boba_tea()
-    url,push,title=hot_article()
-    url_quiz,title_quiz=drink_quiz()
+def google_trend_rank(selected_groups):
     lines,layout=update_line_plot(selected_groups)
-    
+    fig_group = go.Figure(data=lines, layout=layout)
+    google=drink_google_result()
 
     fig_bar = go.Figure(data=[
         go.Bar(go.Bar(x=list(google.keys()), y=list(google.values())))
     ])
     fig_bar.update_layout(barmode='stack')
 
-    # fig = go.Figure(data=[go.Table(
-    #     columnorder = [1,2],
-    #     columnwidth = [20,100],
-    #     header=dict(values=['排行', '熱門關鍵字'],
-    #                 line_color='darkslategray',
-    #                 align='left'),
-    #     cells=dict(values=[[1,2,3,4,5], 
-    #                     keyword], 
-    #             line_color='darkslategray',
-    #             align='left'))
-    #             ]) 
-    
-    fig_all = go.Figure(data=[go.Table(
-        header=dict(values=['總店家數']),
-        cells=dict(values=[totalrevenue]))
-                ]) 
-    
-    
-    size = boba[2]
-    stores=boba[0]
-    bubble_fig = go.Figure(data=[go.Scatter(
-        x=boba[1],
-        y=boba[2],
-        mode='markers',
-        marker=dict(
-            size=size,
-            sizemode='area',
-            sizeref=2.*max(size)/(40.**2),
-            sizemin=4
-        ),text=stores
-        )])
+    url,push,title=hot_article()
+    url_quiz,title_quiz=drink_quiz()
 
-    fig_group = go.Figure(data=lines, layout=layout)
-
-    link_list = [
-        html.A(titl, href=ur, target="_blank")
-        for titl, ur in zip(title, url)
-        ]
-    
     fig_ptt = go.Figure(data=[go.Table(
         columnwidth = [20,100,100],
         header = dict(
@@ -227,9 +182,11 @@ def update_graph(selected_groups):
             height=30)
             )
         ])
+    fig_ptt.update_layout(
+        title='PTT 手搖飲版熱門文章')
     
-    _quiz= go.Figure(data=[go.Table(
-        columnwidth = [100,100],
+    fig_quiz= go.Figure(data=[go.Table(
+        columnwidth = [60,120],
         header = dict(
             values = ['title','url'],
             line_color='darkslategray',
@@ -246,43 +203,16 @@ def update_graph(selected_groups):
             height=30)
             )
         ])
-    
-    
-    return fig_all,bubble_fig,fig_bar,fig_group, fig_ptt,_quiz
+    fig_quiz.update_layout(
+        title='手搖飲大會考')
+
+    return fig_group, fig_bar ,fig_ptt, fig_quiz
 
 
-dash.layout = html.Div([
-    html.Div(id='total-revenue', children='', style={'width': '49%'}),
-             dcc.Graph(id='his-graph', figure={}, style={'width': '49%', 'display': 'inline-block'}),
-             dcc.Graph(id='total', figure={}, style={'width': '49%', 'display': 'inline-block'}),
-             
-             dcc.Graph(id='ptt-table',figure={}, style={'width': '49%', 'display': 'inline-block'}),
-             dcc.Graph(id='quiz-table',figure={}, style={'width': '49%', 'display': 'inline-block'}),
-             dcc.Graph(id='bubble-graph',figure={}, style={'width': '49%', 'display': 'inline-block'}),
-             dcc.Graph(id='line-plot',figure={}, style={'width': '80%', 'display': 'inline-block'}),
-             dcc.Dropdown(
-                id='group-selector',
-                options=[
-                    {'label': '茶湯會', 'value': '茶湯會'},
-                    {'label': '迷客夏', 'value': '迷客夏'},
-                    {'label': '一沐日', 'value': '一沐日'},
-                    {'label': '五十嵐', 'value': '五十嵐'},
-                    {'label': '大苑子', 'value': '大苑子'},
-                    {'label': '茶的魔手', 'value': '茶的魔手'},
-                    {'label': '珍煮丹', 'value': '珍煮丹'},
-                    {'label': '大茗', 'value': '大茗'},
-                    {'label': '烏弄', 'value': '烏弄'}
-                ],
-                value=['茶湯會','迷客夏','一沐日','五十嵐','大苑子'], 
-                multi=True, 
-            )
-             
-    ])
 
-'''
-dash.layout = html.Div([
-    html.Div([
-        dcc.Dropdown(
+dash.layout = dbc.Container([ 
+    dbc.Row([
+        dbc.Col(dcc.Dropdown(
             id='group-selector',
             options=[
                 {'label': '茶湯會', 'value': '茶湯會'},
@@ -297,16 +227,25 @@ dash.layout = html.Div([
             ],
             value=['茶湯會', '迷客夏', '一沐日', '五十嵐', '大苑子'],
             multi=True,
-        ),
-    ], style={'width': '80%', 'display': 'inline-block'}),
+        ), width=6),
+    ]),
     
-    html.Br(),
-    
-    dcc.Graph(id='line-plot', figure={}, style={'width': '80%', 'display': 'inline-block'}),
-    dcc.Graph(id='his-graph', figure={}, style={'width': '49%', 'display': 'inline-block'}),
-    dcc.Graph(id='ptt-table', figure={}, style={'width': '49%', 'display': 'inline-block'}),
-    dcc.Graph(id='quiz-table', figure={}, style={'width': '49%', 'display': 'inline-block'}),
-    dcc.Graph(id='bubble-graph', figure={}, style={'width': '49%', 'display': 'inline-block'}),
-    
+    dbc.Row([
+        dbc.Col(dcc.Graph(id='line-plot', figure={}, style={'width': '100%', 'display': 'inline-block'}), width=12),
+        dbc.Col(dcc.Graph(id='his-plot', figure={}, style={'width': '100%', 'display': 'inline-block'}), width=12)
+        ]),
+
+    html.Hr(),
+
+    dbc.Row(
+        [
+            dbc.Col(
+                     dcc.Graph(id='ptt-table', style={'width': '100%', 'display': 'inline-block'}), width=12
+                     ),
+            dbc.Col(dcc.Graph(id='quiz-table', style={'width': '100%', 'display': 'inline-block'}), width=12)
+        
+        ])
+
 ])
-'''
+
+

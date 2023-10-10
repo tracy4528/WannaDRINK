@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>WannaDRINK</title>
     <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
 
   </head>
 
@@ -31,6 +32,11 @@
         height: auto;
     }
 
+    .slider img {
+      width: 50%;
+      height: 50%;;
+    }
+
     .media-body {
         margin-left: 20px;
     }
@@ -42,14 +48,26 @@
     p {
         color: #777;
     }
+
+    .menu-row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+    .slider-item {
+            flex-basis: calc(25% - 20px); /* 每五个为一排，间距为20px */
+            margin: 10px;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
 </style>
 
 
   <body>
 
-    <nav class="navbar navbar-light bg-light">
-      <span class="navbar-brand mb-0 h1">WannaDRINK</span>
-    </nav>
+
     <br>
 
     <div class="container mt-4">
@@ -86,6 +104,26 @@
     <br><br><br>
 
     <div class="container mt-4">
+      <h4>大家推薦！</h4>
+    </div>
+    
+    <div class="slider menu-row container ">
+      {% for search in response["recom"] %}
+      <div class="slider-item">
+        <img src="{{ search['img'] }}">
+        <div class="drink-name">{{ search['name'] }}</div>
+        <div class="drink-rank"> 👍 {{ search['rank'] }}%</div>
+      </div>
+      {% endfor %}
+    </div>
+    
+
+    <br><br><br>
+    <div class="container mt-4">
+      <h4>熱門推薦文章</h4>
+    </div>
+
+    <div class="container mt-4">
       <ul class="list-unstyled">
         {% for search in response["article"] %}
         <li class="media">
@@ -93,12 +131,6 @@
             href="{{ search['url'] }}"
             class="text-decoration-none"
           >
-            <!-- <img
-              src="https://photo.518.com.tw/selfmedia/articles/2220/169139120017784.jpeg"
-              alt="store image"
-              class="mr-3"
-              width="20%"
-            /> -->
             <div class="media-body">
               <p class="mb-0">
                 "{{ search['title'] }}"
