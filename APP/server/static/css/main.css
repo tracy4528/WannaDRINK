@@ -1,4 +1,27 @@
+.slider {
+    width: 80%; /* 调整轮播宽度 */
+    margin: 0 auto;
+}
 
+.slider-item {
+    text-align: center;
+    margin: 0 10px; /* 左右间隔为 10px */
+    padding: 10px; /* 添加内边距，创建间隔 */
+}
+
+.slider img {
+    width: 100%;
+    height: auto;
+}
+
+.slider-item {
+    text-align: center;
+}
+
+.drink-name .store-name {
+    font-size: 18px;
+    margin-top: 10px;
+}
 body {
     font-family: Arial, sans-serif;
     background-color: #f8f8f8;
