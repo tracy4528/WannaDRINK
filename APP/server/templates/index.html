@@ -4,18 +4,13 @@
 	<meta charset="UTF-8">
 	<title>WannaDRINK</title>
     <link href="static/css/main.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
+
 
 </head>
 
 <body>
-	<div class="tm-gallery-section tm-mb-80">
-		<ul class="filters-button-group tm-mb-40">
-			<li><a href="/dashboard" >最近紅什麼</a></li>
-			<li><a href="/map.html" >🌏飲料地圖</a></li>
-			<li><a href="/api/v1/profile" >member profile</a></li>
-			<li><a href="/drink_quiz" class="active" data-filter="*">手搖飲大會考</a></li>
-		</ul>
-	</div>
 
 	<div class="tm-container-fluid">
 		<section class="tm-site-header tm-flex-center tm-mb-50 tm-bgcolor-1 tm-border-rounded">
@@ -23,19 +18,10 @@
 			<h1>WannaDRINK</h1>
 		</section>
 
-		<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
-			<div class="tm-about-header tm-flex-center">
-				<i class="fas fa-users fa-2x"></i>
-				<h2>About Us</h2>
-			</div>
-			<div class="tm-about-text">
-				<p class="tm-mb-40">WannaDrink is your go-to destination for all things drinks! We're your friendly neighborhood hub for handcrafted drink recommendations and the latest buzz in the beverage world. Sip, savor, and stay in the know with WannaDrink! Cheers! 🥤🍹📢</p>
-			</div>
-		</section>
 
 		<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
 			<div class="tm-about-header tm-flex-center">
-				<h2>🥤搜尋飲料店🥤</h2>
+				<h2>🧋搜尋飲料店🧋</h2>
 				<form id="contact-form" action="/search" method="POST" class="tm-contact-form">
 					<input type="text" id="search" name="search" required><br><br>		          	
 		          	<button type="submit" class="tm-right tm-btn-submit">send</button>          	
@@ -43,6 +29,61 @@
 			</div>
 
 		</section>
+
+		<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded tm-flex-center">
+			<div class="tm-about-header tm-flex-center">
+				<h2>🥤熱門飲料🥤</h2>
+			</div>
+			<div class="slider ">
+				
+				<div class="slider-item">
+					<img src="static/img/no1.jpeg">
+					<div class="drink-store">默沫手作飲品</div>
+					<div class="drink-name">蘋果桂花</div>
+				</div>
+
+				<div class="slider-item">
+					<img src="static/img/no2.jpeg" >
+					<div class="drink-store">先喝道</div>
+					<div class="drink-name">伯爵奶茶</div>
+				</div>
+
+				<div class="slider-item">
+					<img src="static/img/no3.jpeg" >
+					<div class="drink-store">烏弄</div>
+					<div class="drink-name">金萱烏龍</div>
+				</div>
+
+				<div class="slider-item">
+					<img src="static/img/apple.png" >
+					<div class="drink-store">龜記銘品</div>
+					<div class="drink-name">蘋果紅萱</div>
+				</div>
+
+				<div class="slider-item">
+					<img src="static/img/8yao.jpeg" >
+					<div class="drink-store">八曜和茶</div>
+					<div class="drink-name">83蜂檸爽爽</div>
+				</div>
+
+			</div>
+			<p class="slider-item"><a href="/dashboard_/" >更多流行飲料</a></p>
+
+		</section>
+
+
+		<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
+			<div class="tm-about-header tm-flex-center">
+				<h2>🌏飲料地圖🌏</h2>
+				<iframe class="map", src="/map.html" width="600" height="600"></iframe>
+				<a href="map.html"><b style="background-color: lightcoral; color: lightcyan;">
+					click here!
+				</b></a>
+
+			</div>
+		</section>
+
+
 
 
 		<footer class="tm-footer">
@@ -54,7 +95,7 @@
 		function searchDrink() {
             var drinkName = document.getElementById("drinkInput").value;
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", "http://127.0.0.1:8000/submit", true);
+            xhr.open("POST", "http://127.0.0.1:5000/submit", true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4 && xhr.status === 200) {
@@ -71,40 +112,20 @@
             xhr.send("drinkName=" + encodeURIComponent(drinkName));
         }
 
+	</script>
 
-
-
-		// document.addEventListener('DOMContentLoaded', function () {
-		// 	const xhr = new XMLHttpRequest();
-		// 	xhr.open('GET', 'http://127.0.0.1:8000/api/v1/hot_article', true);
-		// 	xhr.onreadystatechange = function () {
-		// 		if (xhr.readyState === 4) {
-		// 		if (xhr.status === 200) {
-		// 			const response = JSON.parse(xhr.responseText);
-		// 			const articles = response.data; 
-		// 			const container = document.querySelector('.tm-mb-42');
-		// 			articles.forEach(article => {
-		// 						const link = document.createElement("a");
-		// 						link.href = article.path;
-		// 						link.textContent = article.title;
-		// 						link.target = "_blank"; // 在新标签页中打开链接
-
-		// 						// 将链接元素添加到容器中
-		// 						container.appendChild(link);
-
-		// 						// 添加换行符
-		// 						container.appendChild(document.createElement("br"));
-		// 					});
-
-		// 		} else {
-		// 			console.error('error', xhr.status);
-		// 		}
-		// 		}
-		// 	};
-		// 	xhr.send();
-		// });
-
-
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			$('.slider').slick({
+				autoplay: true,
+				autoplaySpeed: 3000, 
+				infinite: true, 
+				slidesToShow: 3, 
+				slidesToScroll: 1 
+			});
+		});
 	</script>
 
 </html>

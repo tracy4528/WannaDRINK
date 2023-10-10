@@ -5,27 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>飲料品項</title>
     <style>
-        /* 添加星星评分的 CSS 样式 */
-        .rating {
-            display: inline-block;
+        body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
         }
 
-        .rating input {
-            display: none;
+        .container {
+            padding: 20px;
         }
 
-        .rating label {
-            font-size: 24px;
-            color: #ccc;
-            cursor: pointer;
+        .media {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: white;
         }
 
-        .rating label:before {
-            content: '\2605'; /* Unicode 编码表示星星 */
+        .media img {
+            max-width: 100px;
+            height: auto;
         }
 
-        .rating input:checked ~ label {
-            color: #ffcc00; /* 选中的星星颜色 */
+        .media-body {
+            margin-left: 20px;
+        }
+
+        h4 {
+            color: #333;
+        }
+
+        p {
+            color: #777;
         }
 
         /* 设置每五个为一排的布局 */
@@ -52,21 +62,7 @@
             <h2>{{ item.name }}</h2>
             <img src="{{ item.img }}" alt="{{ item.name }}" width="100%">
             <p>{{ item.description }}</p>
-
-            <!-- 星星评分 -->
-            <div class="rating">
-                <form action="/submit_rating" method="post"> <!-- 提交评分的表单 -->
-                    <fieldset class="rating">
-                        <input type="radio" id="star5_{{ item.id }}" name="rating" value="5" {% if 5 == item.rating %} checked {% endif %}><label class="full" for="star5_{{ item.id }}" title="5 stars"></label>
-                        <input type="radio" id="star4_{{ item.id }}" name="rating" value="4" {% if 4 == item.rating %} checked {% endif %}><label class="full" for="star4_{{ item.id }}" title="4 stars"></label>
-                        <input type="radio" id="star3_{{ item.id }}" name="rating" value="3" {% if 3 == item.rating %} checked {% endif %}><label class="full" for="star3_{{ item.id }}" title="3 stars"></label>
-                        <input type="radio" id="star2_{{ item.id }}" name="rating" value="2" {% if 2 == item.rating %} checked {% endif %}><label class="full" for="star2_{{ item.id }}" title="2 stars"></label>
-                        <input type="radio" id="star1_{{ item.id }}" name="rating" value="1" {% if 1 == item.rating %} checked {% endif %}><label class="full" for="star1_{{ item.id }}" title="1 star"></label>
-                    </fieldset>
-                    <input type="hidden" name="item_id" value="{{ item.id }}"> <!-- 隐藏字段，用于标识飲料品項的 ID -->
-                    <input type="submit" value="提交评分"> <!-- 提交按钮 -->
-                </form>
-            </div>
+            
         </div>
         {% if loop.index % 4 == 0 %}
         </div>
@@ -74,32 +70,4 @@
         {% endif %}
         {% endfor %}
     </div>
-
-    <!-- JavaScript 代码 -->
-    <script>
-        // 获取所有星星评分的表单元素
-        const ratingForms = document.querySelectorAll('.rating form');
-
-        // 遍历每个表单，添加事件监听器
-        ratingForms.forEach(form => {
-            form.addEventListener('submit', e => {
-                e.preventDefault(); // 防止表单提交
-                const formData = new FormData(form); // 获取表单数据
-
-                fetch('/submit_rating', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    // 处理服务器响应
-                    console.log(data);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-            });
-        });
-    </script>
-</body>
-</html>
+    

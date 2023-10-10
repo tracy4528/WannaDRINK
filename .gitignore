@@ -12,3 +12,5 @@ log
 *.log
 log
 test.py
+img/
+log/
