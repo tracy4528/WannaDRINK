@@ -156,7 +156,7 @@ dash_app = Dash( external_stylesheets=external_stylesheet)
 
 
 def update_graph(selected_groups):
-    totalrevenue=all_store()
+    all_store=all_store()
     google=drink_google_result()
     keyword=hot_keyword()
     boba=boba_tea()
