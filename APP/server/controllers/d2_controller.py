@@ -135,11 +135,11 @@ def drink_quiz():
 
     return url,title
 
-external_stylesheet = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
+external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
 
 dash = Dash(server=app, routes_pathname_prefix="/dashboard_/")
-# dash_app = Dash( external_stylesheets=[dbc.themes.SKETCHY])
-dash_app = Dash( external_stylesheets=external_stylesheet)
+dash_app = Dash( external_stylesheets=[dbc.themes.MATERIA])
+
 
 
 
@@ -148,13 +148,20 @@ dash_app = Dash( external_stylesheets=external_stylesheet)
     Output('line-plot', 'figure'),
     Output('his-plot', 'figure'),
     Output('ptt-table', 'figure'),
-    Output('quiz-table', 'figure')],
+    Output('quiz-table', 'figure'),
+    Output('total-store', 'children'),
+    Output('total-drink', 'children'),
+    Output('total-brand', 'children')],
     Input('group-selector', 'value'))
 
 def google_trend_rank(selected_groups):
     lines,layout=update_line_plot(selected_groups)
     fig_group = go.Figure(data=lines, layout=layout)
     google=drink_google_result()
+    text_store=all_store()
+    text_drink=12057
+    text_brand=241
+
 
     fig_bar = go.Figure(data=[
         go.Bar(go.Bar(x=list(google.keys()), y=list(google.values())))
@@ -206,7 +213,7 @@ def google_trend_rank(selected_groups):
     fig_quiz.update_layout(
         title='手搖飲大會考')
 
-    return fig_group, fig_bar ,fig_ptt, fig_quiz
+    return fig_group, fig_bar ,fig_ptt, fig_quiz ,text_store, text_drink, text_brand
 
 
 
@@ -244,8 +251,34 @@ dash.layout = dbc.Container([
                      ),
             dbc.Col(dcc.Graph(id='quiz-table', style={'width': '100%', 'display': 'inline-block'}), width=12)
         
-        ])
+        ]),
+    html.Br(),
+
+    html.Br(),
+    dbc.Row([dbc.Col(html.H3("已收集的店家數", className="mb-4 pl-8 pr-8"))]),
+    dbc.Row([dbc.Col(html.Div(id='total-store'), width=12)],className="mb-4 pl-8 pr-8"),
+
+    html.Br(),
+    dbc.Row([dbc.Col(html.H3("已收集的飲料數", className="mb-4 pl-8 pr-8"))]),
+    dbc.Row([dbc.Col(html.Div(id='total-drink'), width=12)],className="mb-4 pl-8 pr-8"),
+
+    dbc.Row([dbc.Col(html.H3("已收集的品牌數", className="mb-4 pl-8 pr-8"))]),
+    dbc.Row([dbc.Col(html.Div(id='total-brand'), width=12)],className="mb-4 pl-8 pr-8")
+
+
+
 
 ])
 
 
+    # dbc.Row([
+    #     dbc.Col(html.H3("已收集的店家數"), width=4),
+    #     dbc.Col(html.H3("已收集的飲料數"), width=8),
+    #     dbc.Col(html.H3("已收集的品牌數"), width=4)
+    # ]),
+    
+    # dbc.Row([
+    #     dbc.Col(html.Div(id='total-store'), width=4),
+    #     dbc.Col(html.Div(id='total-drink'), width=8),
+    #     dbc.Col(html.Div(id='total-brand'), width=4)
+    # ]),
