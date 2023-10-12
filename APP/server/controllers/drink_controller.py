@@ -110,7 +110,7 @@ def search_bar():
         search = request.form.get("search")
         search="%"+search+"%"
         cursor = conn.cursor()
-        sql = f"SELECT store,image_url FROM drink_list where name like '{search}'or store like'{search}' group by store  limit 5;"
+        sql = f"SELECT store,image_s3 FROM drink_list where name like '{search}'or store like'{search}' group by store  limit 5;"
         cursor.execute(sql)
         keyword = cursor.fetchall()
 
@@ -120,14 +120,14 @@ def search_bar():
         hot= sql_cursor.fetchall()
 
         top_cursor = conn.cursor()
-        sql = f"SELECT name,image_url FROM drink_list where store like '{search}' and category_name like '%推薦%';"
+        sql = f"SELECT name,image_s3 FROM drink_list where store like '{search}' and category_name like '%推薦%';"
         top_cursor.execute(sql)
         recom= top_cursor.fetchall()
 
         data = [
             {
                 "store": v["store"],
-                "img": v["image_url"]
+                "img": v["image_s3"]
             }
             for v in keyword
         ]
@@ -145,12 +145,19 @@ def search_bar():
         top_data = [
             {
             'name': v['name'],
-            'img': v['image_url'],
+            'img': v['image_s3'],
             'rank': r
 
         }
         for v, r in zip(recom, rank)
         ]
+
+        if not data:
+            response['data'] = "no match"
+        if not article:
+            response['article'] = "no match"
+        if not top_data:
+            response['recom'] = "no match"
 
         response = {
             'data': data,
@@ -180,7 +187,7 @@ def store_list_menu():
             {
                 "name": v["name"],
                 "description": v['description'],
-                "img": v['image_url']
+                "img": v['image_s3']
             }
             for v in drink_data
         ]
