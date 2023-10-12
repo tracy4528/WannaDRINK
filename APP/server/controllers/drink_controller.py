@@ -35,10 +35,10 @@ wannadrink_logger.setLevel(wannadrink_logger.level)
 def hello():
     return render_template("index.html")
 
+
 @app.route('/map.html')
 def map():
     return render_template('map.html')
-
 
 
 @app.route('/api/v1/hotword', methods=['GET'])
@@ -101,36 +101,7 @@ def hot_article():
     return response
 
 
-@app.route("/api/v1/user_drink", methods=["POST"])
-def submit():
-    try:
-        drink1 = request.form.get("drink1")
-        drink="%"+drink1+"%"
-        sql = f"SELECT store,name,image_url,product_id FROM drink_list where name like '{drink}' order by store_review_number desc limit 5;"
-        cursor = conn.cursor()
-        cursor.execute(sql)
-        drink = cursor.fetchall()
-        data= [
-            {
-                "store": v["store"],
-                'name':v["name"],
-                'imageUrl':v["image_url"]
-            }
-            for v in drink
-        ]
-        response={
-            'data':data
-        }
 
-    except Exception as e:
-        response = {
-            'error': str(e)
-        }
-        wannadrink_logger.warning(f"[Error] searching bar: {e}")
-    finally:
-        cursor.close()
-        
-    return render_template('recom.html',response=response)
 
 
 @app.route("/search", methods=["POST"])
@@ -139,18 +110,52 @@ def search_bar():
         search = request.form.get("search")
         search="%"+search+"%"
         cursor = conn.cursor()
-        sql = f"SELECT * FROM drink_list where name like '{search}'or store like'{search}' group by store  limit 15;"
+        sql = f"SELECT store,image_url FROM drink_list where name like '{search}'or store like'{search}' group by store  limit 5;"
         cursor.execute(sql)
         keyword = cursor.fetchall()
-        data= [
+
+        sql_cursor = conn.cursor()
+        sql_google=f"SELECT store,article_link,article_title FROM google_search_article where store like '{search}' limit 4;"
+        sql_cursor.execute(sql_google)
+        hot= sql_cursor.fetchall()
+
+        top_cursor = conn.cursor()
+        sql = f"SELECT name,image_url FROM drink_list where store like '{search}' and category_name like '%推薦%';"
+        top_cursor.execute(sql)
+        recom= top_cursor.fetchall()
+
+        data = [
             {
                 "store": v["store"],
-                "img":v["image_url"]
-                                }
+                "img": v["image_url"]
+            }
             for v in keyword
         ]
-        response={
-            'data':data
+
+        article = [
+            {
+                'title':v['article_title'],
+                "url": v["article_link"]
+            }
+            for v in hot
+        ]
+
+        rank = [97, 98, 99, 95, 99,97,96]
+
+        top_data = [
+            {
+            'name': v['name'],
+            'img': v['image_url'],
+            'rank': r
+
+        }
+        for v, r in zip(recom, rank)
+        ]
+
+        response = {
+            'data': data,
+            'article':article,
+            'recom':top_data
         }
 
     except Exception as e:
@@ -160,7 +165,7 @@ def search_bar():
         wannadrink_logger.warning(f"[Error] searching bar: {e}")
     finally:
         cursor.close()
-
+    
     return render_template('search_result.html',response=response)
 
 @app.route("/api/v1/menu", methods=['GET'])
@@ -191,50 +196,3 @@ def store_list_menu():
         cursor.close()
     return render_template('menu.html',response=response) 
 
-
-# @app.route("/submit_rating", methods=["POST"])
-# def submit_rating():
-#     rating = request.form.get("rating")
-#     item_id = request.form.get("item_id")
-    
-
-#     return redirect("/")  
-
-
-@app.route("/api/v1/profile", methods=["GET"])
-def user_recom():
-
-    # product = request.form.get("drink1")
-    productid='253'
-
-    sql = f"SELECT item2_id FROM product.similarity_model where item1_id ='{productid}' order by similarity desc limit 5;"
-    cursor = conn.cursor()
-    cursor.execute(sql)
-    item2_ids = cursor.fetchall()
-    item2_ids.append({"item2_id": "253"})
-    data = []
-
-    for item2_id in item2_ids:
-        item2_id = item2_id['item2_id']
-        sql_info = f"SELECT id,name, store, image_url FROM drink_list WHERE id = '{item2_id}';"
-        drink_cursor = conn.cursor()
-        drink_cursor.execute(sql_info)
-        info = drink_cursor.fetchone()
-        # data.append(info)
-        data.append({
-            "id":info['id'],
-            "store": info["store"],
-            "name": info["name"],
-            "imageUrl": info["image_url"]
-            })
-
-    recently_rated = data[:2]
-    recommended = data[2:]
-
-    response = {
-        'recently_rated': recently_rated,
-        'recommended': recommended
-    }
-    # return response
-
-    return render_template('member.html',response=response)
