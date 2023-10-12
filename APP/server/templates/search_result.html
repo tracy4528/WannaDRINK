@@ -77,6 +77,15 @@
     <br><br><br>
     <div class="container">
       <ul class="list-group">
+        {% if response["data"] == "no match" %}
+        <li class="list-group-item">
+          <div class="row align-items-center">
+            <div class="col-12">
+              <h3>無相似搜尋</h3>
+            </div>
+          </div>
+        </li>
+        {% else %}
         {% for search in response["data"] %}
         <li class="list-group-item">
           <a
@@ -98,6 +107,7 @@
           </a>
         </li>
         {% endfor %}
+        {% endif %}
       </ul>
     </div>
 

@@ -19,3 +19,6 @@ test.py
 img/
 cookies.txt
 headers_cookies.txt
+log/
+cookies.txt
+headers_cookies.txt

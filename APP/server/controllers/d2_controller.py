@@ -6,7 +6,7 @@ import plotly.graph_objects as go
 from dash import Dash, dcc, html, Input, Output
 import dash_bootstrap_components as dbc
 import sys
-# sys.path.append('/Users/tracy4528/Desktop/appwork/01personal/APP')
+# sys.path.append('/01personal/APP')
 from server import app
 from config import MysqlConfig
 import pandas as pd
@@ -135,10 +135,10 @@ def drink_quiz():
 
     return url,title
 
-external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
 
-dash = Dash(server=app, routes_pathname_prefix="/dashboard_/")
-dash_app = Dash( external_stylesheets=[dbc.themes.MATERIA])
+external_stylesheet=['https://cdn.staticfile.org/twitter-bootstrap/4.5.2/css/bootstrap.min.css']
+
+dash = Dash(server=app, routes_pathname_prefix="/dashboard_/",external_stylesheets=external_stylesheet)
 
 
 
@@ -152,9 +152,11 @@ dash_app = Dash( external_stylesheets=[dbc.themes.MATERIA])
     Output('total-store', 'children'),
     Output('total-drink', 'children'),
     Output('total-brand', 'children')],
-    Input('group-selector', 'value'))
+    [Input('group-selector', 'value'),
+     Input('interval-component', 'n_intervals')])
 
-def google_trend_rank(selected_groups):
+def dashboard(selected_groups, n_intervals):
+
     lines,layout=update_line_plot(selected_groups)
     fig_group = go.Figure(data=lines, layout=layout)
     google=drink_google_result()
@@ -174,10 +176,10 @@ def google_trend_rank(selected_groups):
     fig_ptt = go.Figure(data=[go.Table(
         columnwidth = [20,100,100],
         header = dict(
-            values = ['push','url','title'],
+            values = ['推文數','網址','標題'],
             line_color='darkslategray',
             align=['center','center','center'],
-            font=dict(color='darkslategray', size=12),
+            font=dict(color='darkslategray', size=20),
             height=40
         ),
         cells=dict(
@@ -195,7 +197,7 @@ def google_trend_rank(selected_groups):
     fig_quiz= go.Figure(data=[go.Table(
         columnwidth = [60,120],
         header = dict(
-            values = ['title','url'],
+            values = ['標題','網址'],
             line_color='darkslategray',
             align=['center','center'],
             font=dict(color='darkslategray', size=12),
@@ -217,7 +219,19 @@ def google_trend_rank(selected_groups):
 
 
 
-dash.layout = dbc.Container([ 
+dash.layout = html.Div([ 
+
+    dbc.Breadcrumb(
+    items=[
+        {
+            "label": "Mainpage",
+            "href": "http://127.0.0.1:5000/"
+    
+        },
+        {"label": "Dashboard", "active": True},
+    ])
+    ,
+
     dbc.Row([
         dbc.Col(dcc.Dropdown(
             id='group-selector',
@@ -253,32 +267,25 @@ dash.layout = dbc.Container([
         
         ]),
     html.Br(),
+    dbc.Row(
+            [
+                dbc.Col(html.H3("已收集的店家數")),
+                dbc.Col(html.H3("已收集的飲料數")),
+                dbc.Col(html.H3("已收集的品牌數")),
+            ]),
 
-    html.Br(),
-    dbc.Row([dbc.Col(html.H3("已收集的店家數", className="mb-4 pl-8 pr-8"))]),
-    dbc.Row([dbc.Col(html.Div(id='total-store'), width=12)],className="mb-4 pl-8 pr-8"),
-
-    html.Br(),
-    dbc.Row([dbc.Col(html.H3("已收集的飲料數", className="mb-4 pl-8 pr-8"))]),
-    dbc.Row([dbc.Col(html.Div(id='total-drink'), width=12)],className="mb-4 pl-8 pr-8"),
-
-    dbc.Row([dbc.Col(html.H3("已收集的品牌數", className="mb-4 pl-8 pr-8"))]),
-    dbc.Row([dbc.Col(html.Div(id='total-brand'), width=12)],className="mb-4 pl-8 pr-8")
-
-
+    dbc.Row(
+            [
+                dbc.Col(html.Div(id='total-store')),
+                dbc.Col(html.Div(id='total-drink')),
+                dbc.Col(html.Div(id='total-brand')),
+            ]),
+    dcc.Interval(
+        id='interval-component',
+        interval=12*60*60*1000,  
+        n_intervals=0  
+    )
 
 
 ])
 
-
-    # dbc.Row([
-    #     dbc.Col(html.H3("已收集的店家數"), width=4),
-    #     dbc.Col(html.H3("已收集的飲料數"), width=8),
-    #     dbc.Col(html.H3("已收集的品牌數"), width=4)
-    # ]),
-    
-    # dbc.Row([
-    #     dbc.Col(html.Div(id='total-store'), width=4),
-    #     dbc.Col(html.Div(id='total-drink'), width=8),
-    #     dbc.Col(html.Div(id='total-brand'), width=4)
-    # ]),
