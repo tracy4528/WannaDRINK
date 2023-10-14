@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>WannaDRINK</title>
-    <link href="static/css/main.css" rel="stylesheet">
+    <link href="static/css/a.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
 
@@ -16,6 +16,7 @@
 		<section class="tm-site-header tm-flex-center tm-mb-50 tm-bgcolor-1 tm-border-rounded">
 			<i class="fas fa-heart fa-3x"></i>
 			<h1>WannaDRINK</h1>
+			<p>熱門飲料店攻略</p>
 		</section>
 
 
@@ -91,11 +92,11 @@
 		</footer>
 	</div>
 
-	<script >
+	<!-- <script >
 		function searchDrink() {
             var drinkName = document.getElementById("drinkInput").value;
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", "http://127.0.0.1:5000/submit", true);
+            xhr.open("POST", "/submit", true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4 && xhr.status === 200) {
@@ -112,7 +113,7 @@
             xhr.send("drinkName=" + encodeURIComponent(drinkName));
         }
 
-	</script>
+	</script> -->
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>

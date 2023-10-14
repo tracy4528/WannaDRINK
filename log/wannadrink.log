@@ -1,14 +1,12 @@
-2023-10-12 18:11 WARNING  * Debugger is active!
-2023-10-12 18:11 INFO  * Debugger PIN: 775-258-130
-2023-10-12 18:11 INFO 127.0.0.1 - - [12/Oct/2023 18:11:09] "GET /dashboard_/ HTTP/1.1" 200 -
-2023-10-12 18:11 INFO 127.0.0.1 - - [12/Oct/2023 18:11:09] "GET /dashboard_/_dash-layout HTTP/1.1" 200 -
-2023-10-12 18:11 INFO 127.0.0.1 - - [12/Oct/2023 18:11:09] "GET /dashboard_/_dash-dependencies HTTP/1.1" 200 -
-2023-10-12 18:11 INFO 127.0.0.1 - - [12/Oct/2023 18:11:09] "GET /dashboard_/_favicon.ico?v=2.11.1 HTTP/1.1" 200 -
-2023-10-12 18:11 INFO 127.0.0.1 - - [12/Oct/2023 18:11:09] "[36mGET /dashboard_/_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1[0m" 304 -
-2023-10-12 18:11 INFO 127.0.0.1 - - [12/Oct/2023 18:11:09] "[36mGET /dashboard_/_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1[0m" 304 -
-2023-10-12 18:11 INFO 127.0.0.1 - - [12/Oct/2023 18:11:09] "[36mGET /dashboard_/_dash-component-suites/dash/dcc/async-plotlyjs.js HTTP/1.1[0m" 304 -
-2023-10-12 18:11 INFO 127.0.0.1 - - [12/Oct/2023 18:11:10] "POST /dashboard_/_dash-update-component HTTP/1.1" 200 -
-2023-10-12 18:27 WARNING [Error] searching bar: local variable 'response' referenced before assignment
-2023-10-12 18:27 INFO 127.0.0.1 - - [12/Oct/2023 18:27:44] "POST /search HTTP/1.1" 200 -
-2023-10-12 18:27 WARNING [Error] searching bar: local variable 'response' referenced before assignment
-2023-10-12 18:27 INFO 127.0.0.1 - - [12/Oct/2023 18:27:49] "POST /search HTTP/1.1" 200 -
+2023-10-15 00:07 WARNING  * Debugger is active!
+2023-10-15 00:07 INFO  * Debugger PIN: 775-258-130
+2023-10-15 00:07 INFO 127.0.0.1 - - [15/Oct/2023 00:07:03] "GET /dashboard_/ HTTP/1.1" 200 -
+2023-10-15 00:07 INFO 127.0.0.1 - - [15/Oct/2023 00:07:03] "GET /dashboard_/_dash-layout HTTP/1.1" 200 -
+2023-10-15 00:07 INFO 127.0.0.1 - - [15/Oct/2023 00:07:03] "GET /dashboard_/_dash-dependencies HTTP/1.1" 200 -
+2023-10-15 00:07 INFO 127.0.0.1 - - [15/Oct/2023 00:07:03] "GET /dashboard_/_favicon.ico?v=2.11.1 HTTP/1.1" 200 -
+2023-10-15 00:07 INFO 127.0.0.1 - - [15/Oct/2023 00:07:03] "[36mGET /dashboard_/_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1[0m" 304 -
+2023-10-15 00:07 INFO 127.0.0.1 - - [15/Oct/2023 00:07:03] "[36mGET /dashboard_/_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1[0m" 304 -
+2023-10-15 00:07 INFO 127.0.0.1 - - [15/Oct/2023 00:07:03] "[36mGET /dashboard_/_dash-component-suites/dash/dcc/async-plotlyjs.js HTTP/1.1[0m" 304 -
+2023-10-15 00:07 INFO 127.0.0.1 - - [15/Oct/2023 00:07:03] "[36mGET /dashboard_/_dash-component-suites/dash/dash_table/async-highlight.js HTTP/1.1[0m" 304 -
+2023-10-15 00:07 INFO 127.0.0.1 - - [15/Oct/2023 00:07:03] "[36mGET /dashboard_/_dash-component-suites/dash/dash_table/async-table.js HTTP/1.1[0m" 304 -
+2023-10-15 00:07 INFO 127.0.0.1 - - [15/Oct/2023 00:07:04] "POST /dashboard_/_dash-update-component HTTP/1.1" 200 -
