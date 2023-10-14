@@ -106,74 +106,73 @@ def hot_article():
 
 @app.route("/search", methods=["POST"])
 def search_bar():
+    response = {
+        'data': [],
+        'article': [],
+        'recom': [],
+    }
+
     try:
         search = request.form.get("search")
-        search="%"+search+"%"
+        search = "%" + search + "%"
+
         cursor = conn.cursor()
-        sql = f"SELECT store,image_s3 FROM drink_list where name like '{search}'or store like'{search}' group by store  limit 5;"
-        cursor.execute(sql)
+        sql_keyword = f"SELECT store, image_s3 FROM drink_list WHERE name LIKE '{search}' OR store LIKE '{search}' GROUP BY store LIMIT 5;"
+        cursor.execute(sql_keyword)
         keyword = cursor.fetchall()
 
         sql_cursor = conn.cursor()
-        sql_google=f"SELECT store,article_link,article_title FROM google_search_article where store like '{search}' limit 4;"
+        sql_google = f"SELECT store, article_link, article_title FROM google_search_article WHERE store LIKE '{search}' LIMIT 4;"
         sql_cursor.execute(sql_google)
-        hot= sql_cursor.fetchall()
+        hot = sql_cursor.fetchall()
 
         top_cursor = conn.cursor()
-        sql = f"SELECT name,image_s3 FROM drink_list where store like '{search}' and category_name like '%推薦%';"
-        top_cursor.execute(sql)
-        recom= top_cursor.fetchall()
+        sql_top = f"SELECT name, image_s3 FROM drink_list WHERE store LIKE '{search}' AND category_name LIKE '%推薦%';"
+        top_cursor.execute(sql_top)
+        recom = top_cursor.fetchall()
 
-        data = [
-            {
-                "store": v["store"],
-                "img": v["image_s3"]
-            }
-            for v in keyword
-        ]
+        if keyword:
+            data = [
+                {
+                    "store": v["store"],
+                    "img": v["image_s3"]
+                }
+                for v in keyword
+            ]
+            response['data'] = data
+        if hot:
+            article = [
+                {
+                    'title': v['article_title'],
+                    "url": v["article_link"]
+                }
+                for v in hot
+            ]
+            response['article'] = article
+        if recom:
+            rank = [97, 98, 99, 95, 99, 97, 96]
+            top_data = [
+                {
+                    'name': v['name'],
+                    'img': v['image_s3'],
+                    'rank': r
+                }
+                for v, r in zip(recom, rank)
+            ]
+            response['recom'] = top_data
 
-        article = [
-            {
-                'title':v['article_title'],
-                "url": v["article_link"]
-            }
-            for v in hot
-        ]
-
-        rank = [97, 98, 99, 95, 99,97,96]
-
-        top_data = [
-            {
-            'name': v['name'],
-            'img': v['image_s3'],
-            'rank': r
-
-        }
-        for v, r in zip(recom, rank)
-        ]
-
-        if not data:
-            response['data'] = "no match"
-        if not article:
-            response['article'] = "no match"
-        if not top_data:
-            response['recom'] = "no match"
-
-        response = {
-            'data': data,
-            'article':article,
-            'recom':top_data
-        }
 
     except Exception as e:
         response = {
             'error': str(e)
         }
         wannadrink_logger.warning(f"[Error] searching bar: {e}")
+
     finally:
         cursor.close()
-    
-    return render_template('search_result.html',response=response)
+
+    return render_template('search_result.html', response=response)
+
 
 @app.route("/api/v1/menu", methods=['GET'])
 def store_list_menu():

@@ -3,7 +3,7 @@ from datetime import datetime
 from dotenv import load_dotenv
 import pymysql
 import plotly.graph_objects as go
-from dash import Dash, dcc, html, Input, Output
+from dash import Dash, dcc, html, Input, Output,dash_table
 import dash_bootstrap_components as dbc
 import sys
 # sys.path.append('/01personal/APP')
@@ -113,15 +113,16 @@ def update_line_plot(selected_groups):
 
 def hot_article():
     cursor = conn.cursor()
-    sql = """SELECT * FROM ptt_articles where crawl_date='20231003' ORDER BY push DESC limit 10"""
+    sql = """SELECT * FROM ptt_articles where crawl_date='20231014' ORDER BY push DESC limit 10"""
     cursor.execute(sql)
     data = cursor.fetchall()
     cursor.close()
     url = [item['url'] for item in data ]
     push = [item['push'] for item in data ]
-    title = [item['title'] for item in data ]
+    title = [f"<a href='{item['url']}'>{item['title']}</a>" for item in data ]
+    df = pd.DataFrame({'Title': title, 'Push': push, 'URL': url})
 
-    return url,push,title
+    return df
 
 
 def drink_quiz():
@@ -135,6 +136,9 @@ def drink_quiz():
 
     return url,title
 
+def make_hyperlink(url):
+    return html.A(url, href=url, target="_blank")
+
 
 external_stylesheet=['https://cdn.staticfile.org/twitter-bootstrap/4.5.2/css/bootstrap.min.css']
 
@@ -147,11 +151,10 @@ dash = Dash(server=app, routes_pathname_prefix="/dashboard_/",external_styleshee
 @dash.callback([
     Output('line-plot', 'figure'),
     Output('his-plot', 'figure'),
-    Output('ptt-table', 'figure'),
-    Output('quiz-table', 'figure'),
     Output('total-store', 'children'),
     Output('total-drink', 'children'),
-    Output('total-brand', 'children')],
+    Output('total-brand', 'children'),
+    Output('article-table', 'data')],
     [Input('group-selector', 'value'),
      Input('interval-component', 'n_intervals')])
 
@@ -170,52 +173,12 @@ def dashboard(selected_groups, n_intervals):
     ])
     fig_bar.update_layout(barmode='stack')
 
-    url,push,title=hot_article()
-    url_quiz,title_quiz=drink_quiz()
-
-    fig_ptt = go.Figure(data=[go.Table(
-        columnwidth = [20,100,100],
-        header = dict(
-            values = ['推文數','網址','標題'],
-            line_color='darkslategray',
-            align=['center','center','center'],
-            font=dict(color='darkslategray', size=20),
-            height=40
-        ),
-        cells=dict(
-            values=[push,url,title],
-            line_color='darkslategray',
-            fill=dict(color= 'white'),
-            align=['center', 'center','center'],
-            font_size=12,
-            height=30)
-            )
-        ])
-    fig_ptt.update_layout(
-        title='PTT 手搖飲版熱門文章')
     
-    fig_quiz= go.Figure(data=[go.Table(
-        columnwidth = [60,120],
-        header = dict(
-            values = ['標題','網址'],
-            line_color='darkslategray',
-            align=['center','center'],
-            font=dict(color='darkslategray', size=12),
-            height=40
-        ),
-        cells=dict(
-            values=[title_quiz,url_quiz],
-            line_color='darkslategray',
-            fill=dict(color= 'white'),
-            align=['center', 'center'],
-            font_size=12,
-            height=30)
-            )
-        ])
-    fig_quiz.update_layout(
-        title='手搖飲大會考')
+    df=hot_article()
+    
 
-    return fig_group, fig_bar ,fig_ptt, fig_quiz ,text_store, text_drink, text_brand
+
+    return fig_group, fig_bar ,text_store, text_drink, text_brand, df.to_dict('records')
 
 
 
@@ -229,8 +192,30 @@ dash.layout = html.Div([
     
         },
         {"label": "Dashboard", "active": True},
-    ])
-    ,
+    ]),
+    html.Br(),
+    html.Br(),
+
+
+    dbc.Row(
+            [
+                dbc.Col(html.H3("已收集的店家數")),
+                dbc.Col(html.H3("已收集的飲料數")),
+                dbc.Col(html.H3("已收集的品牌數")),
+            ]),
+
+    dbc.Row(
+            [
+                dbc.Col(html.Div(id='total-store')),
+                dbc.Col(html.Div(id='total-drink')),
+                dbc.Col(html.Div(id='total-brand')),
+            ]),
+
+    html.Br(),
+    html.Hr(),
+
+    html.Br(),
+    html.Br(),
 
     dbc.Row([
         dbc.Col(dcc.Dropdown(
@@ -256,30 +241,54 @@ dash.layout = html.Div([
         dbc.Col(dcc.Graph(id='his-plot', figure={}, style={'width': '100%', 'display': 'inline-block'}), width=12)
         ]),
 
-    html.Hr(),
-
-    dbc.Row(
-        [
-            dbc.Col(
-                     dcc.Graph(id='ptt-table', style={'width': '100%', 'display': 'inline-block'}), width=12
-                     ),
-            dbc.Col(dcc.Graph(id='quiz-table', style={'width': '100%', 'display': 'inline-block'}), width=12)
-        
-        ]),
     html.Br(),
-    dbc.Row(
-            [
-                dbc.Col(html.H3("已收集的店家數")),
-                dbc.Col(html.H3("已收集的飲料數")),
-                dbc.Col(html.H3("已收集的品牌數")),
-            ]),
+    
+    html.H5(f"手搖飲熱門文章", style={'padding': '30px'}),
+    dash_table.DataTable(
+        id='article-table',
+        columns=[
+            {'name': '文章標題', 'id': 'Title', 'presentation': 'markdown'},
+            {'name': '留言數', 'id': 'Push', 'presentation': 'markdown'}
+        ],
+        data=None,
+        markdown_options={"html": True},
+        style_table={ 'padding': '30px'},
+        style_header={"textAlign": "center"}
+    ),
 
+    html.Br(),
+    html.Br(),
+
+    
+    html.H5("手搖飲大會考！", style={'padding': '30px'}),
     dbc.Row(
-            [
-                dbc.Col(html.Div(id='total-store')),
-                dbc.Col(html.Div(id='total-drink')),
-                dbc.Col(html.Div(id='total-brand')),
-            ]),
+        [dbc.Col(dbc.Card([
+            dbc.CardBody(
+                [
+                    html.P(
+                        "【飲料王測驗】第一屆飲料王大測驗網址",
+                        className="card-text",
+                    ),
+                    dbc.Button("Go", href="https://docs.google.com/forms/d/e/1FAIpQLSfRGcAtpAMz6TNpw4Hg77Dw_4Ig_1hesBICigncGvUtB7iFpA/viewform"),
+                ]
+            )
+          ]), style={'width':'25%', 'display': 'inline-block', 'padding': '30px'} ),
+        dbc.Col(dbc.Card([
+            dbc.CardBody(
+                [
+                    html.P(
+                        "【飲料王測驗】第二屆飲料王大測驗網址",
+                        className="card-text",
+                    ),
+                    dbc.Button("Go", color="primary", href="https://docs.google.com/forms/d/e/1FAIpQLSekHa-wLDY8GjPkYNp0VSRCzKlLsYIDxwoubSe2AbV6mA3zFA/viewform"),
+                ]
+            )
+          ]), style={'width':'25%', 'display': 'inline-block', 'padding': '30px'})
+    ]),
+
+
+    html.Br(),
+    
     dcc.Interval(
         id='interval-component',
         interval=12*60*60*1000,  

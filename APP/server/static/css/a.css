@@ -1,0 +1,119 @@
+body {
+    background-image: url('https://www.popdaily.com.tw/shaper/u/202307/bc197549-5a11-4c04-981e-2c76d404ce2e.jpg?resize-w=900&resize-h=468'); /* 更改 path_to_your_background_image.jpg 為您的背景圖片路徑 */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+.tm-site-header {
+    background-color: rgba(255, 255, 255, 0.6); /* 調整背景顏色透明度 */
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.tm-site-header h1 {
+    font-size: 36px;
+    color: #333;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.tm-about {
+    background-color: #f7f7f7; /* 更改背景顏色 */
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.tm-about h2 {
+    font-size: 24px;
+    color: #333;
+}
+
+.tm-contact-form {
+    margin-top: 20px;
+}
+
+.tm-contact-form input[type="text"] {
+    width: 80%;
+    padding: 10px;
+    border: 2px solid #333;
+    border-radius: 5px;
+}
+
+.tm-btn-submit {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* .slider {
+    display: flex;
+    overflow: hidden;
+}
+
+.slider-item {
+    flex: 1;
+    margin: 0 10px;
+    text-align: center;
+}
+
+.slider-item img {
+    max-width: 100%;
+    border-radius: 10px;
+} */
+
+.slider {
+    width: 80%; /* 调整轮播宽度 */
+    margin: 0 auto;
+}
+
+.slider-item {
+    text-align: center;
+    flex: 1;
+    margin: 0 10px; /* 左右间隔为 10px */
+    padding: 10px; /* 添加内边距，创建间隔 */
+}
+
+.slider img {
+    width: 100%;
+    height: auto;
+}
+
+.slider-item {
+    text-align: center;
+}
+
+.drink-store, .drink-name {
+    font-size: 18px;
+    color: #333;
+}
+
+.slider-item a {
+    display: block;
+    font-size: 20px;
+    color: #333;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+.tm-footer {
+    text-align: center;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.6); /* 調整背景顏色透明度 */
+    border-radius: 10px;
+    color: #333;
+}
+
+.tm-footer a {
+    color: #333;
+    text-decoration: none;
+}
+
+.tm-footer a:hover {
+    text-decoration: underline;
+}
