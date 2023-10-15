@@ -11,19 +11,19 @@ from dotenv import load_dotenv
 import io
 import bs4
 load_dotenv()
-url='https://www.ubereats.com/tw/store/%E4%BA%94%E6%A1%90%E8%99%9Fwootea-%E5%A4%A7%E7%9B%B4%E5%BA%97/y899hQYAQEWDiky0c27zng?diningMode=DELIVERY&pl=JTdCJTIyYWRkcmVzcyUyMiUzQSUyMiVFOCU4NyVCQSVFNSU4QyU5NyVFNiU5RCVCRSVFNSVCMSVCMSVFNiVBOSU5RiVFNSVBMCVCNCUyMiUyQyUyMnJlZmVyZW5jZSUyMiUzQSUyMkNoSUpXU1lVcFBHclFqUVJPb3AxdHR3TkdKTSUyMiUyQyUyMnJlZmVyZW5jZVR5cGUlMjIlM0ElMjJnb29nbGVfcGxhY2VzJTIyJTJDJTIybGF0aXR1ZGUlMjIlM0EyNS4wNjc1NjYlMkMlMjJsb25naXR1ZGUlMjIlM0ExMjEuNTUyNjk5JTdE'
-# url='https://www.ubereats.com/tw/store/%E4%BA%94%E6%A1%90%E8%99%9Fwootea-%E5%85%AC%E9%A4%A8%E5%BA%97/kDCmfj9BTEWDGOXyeF99vA'
+
+
 s3 = boto3.client('s3',
                     region_name='ap-northeast-1',
                     aws_access_key_id=os.getenv('iam_drink_key'),
                     aws_secret_access_key=os.getenv('iam_drink_secretkey'))
 
-
+with open('poc/ub_store_url.json', 'r', encoding='utf-8') as file:
+    urls = json.load(file)
 
 def get_uber_cookie():
     browser = webdriver.Chrome()
-    browser.get(url)  
-
+    browser.get(urls['data'][0]['url'])  
     input('按下 Enter 以繼續')  
     with open('cookies.txt', 'w') as cookief:
         cookief.write(json.dumps(browser.get_cookies()))
@@ -41,37 +41,28 @@ def uber_spider_check():
         'cookie': cookie,
         'User-Agent': ua.random
     }
-    r = requests.get(url, headers=headers)
-    
-    if r.status_code == 200:
-        html_content = r.text
-        soup = BeautifulSoup(r.content, 'lxml')
-        tests=soup.find_all("span", class_="p3 m3 p4 dc dd dl f0 b1", limit=10)
-        print(tests)
-        for test in tests:
-            # rate = soup.find("a", class_="spacer _4")
-            # link=soup.find('a', {'data-testid': 'store-card'})['href']
-            print(test)
+
+    for url in urls['data']: 
+        r = requests.get(url['url'], headers=headers)
+        
+        if r.status_code == 200:
+            html_content = r.text
+            soup = BeautifulSoup(r.content, 'lxml')
+
+            json_data = {'html_content': html_content}
+            restaurant_code=url['store']
+
+            json_data = json.dumps(json_data, ensure_ascii=False, indent=2)
+            bucket_name = 'wannadrink'
 
 
-        # test=soup.find_all("h1", class_="bl bn bm bk", limit=2)
-        # name = soup.find_all("span", class_="p9 i7 pa be by bg db b1", limit=2)
-        # rate = soup.find_all("div", class_="spacer _4", limit=2)
-
-        # html_file_name = 'example.html'
-        # html_content = str(soup).encode('utf-8')
-
-        # bucket_name = 'wannadrink'
-        # s3_object_key = 'ubereat/' + html_file_name
-
-        # s3.upload_fileobj(io.BytesIO(html_content), bucket_name, s3_object_key)
-        with open('web_page.json', 'w', encoding='utf-8') as json_file:
-            json.dump({'html_content': html_content}, json_file, ensure_ascii=False, indent=4)
-
-        # html_file_name='/Users/tracy4528/Downloads/uber_store.json'
-        # with open(html_file_name, 'w') as html_file:
-        #     html_file.write(soup.prettify())
-
+            s3_object_key=f'ubereat/{restaurant_code}_menu.json'
+            s3.put_object(
+                Bucket=bucket_name,
+                Key=s3_object_key,
+                Body=json_data,
+                ContentType='application/json'
+            )
 
         print('done')
     else:
