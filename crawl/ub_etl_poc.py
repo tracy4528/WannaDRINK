@@ -29,6 +29,7 @@ def s3_parse():
 
     for obj in objects.get('Contents'):
         file_name = obj.get('Key')
+
         
         if file_name.endswith(".json"):
             s3_object = s3.get_object(Bucket=s3_bucket_name, Key=file_name)
@@ -40,35 +41,42 @@ def s3_parse():
             pattern = r'<div class="spacer _4"></div><div class="spacer _4"></div>(.*?)</div>'
             matches = re.finditer(pattern, html_content)
 
-            pattern2 = r'<div class=\"g9 ga hx bb\"><span data-testid=\"rich-text\" class=\"hy ei hz ch d2 cj d3 b1\">(.*?)</span>'
+            for match in matches:
+                number = match.group(1)
+                print(f'{number}')
+
+            pattern2 = r'<span data-testid=\"rich-text\" class=\"hw er hx be ct bg ek b1\">(.*?)</span>'
             drink_matches = re.finditer(pattern2, html_content)
 
-            matches3 = re.findall(r'class="fv er fw be ct bg ek b1">([^<]+).*?<div class="spacer _4"></div>([^<]+)', html_content)
-            for match in matches3:
-                print(match)
+            for m in drink_matches:
+                drink = m.group(1)
+                print(drink)
 
-        # for match in matches:
-        #     number = match.group(1)
-        #     print( number)
-
-        # for m in drink_matches:
-        #     drink = m.group(1)
-        #     print( drink)
-
-text={'杏仁凍五桐茶 Wootea with Almond jelly': '99% (378)',
-'最完美手沖泰奶 Authentic Thai Milk Tea': '97% (88)',
-'椰椰芋圓奶霜 Coconut Ice Crush with Taro Ball': '100% (14)',
-'珍珠手沖泰奶 Bubble with Authentic Thai Milk Tea': '96% (57)',
-'蜜桃果粒冰沙 Peach Ice Crush with Green Tea Jelly': '100% (9)',
-'綠茶凍手沖泰奶 Green tea jelly with Authentic Thai Milk Tea': '100% (24)',
-'杏仁凍五桐茶 Wootea with Almond jelly': '98% (572)',
-'經典五桐茶 Wootea': '98% (222)',
-'老實人紅茶 Black Tea': '99% (170)'}
+            # matches3 = re.findall(r'class="fv er fw be ct bg ek b1">([^<]+).*?<div class="spacer _4"></div>([^<]+)', html_content)
+            # for match in matches3:
+            #     print(match)
 
 
-for drink, rating in text.items():
-    update_query = f"UPDATE drink_list SET drink_rating_review = '{rating}' WHERE name = '{drink}' and  store like '%珍煮丹%'"
-    cursor.execute(update_query)
+            
 
-conn.commit()
-cursor.close()
+text={'Red Bull 能量小桃氣': '100% (4)',
+'RedBull 能量小火龍': '100% (4)',
+'許慶良酪梨布丁鮮奶': '100% (5)',
+'荔枝朵朵':'100% (3)',
+'許慶良觀音拿鐵': '90% (10)',
+'古城錫蘭紅茶': '100% (8)',
+'冰釀蜜朵朵': '96% (199)',
+'檸檬愛玉': '100% (33)'}
+
+
+def insert_sql(text):
+    for drink, rating in text.items():
+        update_query = f"UPDATE drink_list SET drink_rating_review = '{rating}' WHERE name like '%{drink}%' and  store like '%大苑子%'"
+        cursor.execute(update_query)
+
+    conn.commit()
+    cursor.close()
+
+
+insert_sql(text)
+# s3_parse()

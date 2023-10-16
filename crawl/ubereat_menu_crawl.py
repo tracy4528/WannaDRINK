@@ -18,12 +18,12 @@ s3 = boto3.client('s3',
                     aws_access_key_id=os.getenv('iam_drink_key'),
                     aws_secret_access_key=os.getenv('iam_drink_secretkey'))
 
-with open('poc/ub_store_url.json', 'r', encoding='utf-8') as file:
+with open('crawl/ub_store_url.json', 'r', encoding='utf-8') as file:
     urls = json.load(file)
 
 def get_uber_cookie():
     browser = webdriver.Chrome()
-    browser.get(urls['data'][0]['url'])  
+    browser.get(urls['other'][0]['url'])  
     input('按下 Enter 以繼續')  
     with open('cookies.txt', 'w') as cookief:
         cookief.write(json.dumps(browser.get_cookies()))
@@ -42,7 +42,7 @@ def uber_spider_check():
         'User-Agent': ua.random
     }
 
-    for url in urls['data']: 
+    for url in urls['other']: 
         r = requests.get(url['url'], headers=headers)
         
         if r.status_code == 200:
