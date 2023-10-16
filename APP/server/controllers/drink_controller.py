@@ -34,33 +34,18 @@ def map():
 
 @app.route('/api/v1/hot_drink', methods=['GET'])
 def get_keyword():
-    # sql = "SELECT store,drink_name,img  FROM hot_drink_frontend order by id limit 5;"
-    # cursor = conn.cursor()
-    # cursor.execute(sql)
-    # drink = cursor.fetchall()
-    # cursor.close()
-    drink=[
-        {
-        "drink_name": "\u860b\u679c\u6842\u82b1",
-        "img": "https://wannadrink.s3.ap-northeast-1.amazonaws.com/hot_drink_img/2023101601.jpeg",
-        "store": "\u9ed8\u6cab\u624b\u4f5c\u98f2\u54c1"
-        },
-        {
-        "drink_name": "\u4f2f\u7235\u5976\u8336",
-        "img": "https://wannadrink.s3.ap-northeast-1.amazonaws.com/hot_drink_img/2023101602.jpeg",
-        "store": "\u5148\u559d\u9053"
-        },
-        {
-        "drink_name": "\u91d1\u8431\u70cf\u9f8d",
-        "img": "https://wannadrink.s3.ap-northeast-1.amazonaws.com/hot_drink_img/2023101603.jpeg",
-        "store": "\u70cf\u5f04"
-        },
-        {
-        "drink_name": "\u860b\u679c\u7d05\u8431",
-        "img": "https://wannadrink.s3.ap-northeast-1.amazonaws.com/hot_drink_img/2023101604.jpeg",
-        "store": "\u9f9c\u8a18\u9298\u54c1"
-        }
-    ]
+    sql = "SELECT store,drink_name,img  FROM hot_drink_frontend order by id limit 5;"
+    cursor = conn.cursor()
+    cursor.execute(sql)
+    drink = cursor.fetchall()
+    
+    # drink=[
+    #     {
+    #     "drink_name": "\u860b\u679c\u6842\u82b1",
+    #     "img": "https://wannadrink.s3.ap-northeast-1.amazonaws.com/hot_drink_img/2023101601.jpeg",
+    #     "store": "\u9ed8\u6cab\u624b\u4f5c\u98f2\u54c1"
+    #     }
+    # ]
 
     response = {
         'data': drink,
