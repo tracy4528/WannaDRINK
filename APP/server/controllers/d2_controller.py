@@ -14,7 +14,7 @@ import plotly.express as px
 
 
 load_dotenv()
-
+today_date = datetime.now().strftime("%Y%m%d")
 my_db_conf = MysqlConfig()
 conn = pymysql.connect(**my_db_conf.db_config)
 
@@ -115,7 +115,7 @@ def update_line_plot(selected_groups):
         lines.append(trace)
 
     layout = go.Layout(
-        title='手搖飲過去一個月聲量比較',
+        title='上個月手搖飲品牌聲量走勢, 資料來源：google trend 手搖飲主題,此資料已對結果進行標準化為範圍從 0 到 100 的相對值',
         xaxis=dict(title='Date'),
         yaxis=dict(title='Value'),
     )
@@ -124,7 +124,7 @@ def update_line_plot(selected_groups):
 
 def hot_article():
     cursor = conn.cursor()
-    sql = """SELECT * FROM ptt_articles where crawl_date='20231014' ORDER BY push DESC limit 10"""
+    sql = f"SELECT * FROM ptt_articles where crawl_date='{today_date}' ORDER BY push DESC limit 10"
     cursor.execute(sql)
     data = cursor.fetchall()
     cursor.close()
@@ -147,8 +147,7 @@ def drink_quiz():
 
     return url,title
 
-def make_hyperlink(url):
-    return html.A(url, href=url, target="_blank")
+
 
 
 external_stylesheet=['https://cdn.staticfile.org/twitter-bootstrap/4.5.2/css/bootstrap.min.css']
@@ -173,6 +172,7 @@ def dashboard(selected_groups, n_intervals):
 
     lines,layout=update_line_plot(selected_groups)
     fig_group = go.Figure(data=lines, layout=layout)
+
     google=drink_google_result()
     text_store, brand_num, drink_num=all_store()
   
@@ -180,7 +180,7 @@ def dashboard(selected_groups, n_intervals):
     fig_bar = go.Figure(data=[
         go.Bar(go.Bar(x=list(google.keys()), y=list(google.values())))
     ])
-    fig_bar.update_layout(barmode='stack')
+    fig_bar.update_layout(barmode='stack', title_text='上個月手搖飲品牌聲量平均值,資料來源：google trend 手搖飲主題,此資料已對結果進行標準化為範圍從 0 到 100 的相對值')
 
     
     df=hot_article()
@@ -225,7 +225,7 @@ dash.layout = html.Div([
 
     html.Br(),
     html.Br(),
-
+    html.H5(f"手搖飲品牌聲量走勢", style={'padding-left': '30px'}),
     dbc.Row([
         dbc.Col(dcc.Dropdown(
             id='group-selector',
@@ -242,17 +242,19 @@ dash.layout = html.Div([
             ],
             value=['茶湯會', '迷客夏', '一沐日', '五十嵐', '大苑子'],
             multi=True,
-        ), width=6),
+        ),width =8,  style={'padding-left': '30px'}),
     ]),
     
     dbc.Row([
         dbc.Col(dcc.Graph(id='line-plot', figure={}, style={'width': '100%', 'display': 'inline-block'}), width=12),
+
+        html.H5(f"手搖飲品牌聲量月平均", style={'padding-left': '30px'}),
         dbc.Col(dcc.Graph(id='his-plot', figure={}, style={'width': '100%', 'display': 'inline-block'}), width=12)
         ]),
 
     html.Br(),
     
-    html.H5(f"手搖飲熱門文章", style={'padding': '30px'}),
+    html.H5(f"手搖飲熱門文章", style={'padding-left': '30px'}),
     dash_table.DataTable(
         id='article-table',
         columns=[
