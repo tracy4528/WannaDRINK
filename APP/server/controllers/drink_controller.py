@@ -34,7 +34,7 @@ def map():
 
 @app.route('/api/v1/hot_drink', methods=['GET'])
 def get_keyword():
-    sql = "SELECT store,drink_name,img  FROM hot_drink_frontend order by id limit 5;"
+    sql = "SELECT store,drink_name,img  FROM hot_drink_frontend order by id desc limit 5;"
     cursor = conn.cursor()
     cursor.execute(sql)
     drink = cursor.fetchall()
@@ -51,53 +51,6 @@ def get_keyword():
         'data': drink,
                 }
     return response
-
-@app.route("/api/v1/hot_article")
-def hot_article():
-    try:
-        today_date = datetime.date.today().strftime('%Y%m%d')
-        sql = f"SELECT * FROM ptt_articles WHERE crawl_date = {today_date} ORDER BY push DESC LIMIT 5"
-        cursor = conn.cursor()
-        cursor.execute(sql)
-        article = cursor.fetchall()
-
-        data= [
-            {
-                "title": v["title"],
-                'path':v["url"]
-            }
-            for v in article
-        ]
-
-
-        # sql_dcard = "SELECT * FROM dcard_articles WHERE crawl_date ='20231003' ORDER BY push DESC LIMIT 2"
-        # cursor_dcard = conn.cursor()
-        # cursor_dcard.execute(sql_dcard)
-        # dcard_articles = cursor_dcard.fetchall()
-
-        # data += [
-        #     {
-        #         "title": v["title"],
-        #         'path': v["url"]
-        #     }
-        #     for v in dcard_articles
-        # ]
-        response = {
-            'data': data,
-            'date':today_date
-        }
-
-    except Exception as e:
-        response = {
-            'error': str(e)
-        }
-        wannadrink_logger.warning(f"[Error] Query hot article : {e}")
-    finally:
-        cursor.close()
-
-    return response
-
-
 
 
 
@@ -124,7 +77,7 @@ def search_bar():
         hot = sql_cursor.fetchall()
 
         top_cursor = conn.cursor()
-        sql_top = f"SELECT name, image_s3 FROM drink_list WHERE store LIKE '{search}' AND category_name LIKE '%推薦%';"
+        sql_top = f"SELECT name, image_s3,drink_rating_review FROM drink_list WHERE store LIKE '{search}' and drink_rating_review is not null;"
         top_cursor.execute(sql_top)
         recom = top_cursor.fetchall()
 
@@ -147,14 +100,13 @@ def search_bar():
             ]
             response['article'] = article
         if recom:
-            rank = [97, 98, 99, 95, 99, 97, 96]
             top_data = [
                 {
                     'name': v['name'],
                     'img': v['image_s3'],
-                    'rank': r
+                    'rank': v['drink_rating_review']
                 }
-                for v, r in zip(recom, rank)
+                for v in recom
             ]
             response['recom'] = top_data
 
@@ -183,7 +135,8 @@ def store_list_menu():
             {
                 "name": v["name"],
                 "description": v['description'],
-                "img": v['image_s3']
+                "img": v['image_s3'],
+                'rank': v['drink_rating_review']
             }
             for v in drink_data
         ]
