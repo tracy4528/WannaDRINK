@@ -24,8 +24,19 @@ def all_store():
     sql = """SELECT count(*) FROM store_info;"""
     cursor.execute(sql)
     data = cursor.fetchone()
+
+    brand_cursor = conn.cursor()
+    sql_brand="SELECT count(distinct store) as num FROM drink_list ;"
+    brand_cursor.execute(sql_brand)
+    brand_data = brand_cursor.fetchone()
+    
+    drink_cursor = conn.cursor()
+    sql_drink="SELECT count(*) as drink_num FROM drink_list;"
+    drink_cursor.execute(sql_drink)
+    drink_data = drink_cursor.fetchone()
+
     cursor.close()
-    return data['count(*)']
+    return data['count(*)'], brand_data['num'], drink_data['drink_num']
 
 def drink_google_result():
     cursor = conn.cursor()
@@ -163,10 +174,8 @@ def dashboard(selected_groups, n_intervals):
     lines,layout=update_line_plot(selected_groups)
     fig_group = go.Figure(data=lines, layout=layout)
     google=drink_google_result()
-    text_store=all_store()
-    text_drink=12057
-    text_brand=241
-
+    text_store, brand_num, drink_num=all_store()
+  
 
     fig_bar = go.Figure(data=[
         go.Bar(go.Bar(x=list(google.keys()), y=list(google.values())))
@@ -178,7 +187,7 @@ def dashboard(selected_groups, n_intervals):
     
 
 
-    return fig_group, fig_bar ,text_store, text_drink, text_brand, df.to_dict('records')
+    return fig_group, fig_bar ,text_store, drink_num, brand_num, df.to_dict('records')
 
 
 

@@ -13,15 +13,6 @@ my_aws_conf = S3Config()
 my_logging_conf = LoggingConfig()
 
 conn = pymysql.connect(**my_db_conf.db_config)
-# db_pool = mysql.connector.pooling.MySQLConnectionPool(
-#     pool_name="wannadrink",
-#     pool_size=5,
-#     host=os.getenv('mysql_host'), 
-#     user=os.getenv('mysql_user'),
-#     password=os.getenv('mysql_password'), 
-#     database='product'
-# )
-# conn= db_pool.get_connection()
 cursor = conn.cursor()
 
 # create logger
@@ -41,14 +32,35 @@ def map():
     return render_template('map.html')
 
 
-@app.route('/api/v1/hotword', methods=['GET'])
+@app.route('/api/v1/hot_drink', methods=['GET'])
 def get_keyword():
-    # sql = "SELECT keyword FROM hot_keyword order by id desc limit 2 "
+    # sql = "SELECT store,drink_name,img  FROM hot_drink_frontend order by id limit 5;"
+    # cursor = conn.cursor()
     # cursor.execute(sql)
-    # products = cursor.fetchall()
-    # text1=products[1]['keyword'].split('格式：')[-1]
-    # text = products[0]['keyword'].split('\n')[0].split('：')[1].split('、')
-    drink=['清心-蜜桃凍紅茶','烏弄','Tea Top','八曜','山焙','坪林手','鶴茶樓-桂花烏龍','一沐日-粉粿']
+    # drink = cursor.fetchall()
+    # cursor.close()
+    drink=[
+        {
+        "drink_name": "\u860b\u679c\u6842\u82b1",
+        "img": "https://wannadrink.s3.ap-northeast-1.amazonaws.com/hot_drink_img/2023101601.jpeg",
+        "store": "\u9ed8\u6cab\u624b\u4f5c\u98f2\u54c1"
+        },
+        {
+        "drink_name": "\u4f2f\u7235\u5976\u8336",
+        "img": "https://wannadrink.s3.ap-northeast-1.amazonaws.com/hot_drink_img/2023101602.jpeg",
+        "store": "\u5148\u559d\u9053"
+        },
+        {
+        "drink_name": "\u91d1\u8431\u70cf\u9f8d",
+        "img": "https://wannadrink.s3.ap-northeast-1.amazonaws.com/hot_drink_img/2023101603.jpeg",
+        "store": "\u70cf\u5f04"
+        },
+        {
+        "drink_name": "\u860b\u679c\u7d05\u8431",
+        "img": "https://wannadrink.s3.ap-northeast-1.amazonaws.com/hot_drink_img/2023101604.jpeg",
+        "store": "\u9f9c\u8a18\u9298\u54c1"
+        }
+    ]
 
     response = {
         'data': drink,
