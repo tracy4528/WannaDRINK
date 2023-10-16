@@ -1,13 +1,4 @@
-2023-10-16 16:26 WARNING  * Debugger is active!
-2023-10-16 16:26 INFO  * Debugger PIN: 775-258-130
-2023-10-16 16:26 INFO 127.0.0.1 - - [16/Oct/2023 16:26:37] "GET /dashboard_/ HTTP/1.1" 200 -
-2023-10-16 16:26 INFO 127.0.0.1 - - [16/Oct/2023 16:26:37] "GET /dashboard_/_dash-layout HTTP/1.1" 200 -
-2023-10-16 16:26 INFO 127.0.0.1 - - [16/Oct/2023 16:26:37] "GET /dashboard_/_dash-dependencies HTTP/1.1" 200 -
-2023-10-16 16:26 INFO 127.0.0.1 - - [16/Oct/2023 16:26:37] "GET /dashboard_/_favicon.ico?v=2.11.1 HTTP/1.1" 200 -
-2023-10-16 16:26 INFO 127.0.0.1 - - [16/Oct/2023 16:26:37] "[36mGET /dashboard_/_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1[0m" 304 -
-2023-10-16 16:26 INFO 127.0.0.1 - - [16/Oct/2023 16:26:37] "[36mGET /dashboard_/_dash-component-suites/dash/dash_table/async-highlight.js HTTP/1.1[0m" 304 -
-2023-10-16 16:26 INFO 127.0.0.1 - - [16/Oct/2023 16:26:37] "[36mGET /dashboard_/_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1[0m" 304 -
-2023-10-16 16:26 INFO 127.0.0.1 - - [16/Oct/2023 16:26:37] "[36mGET /dashboard_/_dash-component-suites/dash/dash_table/async-table.js HTTP/1.1[0m" 304 -
-2023-10-16 16:26 INFO 127.0.0.1 - - [16/Oct/2023 16:26:37] "[36mGET /dashboard_/_dash-component-suites/dash/dcc/async-plotlyjs.js HTTP/1.1[0m" 304 -
-2023-10-16 16:26 INFO 127.0.0.1 - - [16/Oct/2023 16:26:38] "POST /dashboard_/_dash-update-component HTTP/1.1" 200 -
-2023-10-16 16:26 INFO 127.0.0.1 - - [16/Oct/2023 16:26:47] "GET /static/js/map.js HTTP/1.1" 200 -
+2023-10-16 16:59 WARNING  * Debugger is active!
+2023-10-16 16:59 INFO  * Debugger PIN: 775-258-130
+2023-10-16 16:59 INFO 127.0.0.1 - - [16/Oct/2023 16:59:22] "POST /search HTTP/1.1" 200 -
+2023-10-16 16:59 INFO 127.0.0.1 - - [16/Oct/2023 16:59:25] "GET /api/v1/menu?keyword=CoCo都可 HTTP/1.1" 200 -

@@ -55,13 +55,35 @@
         }
 
     .slider-item {
-            flex-basis: calc(25% - 20px); 
-            margin: 10px;
-            padding: 10px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            text-align: center;
-        }
+        width: calc(25% - 20px); /* 保持原来的宽度 */
+        margin: 10px;
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        text-align: center;
+        display: flex; /* 使用 flex 布局 */
+        flex-direction: column; /* 垂直方向排列内容 */
+        align-items: center; /* 水平居中 */
+    }
+
+    .slider-item img {
+      margin-top: 10px;
+      max-height: 200px; /* 增加图片的最大高度 */
+      width: auto; /* 自动调整图片宽度，保持纵横比 */
+    }
+
+    .drink-name {
+      font-size: 18px;
+      color: #333;
+      margin: 20px 0;
+    }
+
+    .drink-rank {
+        font-size: 14px; /* 调整排名的字体大小 */
+        color: #666;
+        margin-top: 5px;
+    }
+
 </style>
 
 
@@ -125,7 +147,7 @@
       <div class="slider-item">
         <img src="{{ search['img'] }}">
         <div class="drink-name">{{ search['name'] }}</div>
-        <div class="drink-rank"> 👍 {{ search['rank'] }}%</div>
+        <div class="drink-rank"> 👍 {{ search['rank'] }}</div>
       </div>
       {% endfor %}
     </div>
