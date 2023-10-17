@@ -13,4 +13,5 @@ log
 log
 test.py
 img/
-log/
+cookies.txt
+headers_cookies.txt
