@@ -95,18 +95,42 @@ body {
 }
 
 .tm-footer {
-    text-align: center;
     padding: 10px;
     background-color: rgba(255, 255, 255, 0.6); /* 調整背景顏色透明度 */
     border-radius: 10px;
     color: #333;
 }
 
-.tm-footer a {
-    color: #333;
-    text-decoration: none;
+
+
+
+/* 页脚内容的样式 */
+.tm-footer-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
-.tm-footer a:hover {
+/* 页脚部分的样式 */
+.tm-footer-section {
+    flex-basis: 48%; /* 每个部分的宽度，使其在大屏幕上占一半 */
+    padding: 10px;
+}
+
+/* 标题样式 */
+.tm-footer-section h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+/* 链接样式 */
+.tm-footer-section a {
+    color: #333;
     text-decoration: underline;
+}
+
+/* 联系信息段落的样式 */
+.tm-footer-section p {
+    font-size: 15px;
+    margin: 10px 0;
 }

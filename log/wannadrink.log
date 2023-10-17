@@ -1,4 +1,38 @@
-2023-10-16 16:59 WARNING  * Debugger is active!
-2023-10-16 16:59 INFO  * Debugger PIN: 775-258-130
-2023-10-16 16:59 INFO 127.0.0.1 - - [16/Oct/2023 16:59:22] "POST /search HTTP/1.1" 200 -
-2023-10-16 16:59 INFO 127.0.0.1 - - [16/Oct/2023 16:59:25] "GET /api/v1/menu?keyword=CoCo都可 HTTP/1.1" 200 -
+2023-10-17 10:51 WARNING  * Debugger is active!
+2023-10-17 10:51 INFO  * Debugger PIN: 775-258-130
+2023-10-17 10:51 INFO 127.0.0.1 - - [17/Oct/2023 10:51:26] "GET / HTTP/1.1" 200 -
+2023-10-17 10:51 INFO 127.0.0.1 - - [17/Oct/2023 10:51:27] "GET /static/css/a.css HTTP/1.1" 200 -
+2023-10-17 10:51 INFO 127.0.0.1 - - [17/Oct/2023 10:51:27] "[36mGET /static/js/index_hotdrink.js HTTP/1.1[0m" 304 -
+2023-10-17 10:51 INFO 127.0.0.1 - - [17/Oct/2023 10:51:27] "GET /map.html HTTP/1.1" 200 -
+2023-10-17 10:51 INFO 127.0.0.1 - - [17/Oct/2023 10:51:27] "[36mGET /static/js/map.js HTTP/1.1[0m" 304 -
+2023-10-17 10:51 INFO 127.0.0.1 - - [17/Oct/2023 10:51:27] "GET /api/v1/hot_drink HTTP/1.1" 200 -
+2023-10-17 10:52 INFO 127.0.0.1 - - [17/Oct/2023 10:52:52] "GET / HTTP/1.1" 200 -
+2023-10-17 10:52 INFO 127.0.0.1 - - [17/Oct/2023 10:52:52] "GET /map.html HTTP/1.1" 200 -
+2023-10-17 10:52 INFO 127.0.0.1 - - [17/Oct/2023 10:52:52] "GET /static/css/a.css HTTP/1.1" 200 -
+2023-10-17 10:52 INFO 127.0.0.1 - - [17/Oct/2023 10:52:52] "[36mGET /static/js/index_hotdrink.js HTTP/1.1[0m" 304 -
+2023-10-17 10:52 INFO 127.0.0.1 - - [17/Oct/2023 10:52:52] "GET /api/v1/hot_drink HTTP/1.1" 200 -
+2023-10-17 10:52 INFO 127.0.0.1 - - [17/Oct/2023 10:52:52] "[36mGET /static/js/map.js HTTP/1.1[0m" 304 -
+2023-10-17 10:53 INFO 127.0.0.1 - - [17/Oct/2023 10:53:30] "GET / HTTP/1.1" 200 -
+2023-10-17 10:53 INFO 127.0.0.1 - - [17/Oct/2023 10:53:30] "GET /static/css/a.css HTTP/1.1" 200 -
+2023-10-17 10:53 INFO 127.0.0.1 - - [17/Oct/2023 10:53:30] "[36mGET /static/js/index_hotdrink.js HTTP/1.1[0m" 304 -
+2023-10-17 10:53 INFO 127.0.0.1 - - [17/Oct/2023 10:53:30] "GET /map.html HTTP/1.1" 200 -
+2023-10-17 10:53 INFO 127.0.0.1 - - [17/Oct/2023 10:53:30] "[36mGET /static/js/map.js HTTP/1.1[0m" 304 -
+2023-10-17 10:53 INFO 127.0.0.1 - - [17/Oct/2023 10:53:30] "GET /api/v1/hot_drink HTTP/1.1" 200 -
+2023-10-17 10:53 INFO 127.0.0.1 - - [17/Oct/2023 10:53:58] "GET / HTTP/1.1" 200 -
+2023-10-17 10:53 INFO 127.0.0.1 - - [17/Oct/2023 10:53:58] "GET /static/css/a.css HTTP/1.1" 200 -
+2023-10-17 10:53 INFO 127.0.0.1 - - [17/Oct/2023 10:53:58] "[36mGET /static/js/index_hotdrink.js HTTP/1.1[0m" 304 -
+2023-10-17 10:53 INFO 127.0.0.1 - - [17/Oct/2023 10:53:58] "GET /map.html HTTP/1.1" 200 -
+2023-10-17 10:53 INFO 127.0.0.1 - - [17/Oct/2023 10:53:58] "[36mGET /static/js/map.js HTTP/1.1[0m" 304 -
+2023-10-17 10:53 INFO 127.0.0.1 - - [17/Oct/2023 10:53:58] "GET /api/v1/hot_drink HTTP/1.1" 200 -
+2023-10-17 10:54 INFO 127.0.0.1 - - [17/Oct/2023 10:54:48] "GET / HTTP/1.1" 200 -
+2023-10-17 10:54 INFO 127.0.0.1 - - [17/Oct/2023 10:54:49] "GET /static/css/a.css HTTP/1.1" 200 -
+2023-10-17 10:54 INFO 127.0.0.1 - - [17/Oct/2023 10:54:49] "[36mGET /static/js/index_hotdrink.js HTTP/1.1[0m" 304 -
+2023-10-17 10:54 INFO 127.0.0.1 - - [17/Oct/2023 10:54:49] "GET /map.html HTTP/1.1" 200 -
+2023-10-17 10:54 INFO 127.0.0.1 - - [17/Oct/2023 10:54:49] "[36mGET /static/js/map.js HTTP/1.1[0m" 304 -
+2023-10-17 10:54 INFO 127.0.0.1 - - [17/Oct/2023 10:54:49] "GET /api/v1/hot_drink HTTP/1.1" 200 -
+2023-10-17 10:57 INFO 127.0.0.1 - - [17/Oct/2023 10:57:45] "GET / HTTP/1.1" 200 -
+2023-10-17 10:57 INFO 127.0.0.1 - - [17/Oct/2023 10:57:45] "[36mGET /static/css/a.css HTTP/1.1[0m" 304 -
+2023-10-17 10:57 INFO 127.0.0.1 - - [17/Oct/2023 10:57:45] "[36mGET /static/js/index_hotdrink.js HTTP/1.1[0m" 304 -
+2023-10-17 10:57 INFO 127.0.0.1 - - [17/Oct/2023 10:57:45] "GET /map.html HTTP/1.1" 200 -
+2023-10-17 10:57 INFO 127.0.0.1 - - [17/Oct/2023 10:57:45] "[36mGET /static/js/map.js HTTP/1.1[0m" 304 -
+2023-10-17 10:57 INFO 127.0.0.1 - - [17/Oct/2023 10:57:45] "GET /api/v1/hot_drink HTTP/1.1" 200 -

@@ -57,9 +57,7 @@ def get_keyword():
 @app.route("/search", methods=["POST"])
 def search_bar():
     response = {
-        'data': [],
-        'article': [],
-        'recom': [],
+        'data': []
     }
 
     try:
@@ -71,16 +69,6 @@ def search_bar():
         cursor.execute(sql_keyword)
         keyword = cursor.fetchall()
 
-        sql_cursor = conn.cursor()
-        sql_google = f"SELECT store, article_link, article_title FROM google_search_article WHERE store LIKE '{search}' LIMIT 4;"
-        sql_cursor.execute(sql_google)
-        hot = sql_cursor.fetchall()
-
-        top_cursor = conn.cursor()
-        sql_top = f"SELECT name, image_s3,drink_rating_review FROM drink_list WHERE store LIKE '{search}' and drink_rating_review is not null;"
-        top_cursor.execute(sql_top)
-        recom = top_cursor.fetchall()
-
         if keyword:
             data = [
                 {
@@ -90,6 +78,37 @@ def search_bar():
                 for v in keyword
             ]
             response['data'] = data
+
+
+    except Exception as e:
+        response = {
+            'error': str(e)
+        }
+        wannadrink_logger.warning(f"[Error] searching bar: {e}")
+
+    finally:
+        cursor.close()
+
+    return render_template('search_result.html', response=response)
+
+@app.route("/api/v1/store_recom", methods=['GET'])
+def store_recom():
+    response = {
+        'article': [],
+        'recom': [],
+    }
+    try:
+        search = request.args.get('keyword', '').strip()
+        sql_cursor = conn.cursor()
+        sql_google = f"SELECT store, article_link, article_title FROM google_search_article WHERE store LIKE '%{search}%' LIMIT 4;"
+        sql_cursor.execute(sql_google)
+        hot = sql_cursor.fetchall()
+
+        top_cursor = conn.cursor()
+        sql_top = f"SELECT name, image_s3,drink_rating_review FROM drink_list WHERE store LIKE '%{search}%' and drink_rating_review is not null;"
+        top_cursor.execute(sql_top)
+        recom = top_cursor.fetchall()
+
         if hot:
             article = [
                 {
@@ -110,17 +129,14 @@ def search_bar():
             ]
             response['recom'] = top_data
 
-
     except Exception as e:
         response = {
             'error': str(e)
         }
-        wannadrink_logger.warning(f"[Error] searching bar: {e}")
-
+        wannadrink_logger.warning(f"[Error] searching store recommendation drink and article : {e}")
     finally:
         cursor.close()
-
-    return render_template('search_result.html', response=response)
+    return render_template('store.html',response=response) 
 
 
 @app.route("/api/v1/menu", methods=['GET'])
