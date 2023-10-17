@@ -13,15 +13,6 @@ my_aws_conf = S3Config()
 my_logging_conf = LoggingConfig()
 
 conn = pymysql.connect(**my_db_conf.db_config)
-# db_pool = mysql.connector.pooling.MySQLConnectionPool(
-#     pool_name="wannadrink",
-#     pool_size=5,
-#     host=os.getenv('mysql_host'), 
-#     user=os.getenv('mysql_user'),
-#     password=os.getenv('mysql_password'), 
-#     database='product'
-# )
-# conn= db_pool.get_connection()
 cursor = conn.cursor()
 
 # create logger
@@ -41,132 +32,112 @@ def map():
     return render_template('map.html')
 
 
-@app.route('/api/v1/hotword', methods=['GET'])
+@app.route('/api/v1/hot_drink', methods=['GET'])
 def get_keyword():
-    # sql = "SELECT keyword FROM hot_keyword order by id desc limit 2 "
-    # cursor.execute(sql)
-    # products = cursor.fetchall()
-    # text1=products[1]['keyword'].split('格式：')[-1]
-    # text = products[0]['keyword'].split('\n')[0].split('：')[1].split('、')
-    drink=['清心-蜜桃凍紅茶','烏弄','Tea Top','八曜','山焙','坪林手','鶴茶樓-桂花烏龍','一沐日-粉粿']
+    sql = "SELECT store,drink_name,img  FROM hot_drink_frontend order by id desc limit 5;"
+    cursor = conn.cursor()
+    cursor.execute(sql)
+    drink = cursor.fetchall()
+    
+    # drink=[
+    #     {
+    #     "drink_name": "\u860b\u679c\u6842\u82b1",
+    #     "img": "https://wannadrink.s3.ap-northeast-1.amazonaws.com/hot_drink_img/2023101601.jpeg",
+    #     "store": "\u9ed8\u6cab\u624b\u4f5c\u98f2\u54c1"
+    #     }
+    # ]
 
     response = {
         'data': drink,
                 }
     return response
 
-@app.route("/api/v1/hot_article")
-def hot_article():
-    try:
-        today_date = datetime.date.today().strftime('%Y%m%d')
-        sql = f"SELECT * FROM ptt_articles WHERE crawl_date = {today_date} ORDER BY push DESC LIMIT 5"
-        cursor = conn.cursor()
-        cursor.execute(sql)
-        article = cursor.fetchall()
-
-        data= [
-            {
-                "title": v["title"],
-                'path':v["url"]
-            }
-            for v in article
-        ]
-
-
-        # sql_dcard = "SELECT * FROM dcard_articles WHERE crawl_date ='20231003' ORDER BY push DESC LIMIT 2"
-        # cursor_dcard = conn.cursor()
-        # cursor_dcard.execute(sql_dcard)
-        # dcard_articles = cursor_dcard.fetchall()
-
-        # data += [
-        #     {
-        #         "title": v["title"],
-        #         'path': v["url"]
-        #     }
-        #     for v in dcard_articles
-        # ]
-        response = {
-            'data': data,
-            'date':today_date
-        }
-
-    except Exception as e:
-        response = {
-            'error': str(e)
-        }
-        wannadrink_logger.warning(f"[Error] Query hot article : {e}")
-    finally:
-        cursor.close()
-
-    return response
-
-
-
 
 
 @app.route("/search", methods=["POST"])
 def search_bar():
+    response = {
+        'data': []
+    }
+
     try:
         search = request.form.get("search")
-        search="%"+search+"%"
+        search = "%" + search + "%"
+
         cursor = conn.cursor()
-        sql = f"SELECT store,image_url FROM drink_list where name like '{search}'or store like'{search}' group by store  limit 5;"
-        cursor.execute(sql)
+        sql_keyword = f"SELECT store, image_s3 FROM drink_list WHERE name LIKE '{search}' OR store LIKE '{search}' GROUP BY store LIMIT 5;"
+        cursor.execute(sql_keyword)
         keyword = cursor.fetchall()
 
-        sql_cursor = conn.cursor()
-        sql_google=f"SELECT store,article_link,article_title FROM google_search_article where store like '{search}' limit 4;"
-        sql_cursor.execute(sql_google)
-        hot= sql_cursor.fetchall()
+        if keyword:
+            data = [
+                {
+                    "store": v["store"],
+                    "img": v["image_s3"]
+                }
+                for v in keyword
+            ]
+            response['data'] = data
 
-        top_cursor = conn.cursor()
-        sql = f"SELECT name,image_url FROM drink_list where store like '{search}' and category_name like '%推薦%';"
-        top_cursor.execute(sql)
-        recom= top_cursor.fetchall()
-
-        data = [
-            {
-                "store": v["store"],
-                "img": v["image_url"]
-            }
-            for v in keyword
-        ]
-
-        article = [
-            {
-                'title':v['article_title'],
-                "url": v["article_link"]
-            }
-            for v in hot
-        ]
-
-        rank = [97, 98, 99, 95, 99,97,96]
-
-        top_data = [
-            {
-            'name': v['name'],
-            'img': v['image_url'],
-            'rank': r
-
-        }
-        for v, r in zip(recom, rank)
-        ]
-
-        response = {
-            'data': data,
-            'article':article,
-            'recom':top_data
-        }
 
     except Exception as e:
         response = {
             'error': str(e)
         }
         wannadrink_logger.warning(f"[Error] searching bar: {e}")
+
     finally:
         cursor.close()
-    
-    return render_template('search_result.html',response=response)
+
+    return render_template('search_result.html', response=response)
+
+@app.route("/api/v1/store_recom", methods=['GET'])
+def store_recom():
+    response = {
+        'article': [],
+        'recom': [],
+    }
+    try:
+        search = request.args.get('keyword', '').strip()
+        sql_cursor = conn.cursor()
+        sql_google = f"SELECT store, article_link, article_title FROM google_search_article WHERE store LIKE '%{search}%' LIMIT 4;"
+        sql_cursor.execute(sql_google)
+        hot = sql_cursor.fetchall()
+
+        top_cursor = conn.cursor()
+        sql_top = f"SELECT name, image_s3,drink_rating_review FROM drink_list WHERE store LIKE '%{search}%' and drink_rating_review is not null;"
+        top_cursor.execute(sql_top)
+        recom = top_cursor.fetchall()
+
+        if hot:
+            article = [
+                {
+                    'title': v['article_title'],
+                    "url": v["article_link"]
+                }
+                for v in hot
+            ]
+            response['article'] = article
+        if recom:
+            top_data = [
+                {
+                    'name': v['name'],
+                    'img': v['image_s3'],
+                    'rank': v['drink_rating_review']
+                }
+                for v in recom
+            ]
+            response['recom'] = top_data
+
+    except Exception as e:
+        response = {
+            'error': str(e)
+        }
+        wannadrink_logger.warning(f"[Error] searching store recommendation drink and article : {e}")
+    finally:
+        cursor.close()
+    return render_template('store.html',response=response) 
+
 
 @app.route("/api/v1/menu", methods=['GET'])
 def store_list_menu():
@@ -180,7 +151,8 @@ def store_list_menu():
             {
                 "name": v["name"],
                 "description": v['description'],
-                "img": v['image_url']
+                "img": v['image_s3'],
+                'rank': v['drink_rating_review']
             }
             for v in drink_data
         ]
