@@ -3,9 +3,11 @@
 <head>
 	<meta charset="UTF-8">
 	<title>WannaDRINK</title>
-    <link href="static/css/main.css" rel="stylesheet">
+    <link href="static/css/a.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css"/>
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick-theme.css"/>
 
 
 </head>
@@ -16,6 +18,7 @@
 		<section class="tm-site-header tm-flex-center tm-mb-50 tm-bgcolor-1 tm-border-rounded">
 			<i class="fas fa-heart fa-3x"></i>
 			<h1>WannaDRINK</h1>
+			<p>手搖飲攻略大全, 提供最近流行的手搖飲資訊以及飲料評價</p>
 		</section>
 
 
@@ -34,38 +37,8 @@
 			<div class="tm-about-header tm-flex-center">
 				<h2>🥤熱門飲料🥤</h2>
 			</div>
-			<div class="slider ">
+			<div class="slider">
 				
-				<div class="slider-item">
-					<img src="static/img/no1.jpeg">
-					<div class="drink-store">默沫手作飲品</div>
-					<div class="drink-name">蘋果桂花</div>
-				</div>
-
-				<div class="slider-item">
-					<img src="static/img/no2.jpeg" >
-					<div class="drink-store">先喝道</div>
-					<div class="drink-name">伯爵奶茶</div>
-				</div>
-
-				<div class="slider-item">
-					<img src="static/img/no3.jpeg" >
-					<div class="drink-store">烏弄</div>
-					<div class="drink-name">金萱烏龍</div>
-				</div>
-
-				<div class="slider-item">
-					<img src="static/img/apple.png" >
-					<div class="drink-store">龜記銘品</div>
-					<div class="drink-name">蘋果紅萱</div>
-				</div>
-
-				<div class="slider-item">
-					<img src="static/img/8yao.jpeg" >
-					<div class="drink-store">八曜和茶</div>
-					<div class="drink-name">83蜂檸爽爽</div>
-				</div>
-
 			</div>
 			<p class="slider-item"><a href="/dashboard_/" >更多流行飲料</a></p>
 
@@ -74,58 +47,32 @@
 
 		<section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
 			<div class="tm-about-header tm-flex-center">
-				<h2>🌏飲料地圖🌏</h2>
-				<iframe class="map", src="/map.html" width="600" height="600"></iframe>
-				<a href="map.html"><b style="background-color: lightcoral; color: lightcyan;">
-					click here!
-				</b></a>
-
+				<h2><a href="map.html">🌏飲料地圖🌏</a></h2>
+				<iframe class="map tm-about-header tm-flex-center", src="/map.html" width="800" height="600"></iframe>
 			</div>
 		</section>
 
 
-
-
 		<footer class="tm-footer">
-			 2023 WannaDRINK - Design: Tracy Huang
+			<div class="tm-footer-content">
+				<div class="tm-footer-section">
+					<p>這裡是一個可以解決飲料選擇障礙的小工具</p>
+					<p>如果有任何問題歡迎寄信聯絡我 ヾ(●´∀`●)ﾉ</p>
+					<p>人生苦短，手搖飲萬歲～</p>
+				</div>
+				<div class="tm-footer-section">
+					<h3>聯絡方式</h3>
+					<p>Email: <a href="mailto:tracy4528@gmail.com">tracy4528@gmail.com</a></p>
+					<p>Github: <a href="https://github.com/tracy4528/WannaDRINK">tracy4528/WannaDRINK</a></p>
+				</div>
+			</div>
 		</footer>
 	</div>
 
-	<script >
-		function searchDrink() {
-            var drinkName = document.getElementById("drinkInput").value;
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "http://127.0.0.1:5000/submit", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var response = JSON.parse(xhr.responseText);
-					var jsonData = response.data; 
-                    var drinkResult = document.getElementById("drinkResult");
-                    if (jsonData.imageUrl) {
-                        drinkResult.innerHTML = "<img src='" + jsonData.imageUrl + "'>";
-                    } else {
-                        drinkResult.innerHTML = "未找到该飲料！";
-                    }
-                }
-            };
-            xhr.send("drinkName=" + encodeURIComponent(drinkName));
-        }
-
-	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.js"></script>
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-	<script>
-		$(document).ready(function () {
-			$('.slider').slick({
-				autoplay: true,
-				autoplaySpeed: 3000, 
-				infinite: true, 
-				slidesToShow: 3, 
-				slidesToScroll: 1 
-			});
-		});
-	</script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"></script>
+	<script src="static/js/index_hotdrink.js"></script>
 
 </html>

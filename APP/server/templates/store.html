@@ -55,21 +55,21 @@
         }
 
     .slider-item {
-        width: calc(25% - 20px); /* 保持原来的宽度 */
+        width: calc(25% - 20px);
         margin: 10px;
         padding: 10px;
         background-color: #fff;
         border: 1px solid #ddd;
         text-align: center;
-        display: flex; /* 使用 flex 布局 */
-        flex-direction: column; /* 垂直方向排列内容 */
-        align-items: center; /* 水平居中 */
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
     }
 
     .slider-item img {
       margin-top: 10px;
-      max-height: 200px; /* 增加图片的最大高度 */
-      width: auto; /* 自动调整图片宽度，保持纵横比 */
+      max-height: 200px; 
+      width: auto; 
     }
 
     .drink-name {
@@ -79,7 +79,7 @@
     }
 
     .drink-rank {
-        font-size: 14px; /* 调整排名的字体大小 */
+        font-size: 14px; 
         color: #666;
         margin-top: 5px;
     }
@@ -97,47 +97,45 @@
     </div>
 
     <br><br><br>
-    <div class="container">
-      <ul class="list-group">
-        {% if response["data"] == [] %}
-        <li class="list-group-item">
-          <div class="row align-items-center">
-            <div class="col-12">
-              <h4>無相似搜尋</h4>
-            </div>
-          </div>
-        </li>
 
-        
+    <div class="container mt-4">
+      <h4>大家推薦！</h4>
+    </div>
+    
+    <div class="slider menu-row container ">
+      {% for search in response["recom"] %}
+      <div class="slider-item">
+        <img src="{{ search['img'] }}">
+        <div class="drink-name">{{ search['name'] }}</div>
+        <div class="drink-rank"> 👍 {{ search['rank'] }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    
 
-        {% else %}
-        {% for search in response["data"] %}
-        <li class="list-group-item">
+    <br><br><br>
+    <div class="container mt-4">
+      <h4>熱門推薦文章</h4>
+    </div>
+
+    <div class="container mt-4">
+      <ul class="list-unstyled">
+        {% for search in response["article"] %}
+        <li class="media">
           <a
-            href="/api/v1/store_recom?keyword={{ search['store'] }}"
+            href="{{ search['url'] }}"
             class="text-decoration-none"
           >
-            <div class="row align-items-center">
-              <div class="col-6">
-                <h3>{{ search["store"] }}</h3>
-              </div>
-              <div class="col-6 text-right">
-                <img
-                  src="{{ search['img'] }}"
-                  alt="store image"
-                  class="img-fluid"
-                />
-              </div>
+            <div class="media-body">
+              <p class="mb-0">
+                "{{ search['title'] }}"
+              </p>
             </div>
           </a>
         </li>
         {% endfor %}
-        {% endif %}
       </ul>
     </div>
-
-    <br>
-
 
     <!-- 引入 Bootstrap JavaScript 库 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

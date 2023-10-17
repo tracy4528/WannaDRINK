@@ -1,0 +1,136 @@
+body {
+    background-image: url('https://www.popdaily.com.tw/shaper/u/202307/bc197549-5a11-4c04-981e-2c76d404ce2e.jpg?resize-w=900&resize-h=468'); /* 更改 path_to_your_background_image.jpg 為您的背景圖片路徑 */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+.tm-site-header {
+    background-color: rgba(255, 255, 255, 0.6);
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.tm-site-header h1 {
+    font-size: 36px;
+    color: #333;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.tm-about {
+    background-color: #f7f7f7; /* 更改背景顏色 */
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.tm-about h2 {
+    font-size: 24px;
+    color: #333;
+}
+
+.tm-contact-form {
+    margin-top: 20px;
+}
+
+.tm-contact-form input[type="text"] {
+    width: 80%;
+    padding: 10px;
+    border: 2px solid #333;
+    border-radius: 5px;
+}
+
+.tm-btn-submit {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+.slider {
+    width: 80%; /* 调整轮播宽度 */
+    margin: 0 auto;
+}
+
+/* .slider-item {
+    text-align: center;
+    flex: 1;
+    margin: 0 10px; 
+    padding: 10px;
+
+} */
+
+.slider-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 10px; /* 左右间隔为 10px */
+    padding: 10px;
+}
+
+.slider img {
+    width: 330px;
+    height: 260px;
+}
+
+
+.drink-store, .drink-name {
+    font-size: 18px;
+    color: #333;
+    margin: 10px 0; 
+}
+
+.slider-item a {
+    display: block;
+    font-size: 20px;
+    color: #333;
+    text-decoration: underline;
+    margin-top: 0px;
+}
+
+.tm-footer {
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.6); /* 調整背景顏色透明度 */
+    border-radius: 10px;
+    color: #333;
+}
+
+
+
+
+/* 页脚内容的样式 */
+.tm-footer-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+/* 页脚部分的样式 */
+.tm-footer-section {
+    flex-basis: 48%; /* 每个部分的宽度，使其在大屏幕上占一半 */
+    padding: 10px;
+}
+
+/* 标题样式 */
+.tm-footer-section h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+/* 链接样式 */
+.tm-footer-section a {
+    color: #333;
+    text-decoration: underline;
+}
+
+/* 联系信息段落的样式 */
+.tm-footer-section p {
+    font-size: 15px;
+    margin: 10px 0;
+}
