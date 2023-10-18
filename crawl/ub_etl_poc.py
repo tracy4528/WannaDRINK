@@ -29,7 +29,6 @@ def s3_parse():
 
     for obj in objects.get('Contents'):
         file_name = obj.get('Key')
-
         
         if file_name.endswith(".json"):
             s3_object = s3.get_object(Bucket=s3_bucket_name, Key=file_name)
@@ -59,19 +58,21 @@ def s3_parse():
 
             
 
-text={'Red Bull 能量小桃氣': '100% (4)',
-'RedBull 能量小火龍': '100% (4)',
-'許慶良酪梨布丁鮮奶': '100% (5)',
-'荔枝朵朵':'100% (3)',
-'許慶良觀音拿鐵': '90% (10)',
-'古城錫蘭紅茶': '100% (8)',
-'冰釀蜜朵朵': '96% (199)',
-'檸檬愛玉': '100% (33)'}
+text={'復刻胚芽奶茶': '97% (222)',
+'復刻奶茶': '97% (634)',
+'舶來紅茶': '96% (30)',
+'藝伎多多':'98% (263)',
+'桂香烏龍多多': '98% (209)',
+'綠茶多多': '98% (173)',
+'舶來多多': '98% (92)',
+'綺夢紅茶': '98% (43)',
+'鶴記鴛鴦凍奶茶 ':'97% (699)',
+'桂香烏龍凍綺夢那堤':'98% (233)'}
 
 
 def insert_sql(text):
     for drink, rating in text.items():
-        update_query = f"UPDATE drink_list SET drink_rating_review = '{rating}' WHERE name like '%{drink}%' and  store like '%大苑子%'"
+        update_query = f"UPDATE drink_list SET drink_rating_review = '{rating}' WHERE name like '%{drink}%' and  store like '%鶴茶樓%'"
         cursor.execute(update_query)
 
     conn.commit()
@@ -79,4 +80,4 @@ def insert_sql(text):
 
 
 insert_sql(text)
-# s3_parse()
+#s3_parse()
