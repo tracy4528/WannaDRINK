@@ -124,7 +124,7 @@ def update_line_plot(selected_groups):
 
 def hot_article():
     cursor = conn.cursor()
-    sql = f"SELECT * FROM ptt_articles where crawl_date='{today_date}' ORDER BY push DESC limit 10"
+    sql = f"SELECT * FROM ptt_articles where crawl_date='20231017' ORDER BY push DESC limit 10"
     cursor.execute(sql)
     data = cursor.fetchall()
     cursor.close()
