@@ -19,4 +19,4 @@ def handle_exception(e):
         return e
     return "Internal Server Error", 500
 
-from server.controllers import drink_controller,d2_controller
+from server.controllers import drink_controller,dashboard_controller
