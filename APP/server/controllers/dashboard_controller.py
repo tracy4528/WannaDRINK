@@ -51,34 +51,6 @@ def drink_google_result():
         result[store] = stat
     return result
 
-def hot_keyword():
-    cursor = conn.cursor()
-    sql = """SELECT keyword FROM hot_keyword order by id desc limit 1;"""
-    cursor.execute(sql)
-    data = cursor.fetchall()
-    cursor.close()
-    keyword= data[0]['keyword'].split(',')
-    result_list = [item.strip() for item in keyword if item.strip()]
-    return result_list
-
-def boba_tea():
-    cursor = conn.cursor()
-    sql = """SELECT store, store_review_number,price FROM product.drink_list where name ='珍珠奶茶' order by price desc limit 20 ;"""
-    cursor.execute(sql)
-    data = cursor.fetchall()
-    cursor.close()
-    shops = []
-    reviews = []
-    prices = []
-    for item in data:
-        shop=item['store']
-        review=item['store_review_number']
-        price=item['price']
-        shops.append(shop)
-        reviews.append(review)
-        prices.append(price)
-
-    return shops, reviews, prices
 
 def store_google_trend():
     cursor = conn.cursor()
