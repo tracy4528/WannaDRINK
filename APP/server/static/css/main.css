@@ -1,5 +1,5 @@
 body {
-    background-image: url('https://www.popdaily.com.tw/shaper/u/202307/bc197549-5a11-4c04-981e-2c76d404ce2e.jpg?resize-w=900&resize-h=468'); /* 更改 path_to_your_background_image.jpg 為您的背景圖片路徑 */
+    background-image: url('/static/img/mainpage_background.jpeg'); 
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -20,7 +20,7 @@ body {
 }
 
 .tm-about {
-    background-color: #f7f7f7; /* 更改背景顏色 */
+    background-color: #f7f7f7; 
     padding: 20px;
     text-align: center;
     border-radius: 10px;
@@ -53,24 +53,18 @@ body {
 
 
 .slider {
-    width: 80%; /* 调整轮播宽度 */
+    width: 80%;
     margin: 0 auto;
 }
 
-/* .slider-item {
-    text-align: center;
-    flex: 1;
-    margin: 0 10px; 
-    padding: 10px;
 
-} */
 
 .slider-item {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 0 10px; /* 左右间隔为 10px */
+    margin: 0 10px; 
     padding: 10px;
 }
 
@@ -96,40 +90,36 @@ body {
 
 .tm-footer {
     padding: 10px;
-    background-color: rgba(255, 255, 255, 0.6); /* 調整背景顏色透明度 */
+    background-color: rgba(255, 255, 255, 0.6); 
     border-radius: 10px;
     color: #333;
 }
 
 
-
-
-/* 页脚内容的样式 */
 .tm-footer-content {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
 }
 
-/* 页脚部分的样式 */
+
 .tm-footer-section {
-    flex-basis: 48%; /* 每个部分的宽度，使其在大屏幕上占一半 */
+    flex-basis: 48%; 
     padding: 10px;
 }
 
-/* 标题样式 */
+
 .tm-footer-section h3 {
     font-size: 20px;
     margin-bottom: 10px;
 }
 
-/* 链接样式 */
 .tm-footer-section a {
     color: #333;
     text-decoration: underline;
 }
 
-/* 联系信息段落的样式 */
+
 .tm-footer-section p {
     font-size: 15px;
     margin: 10px 0;

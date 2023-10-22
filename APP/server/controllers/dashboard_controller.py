@@ -8,42 +8,49 @@ import dash_bootstrap_components as dbc
 import sys
 # sys.path.append('/01personal/APP')
 from server import app
-from config import MysqlConfig
+from config import MysqlpoolConfig
 import pandas as pd
 import plotly.express as px
+import mysql.connector
+from mysql.connector import pooling
+from server.utils.util import initialize_mysql_pool
 
 
-load_dotenv()
+
 today_date = datetime.now().strftime("%Y%m%d")
-my_db_conf = MysqlConfig()
-conn = pymysql.connect(**my_db_conf.db_config)
+conn_pool = initialize_mysql_pool()
+
+
 
 def all_store():
-    cursor = conn.cursor()
-
+    conn = conn_pool.get_connection()
+    cursor = conn.cursor(dictionary=True)
     sql = """SELECT count(*) FROM store_info;"""
     cursor.execute(sql)
     data = cursor.fetchone()
 
-    brand_cursor = conn.cursor()
+    brand_cursor = conn.cursor(dictionary=True)
     sql_brand="SELECT count(distinct store) as num FROM drink_list ;"
     brand_cursor.execute(sql_brand)
     brand_data = brand_cursor.fetchone()
     
-    drink_cursor = conn.cursor()
+    drink_cursor = conn.cursor(dictionary=True)
     sql_drink="SELECT count(*) as drink_num FROM drink_list;"
     drink_cursor.execute(sql_drink)
     drink_data = drink_cursor.fetchone()
 
     cursor.close()
+    conn.close() 
     return data['count(*)'], brand_data['num'], drink_data['drink_num']
 
 def drink_google_result():
-    cursor = conn.cursor()
+    conn = conn_pool.get_connection()
+    cursor = conn.cursor(dictionary=True)
     sql = """SELECT avg(trend_num) as trend_index,store FROM product.google_trend group by store order by trend_index desc;"""
     cursor.execute(sql)
     data = cursor.fetchall()
     cursor.close()
+    conn.close()
     result = {}
     for item in data:
         store=item['store']
@@ -53,12 +60,14 @@ def drink_google_result():
 
 
 def store_google_trend():
-    cursor = conn.cursor()
+    conn = conn_pool.get_connection()
+    cursor = conn.cursor(dictionary=True)
 
     sql = """SELECT * FROM google_trend where trend_date between '2023-09-01' AND '2023-09-30' """
     cursor.execute(sql)
     data = cursor.fetchall()
     cursor.close()
+    conn.close()
     store_data = {  'Date': pd.date_range('2023-09-01', periods=30)}
     for item in data:
         store = item['store']
@@ -95,11 +104,13 @@ def update_line_plot(selected_groups):
     return lines,layout
 
 def hot_article():
-    cursor = conn.cursor()
+    conn = conn_pool.get_connection()
+    cursor = conn.cursor(dictionary=True)
     sql = f"SELECT * FROM ptt_articles where crawl_date='20231017' ORDER BY push DESC limit 10"
     cursor.execute(sql)
     data = cursor.fetchall()
     cursor.close()
+    conn.close()
     url = [item['url'] for item in data ]
     push = [item['push'] for item in data ]
     title = [f"<a href='{item['url']}'>{item['title']}</a>" for item in data ]
@@ -109,17 +120,18 @@ def hot_article():
 
 
 def drink_quiz():
-    cursor = conn.cursor()
+    conn = conn_pool.get_connection()
+    cursor = conn.cursor(dictionary=True)
     sql = """SELECT * FROM drink_quiz """
     cursor.execute(sql)
     data = cursor.fetchall()
-    cursor.close()
+    
     url = [item['url'] for item in data ]
     title = [item['title'] for item in data ]
+    cursor.close()
+    conn.close()
 
     return url,title
-
-
 
 
 external_stylesheet=['https://cdn.staticfile.org/twitter-bootstrap/4.5.2/css/bootstrap.min.css']

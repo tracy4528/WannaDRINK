@@ -37,7 +37,7 @@ def handler(event=None, context=None):
     stores = cursor.fetchall()
 
     try:
-        for store in stores[32:50]:
+        for store in stores:
             driver=drive()
             driver.implicitly_wait(10)
             driver.get('https://www.google.com/')
