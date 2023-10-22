@@ -27,8 +27,8 @@ today_date = datetime.today().strftime('%Y%m%d')
 
 def hot_article_text(date=today_date, source='ptt'): 
 
-    sql_ptt = f"SELECT url FROM ptt_articles where crawl_date='{date}' ORDER BY push DESC limit 1"
-    sql_dcard = f"SELECT url FROM dcard_articles where crawl_date='{date}' ORDER BY push DESC limit 1"
+    sql_ptt = f"SELECT url FROM ptt_articles where crawl_date='{date}' ORDER BY push DESC limit 1 OFFSET 12 "
+    sql_dcard = f"SELECT url FROM dcard_articles where crawl_date='{date}' ORDER BY push DESC limit 1 OFFSET 1"
 
     if source == 'ptt':  
         sql_query = sql_ptt
@@ -47,13 +47,15 @@ def hot_article_text(date=today_date, source='ptt'):
         response = s3.get_object(Bucket='wannadrink', Key=file_key)
         json_data = response['Body'].read().decode('utf-8')
         data = json.loads(json_data)
-        print(file_key)
+
         print('==============')
 
         if 'comments' in data:
             comments.extend([comment['content'] for comment in data['comments']])
         if 'content' in data:
             comments.extend([data['content']])
+        print(data['meta_data']['title'])
+        print('==============')
 
     return comments
 
@@ -69,7 +71,7 @@ def get_hot_word(date=today_date,source='ptt'):
     completion = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "user", "content": f"請幫我從以下論壇文章取出兩個熱門討論的飲料店及飲料品項,並提供list格式,文章：'{text}'"}
+            {"role": "user", "content": f"請幫我從以下論壇文章取出三個熱門討論的關鍵字,並提供list格式,例如：[鶴茶樓-桂花烏龍,清心-蜜桃凍紅茶]文章：'{text}'"}
         ]
     )
     keyword=completion["choices"][0]["message"]["content"]

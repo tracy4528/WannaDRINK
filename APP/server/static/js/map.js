@@ -1,6 +1,6 @@
 
 
-
+// this code is created from /feature/map.py 
     var map_690e3f6631cb33984c6a57ce210762c9 = L.map(
         "map_690e3f6631cb33984c6a57ce210762c9",
         {

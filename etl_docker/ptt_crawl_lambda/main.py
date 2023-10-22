@@ -22,6 +22,8 @@ article_list = []
 article_data = []
 
 currentDateAndTime = datetime.now()
+today_date = datetime.now().strftime("%Y%m%d")
+
 
 def get_resp(url):
     cookies = {
@@ -62,7 +64,7 @@ def get_articles(resp):
     
     return next_url
 
-def insert_ptt_article(article_data):
+def sql_ptt_article(article_data):
     try:
         insert_product_sql = ("INSERT INTO `ptt_articles` (title, url, push, pulish_date, crawl_date,created_time) VALUES (%s, %s, %s, %s, %s, %s)")
         cursor = conn.cursor()
@@ -118,21 +120,7 @@ def line_notify(message):
     data = {'message': message}
     requests.post("https://notify-api.line.me/api/notify", headers=headers, data=data)
 
-def handler(event=None, context=None):
-    url = 'https://www.ptt.cc/bbs/Drink/index.html'
-    today_date = datetime.now().strftime("%Y%m%d")
-
-    for now_page_number in range(3):
-        print(f'crawing {url}')
-        resp = get_resp(url)
-        if resp != 'error':
-            url = get_articles(resp)
-            
-        print(f'======={now_page_number+1}=======')
-
-    insert_ptt_article(article_data)
-
-
+def save_to_s3(article_list):
     for article in article_list:
         try:
             json_data=get_post_comment(article['link'])
@@ -154,7 +142,19 @@ def handler(event=None, context=None):
         except Exception as e:
             print(f'Error encountered: {e}')
             continue
-    
-    message = f'{today_date} finished ptt crawl! Successfully inserted {len(article_data)} articles into MySQL'
-    line_notify(message)
 
+def handler(event=None, context=None):
+    url = 'https://www.ptt.cc/bbs/Drink/index.html'
+
+    for now_page_number in range(3):
+        print(f'crawing {url}')
+        resp = get_resp(url)
+        if resp != 'error':
+            url = get_articles(resp)
+            
+        print(f'======={now_page_number+1}=======')
+    message = f'{today_date} finished ptt crawl! Successfully inserted {len(article_data)} articles into MySQL'
+
+    save_to_s3(article_list)
+    sql_ptt_article(article_data)
+    line_notify(message)

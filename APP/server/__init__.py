@@ -4,10 +4,7 @@ from werkzeug.exceptions import HTTPException
 
 
 app = Flask(__name__)
-# app.config.from_object(Config)
 
-# jwt = JWTManager()
-# jwt.init_app(app)
 
 @app.errorhandler(404)
 def server_error(error):
