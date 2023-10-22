@@ -7,6 +7,7 @@ import os
 from datetime import datetime
 import pymysql
 import time
+from mysql.connector import pooling
 
 load_dotenv()
 
@@ -16,11 +17,13 @@ s3 = boto3.client('s3',
                     aws_secret_access_key=os.getenv('iam_drink_secretkey'))
 
 
-conn = pymysql.connect(host=os.getenv('mysql_host'), 
-                       user=os.getenv('mysql_user'),
-                       password=os.getenv('mysql_password'), 
-                       database='product',
-                       cursorclass=pymysql.cursors.DictCursor)
+conn_pool = pooling.MySQLConnectionPool(pool_name="wannadrink",
+                                        pool_size=5,
+                                        user=os.environ.get('mysql_user'),
+                                        host= os.environ.get('mysql_host'),
+                                        password= os.environ.get('mysql_password'),
+                                        database= os.environ.get('mysql_database'))
+conn = conn_pool.get_connection()
 cursor = conn.cursor()
 
 bucket_name = 'wannadrink'

@@ -38,13 +38,13 @@ def line_notify(message):
     requests.post("https://notify-api.line.me/api/notify", headers=headers, data=data)
 
 def handler(event=None, context=None):
-    # cursor = conn.cursor()
-    # sql_store = f"SELECT distinct store FROM drink_list "
-    # cursor.execute(sql_store)
-    # stores = cursor.fetchall()
-    # print(len(stores))
+    cursor = conn.cursor()
+    sql_store = f"SELECT distinct store FROM drink_list "
+    cursor.execute(sql_store)
+    stores = cursor.fetchall()
+    print(len(stores))
 
-    stores=['大茗本舖','坪林手','八曜和茶','默沫' ]
+    # stores=['大茗本舖','坪林手','八曜和茶','默沫' ]
 
 
 
@@ -59,8 +59,8 @@ def handler(event=None, context=None):
             search = driver.find_element(By.NAME, 'q')
             
 
-            # store_name=store['store']
-            store_name=store
+            store_name=store['store']
+            # store_name=store
 
             search.send_keys(store_name+' 推薦')
             search.send_keys(Keys.ENTER)
@@ -104,4 +104,3 @@ def handler(event=None, context=None):
     message_finish = f'{currentDateAndTime} finished google search crawl! Successfully inserted  store recommendation into MySQL'
     line_notify(message_finish)
 
-handler(event=None, context=None)
