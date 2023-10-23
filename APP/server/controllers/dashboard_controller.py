@@ -49,13 +49,13 @@ def drink_google_result():
     sql = """SELECT avg(trend_num) as trend_index,store FROM product.google_trend group by store order by trend_index desc;"""
     cursor.execute(sql)
     data = cursor.fetchall()
-    cursor.close()
-    conn.close()
     result = {}
     for item in data:
         store=item['store']
         stat=item['trend_index']
         result[store] = stat
+    cursor.close()
+    conn.close()
     return result
 
 
@@ -105,16 +105,16 @@ def update_line_plot(selected_groups):
 
 def hot_article():
     conn = conn_pool.get_connection()
-    cursor = conn.cursor(dictionary=True)
-    sql = f"SELECT * FROM ptt_articles where crawl_date='20231017' ORDER BY push DESC limit 10"
-    cursor.execute(sql)
-    data = cursor.fetchall()
-    cursor.close()
-    conn.close()
+    hot_article_cursor = conn.cursor(dictionary=True)
+    sql = f"SELECT * FROM ptt_articles where crawl_date={today_date} ORDER BY push DESC limit 10"
+    hot_article_cursor.execute(sql)
+    data = hot_article_cursor.fetchall()
     url = [item['url'] for item in data ]
     push = [item['push'] for item in data ]
-    title = [f"<a href='{item['url']}'>{item['title']}</a>" for item in data ]
+    title = [f'<a href="{item["url"]}">{item["title"]}</a>' for item in data ]
     df = pd.DataFrame({'Title': title, 'Push': push, 'URL': url})
+    hot_article_cursor.close()
+    conn.close()
 
     return df
 

@@ -79,7 +79,6 @@ def saving_s3(image_url_list, file_name_list,id_list):
         except Exception as e:
             print(f"========= error: {str(e)}=========")
     
-        # if count_processed % 50 == 0:
         conn.commit() 
         print('========= done =========')
 

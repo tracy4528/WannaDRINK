@@ -19,7 +19,7 @@ def test_get_keyword(client):
     data = response.get_json()
     assert 'data' in data
     assert isinstance(data['data'], list)
-    assert len(data['data']) >= 1
+    assert len(data['data']) == 1
 
 
 
