@@ -1,171 +1,126 @@
-.slider {
-    width: 80%; /* 调整轮播宽度 */
-    margin: 0 auto;
-}
-
-.slider-item {
-    text-align: center;
-    margin: 0 10px; /* 左右间隔为 10px */
-    padding: 10px; /* 添加内边距，创建间隔 */
-}
-
-.slider img {
-    width: 100%;
-    height: auto;
-}
-
-.slider-item {
-    text-align: center;
-}
-
-.drink-name .store-name {
-    font-size: 18px;
-    margin-top: 10px;
-}
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f8f8;
-    margin: 0;
-    padding: 0;
-}
-
-.tm-gallery-section {
-    text-align: center;
-    margin-bottom: 80px;
-}
-
-.filters-button-group {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.filters-button-group li {
-    display: inline;
-    margin-right: 20px;
-}
-
-.filters-button-group a {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-    font-size: 16px;
-}
-
-.filters-button-group a.active {
-    color: #ff6b6b;
-}
-
-.tm-container-fluid {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    box-sizing: border-box;
+    background-image: url('/static/img/mainpage_background.jpeg'); 
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
 }
 
 .tm-site-header {
-    text-align: center;
-    background-color: #ff6b6b;
-    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.6);
     padding: 20px;
-    margin-bottom: 50px;
-}
-
-.tm-site-header i {
-    color: #fff;
-    font-size: 3rem;
+    text-align: center;
+    border-radius: 10px;
 }
 
 .tm-site-header h1 {
-    font-size: 2rem;
-    color: #fff;
-    margin-top: 10px;
+    font-size: 36px;
+    color: #333;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
 }
 
 .tm-about {
-    background-color: #fff;
-    border-radius: 10px;
-    margin-bottom: 80px;
+    background-color: #f7f7f7; 
     padding: 20px;
-}
-
-.tm-about-header {
     text-align: center;
-    margin-bottom: 20px;
+    border-radius: 10px;
 }
 
-.tm-about-header i {
-    color: #ff6b6b;
-    font-size: 2rem;
-}
-
-.tm-about-header h2 {
-    font-size: 1.5rem;
+.tm-about h2 {
+    font-size: 24px;
     color: #333;
-    margin-top: 10px;
-}
-
-.tm-about-text {
-    color: #333;
-    font-size: 1.2rem;
-    line-height: 1.6;
 }
 
 .tm-contact-form {
-    text-align: center;
     margin-top: 20px;
 }
 
-.tm-contact-form label {
-    font-weight: bold;
-    font-size: 1.2rem;
-}
-
 .tm-contact-form input[type="text"] {
-    width: 100%;
+    width: 80%;
     padding: 10px;
-    margin-top: 10px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
+    border: 2px solid #333;
     border-radius: 5px;
 }
 
 .tm-btn-submit {
-    background-color: #ff6b6b;
+    background-color: #333;
     color: #fff;
-    font-weight: bold;
-    border: none;
     padding: 10px 20px;
-    font-size: 1.2rem;
+    border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
+
+.slider {
+    width: 80%;
+    margin: 0 auto;
+}
+
+
+
+.slider-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 10px; 
+    padding: 10px;
+}
+
+.slider img {
+    width: 330px;
+    height: 260px;
+}
+
+
+.drink-store, .drink-name {
+    font-size: 18px;
+    color: #333;
+    margin: 10px 0; 
+}
+
+.slider-item a {
+    display: block;
+    font-size: 20px;
+    color: #333;
+    text-decoration: underline;
+    margin-top: 0px;
+}
+
 .tm-footer {
-    text-align: center;
-    background-color: #333;
-    color: #fff;
-    padding: 10px 0;
-    font-size: 1rem;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.6); 
+    border-radius: 10px;
+    color: #333;
 }
 
-.map {
-    width: 100%;
-    height: 600px;
+
+.tm-footer-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
-a {
-    text-decoration: none;
+
+.tm-footer-section {
+    flex-basis: 48%; 
+    padding: 10px;
 }
 
-a b {
-    background-color: #ff6b6b;
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 5px;
+
+.tm-footer-section h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
 }
- */
 
- /* 添加CSS样式到搜索栏
+.tm-footer-section a {
+    color: #333;
+    text-decoration: underline;
+}
 
 
+.tm-footer-section p {
+    font-size: 15px;
+    margin: 10px 0;
+}

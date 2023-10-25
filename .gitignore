@@ -16,3 +16,4 @@ img/
 log/
 cookies.txt
 headers_cookies.txt
+.pytest_cache

@@ -1,39 +1,10 @@
-2023-10-18 09:02 WARNING  * Debugger is active!
-2023-10-18 09:02 INFO  * Debugger PIN: 775-258-130
-2023-10-18 09:02 INFO 127.0.0.1 - - [18/Oct/2023 09:02:46] "GET / HTTP/1.1" 200 -
-2023-10-18 09:02 INFO 127.0.0.1 - - [18/Oct/2023 09:02:46] "[36mGET /static/css/a.css HTTP/1.1[0m" 304 -
-2023-10-18 09:02 INFO 127.0.0.1 - - [18/Oct/2023 09:02:47] "GET /map.html HTTP/1.1" 200 -
-2023-10-18 09:02 INFO 127.0.0.1 - - [18/Oct/2023 09:02:47] "[36mGET /static/js/index_hotdrink.js HTTP/1.1[0m" 304 -
-2023-10-18 09:02 INFO 127.0.0.1 - - [18/Oct/2023 09:02:47] "GET /api/v1/hot_drink HTTP/1.1" 200 -
-2023-10-18 09:02 INFO 127.0.0.1 - - [18/Oct/2023 09:02:47] "[36mGET /static/js/map.js HTTP/1.1[0m" 304 -
-2023-10-18 09:02 INFO 127.0.0.1 - - [18/Oct/2023 09:02:52] "POST /search HTTP/1.1" 200 -
-2023-10-18 09:02 INFO 127.0.0.1 - - [18/Oct/2023 09:02:55] "GET /api/v1/store_recom?keyword=CoCo都可 HTTP/1.1" 200 -
-2023-10-18 09:03 INFO 127.0.0.1 - - [18/Oct/2023 09:03:15] "GET / HTTP/1.1" 200 -
-2023-10-18 09:03 INFO 127.0.0.1 - - [18/Oct/2023 09:03:15] "[36mGET /static/css/a.css HTTP/1.1[0m" 304 -
-2023-10-18 09:03 INFO 127.0.0.1 - - [18/Oct/2023 09:03:15] "GET /map.html HTTP/1.1" 200 -
-2023-10-18 09:03 INFO 127.0.0.1 - - [18/Oct/2023 09:03:15] "[36mGET /static/js/index_hotdrink.js HTTP/1.1[0m" 304 -
-2023-10-18 09:03 INFO 127.0.0.1 - - [18/Oct/2023 09:03:16] "GET /api/v1/hot_drink HTTP/1.1" 200 -
-2023-10-18 09:03 INFO 127.0.0.1 - - [18/Oct/2023 09:03:16] "[36mGET /static/js/map.js HTTP/1.1[0m" 304 -
-2023-10-18 09:04 INFO 127.0.0.1 - - [18/Oct/2023 09:04:23] "GET /dashboard_/ HTTP/1.1" 200 -
-2023-10-18 09:04 INFO 127.0.0.1 - - [18/Oct/2023 09:04:24] "GET /dashboard_/_dash-component-suites/dash/dash-renderer/build/dash_renderer.v2_11_1m1691738226.min.js HTTP/1.1" 200 -
-2023-10-18 09:04 INFO 127.0.0.1 - - [18/Oct/2023 09:04:24] "GET /dashboard_/_dash-component-suites/dash/dcc/dash_core_components.v2_11_0m1691738226.js HTTP/1.1" 200 -
-2023-10-18 09:04 INFO 127.0.0.1 - - [18/Oct/2023 09:04:24] "GET /dashboard_/_dash-layout HTTP/1.1" 200 -
-2023-10-18 09:04 INFO 127.0.0.1 - - [18/Oct/2023 09:04:24] "GET /dashboard_/_dash-dependencies HTTP/1.1" 200 -
-2023-10-18 09:04 INFO 127.0.0.1 - - [18/Oct/2023 09:04:24] "GET /dashboard_/_dash-component-suites/dash/dash_table/async-table.js HTTP/1.1" 200 -
-2023-10-18 09:04 INFO 127.0.0.1 - - [18/Oct/2023 09:04:24] "GET /dashboard_/_dash-component-suites/dash/dcc/async-plotlyjs.js HTTP/1.1" 200 -
-2023-10-18 09:04 INFO 127.0.0.1 - - [18/Oct/2023 09:04:24] "[36mGET /dashboard_/_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1[0m" 304 -
-2023-10-18 09:04 INFO 127.0.0.1 - - [18/Oct/2023 09:04:24] "[36mGET /dashboard_/_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1[0m" 304 -
-2023-10-18 09:04 INFO 127.0.0.1 - - [18/Oct/2023 09:04:24] "[36mGET /dashboard_/_dash-component-suites/dash/dash_table/async-highlight.js HTTP/1.1[0m" 304 -
-2023-10-18 09:04 INFO 127.0.0.1 - - [18/Oct/2023 09:04:24] "POST /dashboard_/_dash-update-component HTTP/1.1" 200 -
-2023-10-18 09:04 INFO 127.0.0.1 - - [18/Oct/2023 09:04:36] "GET / HTTP/1.1" 200 -
-2023-10-18 09:04 INFO 127.0.0.1 - - [18/Oct/2023 09:04:36] "[36mGET /static/css/a.css HTTP/1.1[0m" 304 -
-2023-10-18 09:04 INFO 127.0.0.1 - - [18/Oct/2023 09:04:36] "GET /map.html HTTP/1.1" 200 -
-2023-10-18 09:04 INFO 127.0.0.1 - - [18/Oct/2023 09:04:36] "[36mGET /static/js/index_hotdrink.js HTTP/1.1[0m" 304 -
-2023-10-18 09:04 INFO 127.0.0.1 - - [18/Oct/2023 09:04:36] "GET /api/v1/hot_drink HTTP/1.1" 200 -
-2023-10-18 09:04 INFO 127.0.0.1 - - [18/Oct/2023 09:04:36] "[36mGET /static/js/map.js HTTP/1.1[0m" 304 -
-2023-10-18 09:22 INFO 127.0.0.1 - - [18/Oct/2023 09:22:13] "GET / HTTP/1.1" 200 -
-2023-10-18 09:22 INFO 127.0.0.1 - - [18/Oct/2023 09:22:13] "[36mGET /static/css/a.css HTTP/1.1[0m" 304 -
-2023-10-18 09:22 INFO 127.0.0.1 - - [18/Oct/2023 09:22:13] "GET /map.html HTTP/1.1" 200 -
-2023-10-18 09:22 INFO 127.0.0.1 - - [18/Oct/2023 09:22:13] "[36mGET /static/js/index_hotdrink.js HTTP/1.1[0m" 304 -
-2023-10-18 09:22 INFO 127.0.0.1 - - [18/Oct/2023 09:22:13] "GET /api/v1/hot_drink HTTP/1.1" 200 -
-2023-10-18 09:22 INFO 127.0.0.1 - - [18/Oct/2023 09:22:13] "GET /static/js/map.js HTTP/1.1" 200 -
+2023-10-25 23:44 WARNING  * Debugger is active!
+2023-10-25 23:44 INFO  * Debugger PIN: 775-258-130
+2023-10-25 23:44 INFO 127.0.0.1 - - [25/Oct/2023 23:44:20] "GET / HTTP/1.1" 200 -
+2023-10-25 23:44 INFO 127.0.0.1 - - [25/Oct/2023 23:44:21] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+2023-10-25 23:44 INFO 127.0.0.1 - - [25/Oct/2023 23:44:21] "GET /map.html HTTP/1.1" 200 -
+2023-10-25 23:44 INFO 127.0.0.1 - - [25/Oct/2023 23:44:21] "[36mGET /static/js/index_hotdrink.js HTTP/1.1[0m" 304 -
+2023-10-25 23:44 INFO 127.0.0.1 - - [25/Oct/2023 23:44:21] "GET /static/img/mainpage_background.jpeg HTTP/1.1" 200 -
+2023-10-25 23:44 INFO 127.0.0.1 - - [25/Oct/2023 23:44:21] "GET /static/js/map.js HTTP/1.1" 200 -
+2023-10-25 23:44 INFO 127.0.0.1 - - [25/Oct/2023 23:44:21] "GET /api/v1/hot_drink HTTP/1.1" 200 -
+2023-10-25 23:45 INFO 127.0.0.1 - - [25/Oct/2023 23:45:43] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
