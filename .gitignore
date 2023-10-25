@@ -13,8 +13,12 @@ img/
 log/
 cookies.txt
 headers_cookies.txt
+<<<<<<< HEAD
 headers_cookies.txt
 cookies.txt
 headers_cookies.txt
 img/
 test.py
+=======
+.pytest_cache
+>>>>>>> dcbef0c (clean up docker file)

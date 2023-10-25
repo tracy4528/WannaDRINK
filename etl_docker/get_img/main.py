@@ -1,12 +1,9 @@
 import requests
-import json 
 import io
 import boto3
 from dotenv import load_dotenv
 import os
 from datetime import datetime
-import pymysql
-import time
 from mysql.connector import pooling
 
 load_dotenv()
@@ -24,12 +21,13 @@ conn_pool = pooling.MySQLConnectionPool(pool_name="wannadrink",
                                         password= os.environ.get('mysql_password'),
                                         database= os.environ.get('mysql_database'))
 conn = conn_pool.get_connection()
-cursor = conn.cursor()
+
 
 bucket_name = 'wannadrink'
 
 def get_img_url():
-    sql = "SELECT id,image_url FROM product.drink_list where image_s3 is null;"
+    cursor = conn.cursor(dictionary=True)
+    sql = "SELECT id,image_url FROM drink_list where image_s3 is null;"
     cursor.execute(sql)
     products = cursor.fetchall()
     file_name_list = []
@@ -44,8 +42,8 @@ def get_img_url():
         id_list.append(id)
     return image_url_list, file_name_list,id_list
 
-
 def saving_s3(image_url_list, file_name_list,id_list):
+    s3_cursor = conn.cursor(dictionary=True)
     count_processed = 0 
     for i in range(len(image_url_list)):
         image_url = image_url_list[i]
@@ -70,7 +68,7 @@ def saving_s3(image_url_list, file_name_list,id_list):
                 s3_image_url = f"https://{bucket_name}.s3.amazonaws.com/{file_name}"
 
                 update_sql = "UPDATE drink_list SET image_s3 = %s WHERE id = %s;"
-                cursor.execute(update_sql, (s3_image_url, id))
+                s3_cursor.execute(update_sql, (s3_image_url, id))
                 
                 print("S3 URL:", s3_image_url)
                 count_processed += 1  
@@ -82,11 +80,11 @@ def saving_s3(image_url_list, file_name_list,id_list):
         conn.commit() 
         print('========= done =========')
 
-    cursor.close()
+    s3_cursor.close()
     conn.close()
 
 
 
-if __name__ == "__main__":
+def handler(event=None, context=None):
     image_url_list, file_name_list,id_list=get_img_url()
     saving_s3(image_url_list, file_name_list,id_list)

@@ -3,7 +3,6 @@ import json
 import pymysql
 from dotenv import load_dotenv
 import os
-from datetime import datetime
 from mysql.connector import pooling
 
 load_dotenv()
@@ -96,3 +95,7 @@ def s3_get_json():
 
     
 
+
+
+def handler(event=None, context=None):
+    s3_get_json()
