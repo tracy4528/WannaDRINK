@@ -1,0 +1,10 @@
+2023-10-25 23:44 WARNING  * Debugger is active!
+2023-10-25 23:44 INFO  * Debugger PIN: 775-258-130
+2023-10-25 23:44 INFO 127.0.0.1 - - [25/Oct/2023 23:44:20] "GET / HTTP/1.1" 200 -
+2023-10-25 23:44 INFO 127.0.0.1 - - [25/Oct/2023 23:44:21] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+2023-10-25 23:44 INFO 127.0.0.1 - - [25/Oct/2023 23:44:21] "GET /map.html HTTP/1.1" 200 -
+2023-10-25 23:44 INFO 127.0.0.1 - - [25/Oct/2023 23:44:21] "[36mGET /static/js/index_hotdrink.js HTTP/1.1[0m" 304 -
+2023-10-25 23:44 INFO 127.0.0.1 - - [25/Oct/2023 23:44:21] "GET /static/img/mainpage_background.jpeg HTTP/1.1" 200 -
+2023-10-25 23:44 INFO 127.0.0.1 - - [25/Oct/2023 23:44:21] "GET /static/js/map.js HTTP/1.1" 200 -
+2023-10-25 23:44 INFO 127.0.0.1 - - [25/Oct/2023 23:44:21] "GET /api/v1/hot_drink HTTP/1.1" 200 -
+2023-10-25 23:45 INFO 127.0.0.1 - - [25/Oct/2023 23:45:43] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
