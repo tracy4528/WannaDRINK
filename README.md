@@ -10,17 +10,21 @@
 ![image](ReadmeMaterial/mainpage.jpg)
 
 ## Server Structure
-![image](https://wannadrink.s3.ap-northeast-1.amazonaws.com/github_readme/Structure.png)
+![image](ReadmeMaterial/Structure.png)
 
 ## Data Pipeline
 
 
 ## Features
 ### Boba tea search bar
-![](https://wannadrink.s3.ap-northeast-1.amazonaws.com/github_readme/searchingbar.gif)
+![](ReadmeMaterial/searchingbar.gif)
 
 ### Dashboard
-![](https://wannadrink.s3.ap-northeast-1.amazonaws.com/github_readme/dashboard.gif)
+![](ReadmeMaterial/dashboard.gif)
+
+### Map
+![](ReadmeMaterial/map.gif)
+
 
 ## Technologies
 
@@ -54,7 +58,7 @@
 * Googel Trend API
 * Design Pattern: MVC
 * Version Control: Git, GitHub
-* Agile: Trello (Srum)
+* Agile: Trello (Scrum)
 * Test: Pytest
 
 
