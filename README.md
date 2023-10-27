@@ -6,7 +6,7 @@
 
 
 ### Website : https://www.wannadrinks.com/
-
+![image](ReadmeMaterial/mainpage.jpg)
 
 ## Server Structure
 ![image](https://wannadrink.s3.ap-northeast-1.amazonaws.com/github_readme/Structure.png)
