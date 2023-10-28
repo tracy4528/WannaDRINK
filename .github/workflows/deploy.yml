@@ -1,10 +1,7 @@
 name: CI/CD Deploy to AWS/EC2 - website
 
 run-name: ${{ github.actor }} | Deploy to EC2
-on:
-  push:
-    branches:
-      - develop
+on:  
   pull_request:
     branches:
       - main
@@ -36,7 +33,7 @@ jobs:
       with:
         host: ${{ secrets.HOST_IP }}
         username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SSH_KEY }}
+        key: ~/.ssh/id_rsa 
         script: |
           cd /home/ubuntu/wannadrink/
           git stash
