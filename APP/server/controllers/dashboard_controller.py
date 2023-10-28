@@ -181,7 +181,7 @@ dash.layout = html.Div([
     items=[
         {
             "label": "Mainpage",
-            "href": "http://127.0.0.1:5000/"
+            "href": "https://www.wannadrinks.com/"
     
         },
         {"label": "Dashboard", "active": True},
