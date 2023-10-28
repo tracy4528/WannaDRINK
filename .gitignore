@@ -14,6 +14,7 @@ log/
 cookies.txt
 headers_cookies.txt
 <<<<<<< HEAD
+<<<<<<< HEAD
 headers_cookies.txt
 cookies.txt
 headers_cookies.txt
@@ -22,3 +23,7 @@ test.py
 =======
 .pytest_cache
 >>>>>>> dcbef0c (clean up docker file)
+=======
+.pytest_cache
+ReadmeMaterial/
+>>>>>>> 025cef6 (change dash board mainpage bnt)
