@@ -106,7 +106,7 @@ def update_line_plot(selected_groups):
 def hot_article():
     conn = conn_pool.get_connection()
     hot_article_cursor = conn.cursor(dictionary=True)
-    sql = f"SELECT * FROM ptt_articles where crawl_date='20231024' ORDER BY push DESC limit 10"
+    sql = f"SELECT * FROM ptt_articles where crawl_date='20231025' ORDER BY push DESC limit 10"
     hot_article_cursor.execute(sql)
     data = hot_article_cursor.fetchall()
     url = [item['url'] for item in data ]
