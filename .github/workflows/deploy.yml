@@ -1,7 +1,10 @@
 name: CI/CD Deploy to AWS/EC2 - website
 
 run-name: ${{ github.actor }} | Deploy to EC2
-on:  
+on:
+  push:
+    branches:
+      - develop
   pull_request:
     branches:
       - main
