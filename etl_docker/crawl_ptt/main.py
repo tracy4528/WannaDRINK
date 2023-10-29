@@ -158,3 +158,4 @@ def handler(event=None, context=None):
     save_to_s3(article_list)
     sql_ptt_article(article_data)
     line_notify(message)
+

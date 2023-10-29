@@ -19,7 +19,7 @@ s3 = boto3.client('s3',
                     aws_access_key_id=os.getenv('iam_drink_key'),
                     aws_secret_access_key=os.getenv('iam_drink_secretkey'))
 
-with open('crawl/ub_store_url.json', 'r', encoding='utf-8') as file:
+with open('/ub_store_url.json', 'r', encoding='utf-8') as file:
     urls = json.load(file)
 
 def get_uber_cookie():
