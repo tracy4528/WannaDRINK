@@ -30,7 +30,7 @@ def get_googletrend(keywords,batch_size):
           pytrend.build_payload(
                kw_list=keyword_batch,
                cat=0,
-               timeframe='today 3-m',
+               timeframe='today 1-m',
                geo='TW',
                gprop=''
           )
