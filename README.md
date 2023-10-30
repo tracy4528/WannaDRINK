@@ -8,22 +8,30 @@
 ### Website : https://www.wannadrinks.com/
 ![image](ReadmeMaterial/mainpage.jpg)
 
+
+
 ## Server Structure
 ![image](ReadmeMaterial/Structure.png)
 
+
+
 ## Data Pipeline
 ![image](ReadmeMaterial/pipeline.png)
+
 
 
 ## Features
 ### Boba tea search barsearchbar
 ![](ReadmeMaterial/searchbar.gif)
 
+
 ### Dashboard
 ![](ReadmeMaterial/dashboard.gif)
 
+
 ### Map
 ![](ReadmeMaterial/map.gif)
+
 
 ### Boba tea trending keywords  
 ![](ReadmeMaterial/hotdrink.gif)
