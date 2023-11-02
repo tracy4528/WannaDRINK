@@ -11,7 +11,7 @@
 
 
 ## Server Structure
-![image](ReadmeMaterial/Structure.png)
+![image](ReadmeMaterial/structure.png)
 
 
 
