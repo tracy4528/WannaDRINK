@@ -43,8 +43,7 @@ jobs:
           git pull origin main
           conda activate py310
           screen -dmS demo python /home/ubuntu/wannadrink/APP/app.py
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
+
 
 
     # Step 4     
