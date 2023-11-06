@@ -27,7 +27,7 @@ today_date = datetime.today().strftime('%Y%m%d')
 
 def hot_article_text(date=today_date, source='ptt'): 
 
-    sql_ptt = f"SELECT url FROM ptt_articles where crawl_date='{date}' ORDER BY push DESC limit 1 OFFSET 12 "
+    sql_ptt = f"SELECT url FROM ptt_articles where crawl_date='{date}' ORDER BY push DESC limit 1 OFFSET 10 "
     sql_dcard = f"SELECT url FROM dcard_articles where crawl_date='{date}' ORDER BY push DESC limit 1 OFFSET 1"
 
     if source == 'ptt':  
@@ -84,3 +84,5 @@ def get_hot_word(date=today_date,source='ptt'):
 
 def handler(event=None, context=None):
     get_hot_word()
+
+handler(event=None, context=None)

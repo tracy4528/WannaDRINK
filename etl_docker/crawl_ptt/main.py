@@ -128,15 +128,11 @@ def save_to_s3(article_list):
             name=article['title']
             bucket_name = 'wannadrink'
             s3_object_key=f'ptt/{today_date}/{article_code}.json'
-            folder_path = f'ptt/{today_date}'
-            if not os.path.exists(folder_path):
-                os.makedirs(folder_path)
-            else:
-                s3.put_object(
-                    Bucket=bucket_name,
-                    Key=s3_object_key,
-                    Body=json_data,
-                    ContentType='application/json'
+            s3.put_object(
+                Bucket=bucket_name,
+                Key=s3_object_key,
+                Body=json_data,
+                ContentType='application/json'
             )
             print(f'======={name}=======')
         except Exception as e:
@@ -159,3 +155,4 @@ def handler(event=None, context=None):
     sql_ptt_article(article_data)
     line_notify(message)
 
+handler(event=None, context=None)

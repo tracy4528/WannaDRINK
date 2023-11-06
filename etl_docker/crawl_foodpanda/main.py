@@ -98,8 +98,11 @@ def get_info_menu(restaurant_code):
     return info_menu
 
 
-if __name__ == '__main__':
-    stations=[(121.56716, 25.04106),(121.53442,25.01482),(120.2129832,22.9970861),(120.68481,24.13693),(120.21146, 22.98962) ]
+def handler(event=None, context=None):
+    stations=[(121.56716, 25.04106) ,(121.53442,25.01482),(121.56546,25.04119),(121.54355,25.02609),(121.57563,25.07997),(121.49093,25.05946) ]
+    """
+    台北車站, 公館, 市政府, 科技大樓站, 港墘站,菜寮站
+    """
     for station in stations:
         print(station[0], station[1])
         longitude, latitude = station[0], station[1]
@@ -113,12 +116,22 @@ if __name__ == '__main__':
             name=restaurant['name']
             rating=restaurant['rating']
             review_number=restaurant['review_number']
-            print(restaurant)
-        #     cursor = conn.cursor()
-        #     insert_product_sql = ("INSERT INTO `foodpanda_store_code` (store_code,store_name,rating,review_number)VALUES (%s,%s,%s,%s)")
-        #     cursor.execute(insert_product_sql,(code, name,rating,review_number))
-        #     print(f'==={name}===')
-        # conn.commit()
+            latitude=restaurant['latitude']
+            longitude=restaurant['longitude']
+            web_path=restaurant['web_path']
+            hero_image=restaurant['hero_image']
+            address=restaurant['address']
+            store_code=restaurant['code']
+            print(name)
+
+
+            cursor = conn.cursor()
+            insert_product_sql = ("INSERT INTO `store_info` (store_name, store_latitude, store_longitude, store_rating,store_image,store_review_number, store_url_fp, address, store_code) "
+                                    "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)")
+            cursor.execute(insert_product_sql,(name, latitude,longitude,rating,hero_image,review_number,web_path,address,store_code))
+            print(f'==={name}===')
+        conn.commit()
+
 
     # sql='SELECT MIN(store_code) AS store_code, original_name\
     #     FROM product.foodpanda_store_code\
@@ -133,10 +146,3 @@ if __name__ == '__main__':
     
 
 
-
-
-
-
-
-
-# def handler(event=None, context=None):
