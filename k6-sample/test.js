@@ -8,5 +8,5 @@ export default function () {
 
 export const options = {
   vus: 100,
-  duration: '30s',
+  duration: '3m',
 };

@@ -26,7 +26,7 @@ conn_pool = pooling.MySQLConnectionPool(pool_name="wannadrink",
 s3_bucket_name='wannadrink'
 s3_folder_path='foodpanda/'
 
-def menu_to_sql( data):
+def menu_to_sql(data):
     conn = conn_pool.get_connection()
     cursor = conn.cursor(dictionary=True)
     store_name = data['name'].split('(')[0]
@@ -68,11 +68,11 @@ def store_to_sql(data):
     store_url=data['web_path']
     address=data['address'].split(')')[-1]
     hero_image=data['hero_image']
-    insert_data.append((store_name, latitude, longitude, store_rating,hero_image,review_number, store_url, address, store_code,currentDateAndTime))
+    insert_data.append((store_name, latitude, longitude, store_rating,hero_image,review_number, store_url, address, store_code))
  
 
-    insert_product_sql = ("INSERT INTO `store_info` (store_name, store_latitude, store_longitude, store_rating,store_image,store_review_number, store_url_fp, address, store_code,created_time) "
-                            "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)")
+    insert_product_sql = ("INSERT INTO `store_info` (store_name, store_latitude, store_longitude, store_rating,store_image,store_review_number, store_url_fp, address, store_code) "
+                            "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)")
     cursor.executemany(insert_product_sql, insert_data)
     conn.commit()
 
